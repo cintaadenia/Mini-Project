@@ -9,7 +9,7 @@ use App\Http\Controllers\JadwalPraktekController;
 use App\Http\Controllers\DokterController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard');
 });
 
 Auth::routes();
