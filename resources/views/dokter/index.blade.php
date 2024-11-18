@@ -148,14 +148,14 @@
         document.querySelectorAll('.editDokterBtn').forEach(button => {
             button.addEventListener('click', function() {
                 var dokterId = this.getAttribute('data-id');
-                fetch(`/dokter/${dokterId}/edit`)
+                fetch(/dokter/${dokterId}/edit)
                     .then(response => response.json())
                     .then(data => {
                         // Fill the modal form with the dokter data
                         document.getElementById('editNama').value = data.nama;
                         document.getElementById('editSpesialis').value = data.spesialis;
                         document.getElementById('editNo_hp').value = data.no_hp;
-                        document.getElementById('editDokterForm').action = `/dokter/${dokterId}`;
+                        document.getElementById('editDokterForm').action = /dokter/${dokterId};
                     })
                     .catch(error => console.error('Error fetching dokter data:', error));
             });
