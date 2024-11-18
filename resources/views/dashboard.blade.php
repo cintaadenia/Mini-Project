@@ -27,14 +27,6 @@
 
   <!-- Main CSS File -->
   <link href="medicio/assets/css/main.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: Medicio
-  * Template URL: https://bootstrapmade.com/medicio-free-bootstrap-theme/
-  * Updated: Aug 07 2024 with Bootstrap v5.3.3
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body class="index-page">
@@ -47,7 +39,6 @@
           <i class="bi bi-clock me-1"></i> Monday - Saturday, 8AM to 10PM
         </div>
         <div class="d-flex align-items-center">
-          <i class="bi bi-phone me-1"></i> Call us now +1 5589 55488 55
         </div>
       </div>
     </div><!-- End Top Bar -->
@@ -90,7 +81,7 @@
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
-        <a class="cta-btn" href="index.html#appointment">Make an Appointment</a>
+        <a class="cta-btn" href="{{ route('register') }}">join us</a>
 
       </div>
 
