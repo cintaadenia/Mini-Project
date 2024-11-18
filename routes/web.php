@@ -7,7 +7,6 @@ use App\Http\Controllers\PasienController;
 use App\Http\Controllers\ResepController;
 use App\Http\Controllers\KunjunganController;
 use App\Http\Controllers\JadwalPraktekController;
-use App\Http\Controllers\DokterController;
 
 Route::get('/', function () {
     return view('dashboard');
