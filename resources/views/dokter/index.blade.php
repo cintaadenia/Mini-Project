@@ -1,3 +1,6 @@
+@extends('layouts.app')
+
+@section('content')
 <!DOCTYPE html>
 <html lang="en">
 
@@ -103,41 +106,42 @@
                         </button>
                     </td>
                 </tr>
+                <div class="modal fade" id="editDokterModal" tabindex="-1" aria-labelledby="editDokterModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editDokterModalLabel">Edit Dokter</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{route('dokter.update',$dokter->id)}}" id="editDokterForm" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="mb-3">
+                                        <label for="editNama" class="form-label">Nama</label>
+                                        <input type="text" class="form-control" id="editNama" name="nama" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editSpesialis" class="form-label">Spesialis</label>
+                                        <input type="text" class="form-control" id="editSpesialis" name="spesialis" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="editNo_hp" class="form-label">No HP</label>
+                                        <input type="number" class="form-control" id="editNo_hp" name="no_hp" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 @endforeach
             </tbody>
         </table>
     </div>
 
     <!-- Edit Dokter Modal -->
-    <div class="modal fade" id="editDokterModal" tabindex="-1" aria-labelledby="editDokterModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editDokterModalLabel">Edit Dokter</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{route('dokter.update',$dokter->id)}}" id="editDokterForm" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="mb-3">
-                            <label for="editNama" class="form-label">Nama</label>
-                            <input type="text" class="form-control" id="editNama" name="nama" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="editSpesialis" class="form-label">Spesialis</label>
-                            <input type="text" class="form-control" id="editSpesialis" name="spesialis" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="editNo_hp" class="form-label">No HP</label>
-                            <input type="number" class="form-control" id="editNo_hp" name="no_hp" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
@@ -163,4 +167,5 @@
     </script>
 </body>
 
-</html>\
+</html>
+@endsection
