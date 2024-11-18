@@ -9,10 +9,16 @@ use Illuminate\Http\Request;
 class JadwalPraktekController extends Controller
 {
     public function index()
-    {
-        $jadwalPrakteks = JadwalPraktek::with('dokter')->paginate(10);
-        return view('jadwal_praktek.index', compact('jadwalPrakteks'));
-    }
+{
+    // Ambil data dokter dari database
+    $dokters = Dokter::all();
+    $jadwalPrakteks = JadwalPraktek::with('dokter')->paginate(10);
+
+    // Kirimkan data ke view
+    return view('jadwal_praktek.index', compact('dokters', 'jadwalPrakteks'));
+}
+
+
 
     public function create()
     {
