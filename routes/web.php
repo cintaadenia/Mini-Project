@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DokterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PasienController;
@@ -32,4 +33,5 @@ Route::resource('kunjungan', KunjunganController::class);
 Route::resource('jadwal_praktek', JadwalPraktekController::class);
 
 // Dokter routes
+
 Route::resource('dokter', DokterController::class);
