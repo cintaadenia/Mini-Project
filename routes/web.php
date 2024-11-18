@@ -6,15 +6,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\ResepController;
-use App\Http\Controllers\KunjunganController;
 use App\Http\Controllers\JadwalPraktekController;
-
+use Illuminate\Container\Attributes\Auth;
 
 Route::get('/', function () {
     return view('dashboard');
 });
 
-Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
