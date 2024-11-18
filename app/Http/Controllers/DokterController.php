@@ -8,10 +8,11 @@ use Illuminate\Http\Request;
 class DokterController extends Controller
 {
     public function index()
-    {
-        $dokters = Dokter::paginate(10);
-        return view('dokter.index', compact('dokters'));
-    }
+{
+    $dokters = Dokter::paginate(10);
+    return view('dokter.index', compact('dokters'));
+}
+
 
     public function create()
     {
@@ -23,7 +24,7 @@ class DokterController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'spesialis' => 'required|string|max:255',
-            'no_hp' => 'required|unique:dokters',
+            'no_hp' => 'required|integer|unique:dokters,no_hp',
         ]);
 
         Dokter::create($request->all());
@@ -35,26 +36,35 @@ class DokterController extends Controller
         return view('dokter.show', compact('dokter'));
     }
 
-    public function edit(Dokter $dokter)
+    public function edit($id)
     {
-        return view('dokter.edit', compact('dokter'));
+        $dokter = Dokter::findOrFail($id);
+        return response()->json($dokter);
     }
 
-    public function update(Request $request, Dokter $dokter)
+    public function update(Request $request, $id)
     {
+        $dokter = Dokter::findOrFail($id);
+    
         $request->validate([
             'nama' => 'required|string|max:255',
             'spesialis' => 'required|string|max:255',
-            'no_hp' => 'required|unique:dokters,no_hp,' . $dokter->id,
+            'no_hp' => 'required|integer|unique:dokters,no_hp,' . $dokter->id,
         ]);
-
+    
+        // Update the doctor
         $dokter->update($request->all());
+    
+        // Return success message and redirect to the list page
         return redirect()->route('dokter.index')->with('success', 'Data dokter berhasil diperbarui.');
     }
-
-    public function destroy(Dokter $dokter)
+    
+    public function destroy($id)
     {
+        $dokter = Dokter::findOrFail($id);
         $dokter->delete();
+    
         return redirect()->route('dokter.index')->with('success', 'Data dokter berhasil dihapus.');
     }
+    
 }
