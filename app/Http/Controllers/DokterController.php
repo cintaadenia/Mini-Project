@@ -24,7 +24,7 @@ class DokterController extends Controller
         $request->validate([
             'nama' => 'required|string|max:255',
             'spesialis' => 'required|string|max:255',
-            'no_hp' => 'required|integer|unique:dokters,no_hp',
+            'no_hp' => 'required|unique:dokters,no_hp',
         ]);
 
         Dokter::create($request->all());
