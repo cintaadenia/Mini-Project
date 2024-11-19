@@ -9,13 +9,29 @@ use Illuminate\Http\Request;
 
 class KunjunganController extends Controller
 {
-    public function index()
-    {
-        $kunjungans = Kunjungan::with(['pasien', 'dokter'])->paginate(10);
-        $pasien = Pasien::all();
-        $dokter = Dokter::all();
-        return view('kunjungan.index', compact('kunjungans','pasien','dokter'));
-    }
+    public function index(Request $request)
+{
+    $search = $request->get('search');
+
+    $kunjungans = Kunjungan::when($search, function ($query, $search) {
+        return $query->whereHas('pasien', function ($query) use ($search) {
+            $query->where('nama', 'like', '%' . $search . '%');
+        })->orWhereHas('dokter', function ($query) use ($search) {
+            $query->where('nama', 'like', '%' . $search . '%');
+        });
+    })
+    ->with(['pasien', 'dokter'])
+    ->paginate(10);
+
+    $pasiens = Pasien::all();  // Fetch all patients
+    $dokters = Dokter::all();  // Fetch all doctors
+
+    return view('kunjungan.index', compact('kunjungans', 'pasiens', 'dokters'));  // Pass dokters to the view
+}
+
+
+
+
 
     public function create()
     {
@@ -44,8 +60,8 @@ class KunjunganController extends Controller
     public function edit(Kunjungan $kunjungan)
     {
         $pasiens = Pasien::all();
-        $dokters = Dokter::all();
-        return view('kunjungan.edit', compact('kunjungan', 'pasiens', 'dokters'));
+        $dokter = Dokter::all();
+        return view('kunjungan.edit', compact('kunjungan', 'pasiens', 'dokter'));
     }
 
     public function update(Request $request, Kunjungan $kunjungan)
@@ -54,7 +70,6 @@ class KunjunganController extends Controller
             'pasien_id' => 'required|exists:pasiens,id',
             'dokter_id' => 'required|exists:dokters,id',
             'tanggal_kunjungan' => 'required|date',
-            'keluhan' => 'required|string',
         ]);
 
         $kunjungan->update($request->all());

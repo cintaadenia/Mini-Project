@@ -8,15 +8,33 @@ use Illuminate\Http\Request;
 
 class JadwalPraktekController extends Controller
 {
-    public function index()
-{
-    // Ambil data dokter dari database
-    $dokters = Dokter::all();
-    $jadwalPrakteks = JadwalPraktek::with('dokter')->paginate(10);
+    public function index(Request $request)
+    {
+        $dokters = Dokter::all();
+    
+        // Pencarian
+        $search = $request->input('search');
+        $startTime = $request->input('start_time');
+        $endTime = $request->input('end_time');
+    
+        $jadwalPrakteks = JadwalPraktek::with('dokter')
+            ->when($search, function ($query, $search) {
+                $query->whereHas('dokter', function ($query) use ($search) {
+                    $query->where('nama', 'like', "%{$search}%");
+                })->orWhere('hari', 'like', "%{$search}%");
+            })
+            ->when($startTime, function ($query, $startTime) {
+                $query->where('jam_mulai', '>=', $startTime);
+            })
+            ->when($endTime, function ($query, $endTime) {
+                $query->where('jam_selesai', '<=', $endTime);
+            })
+            ->paginate(10);
+    
+        return view('jadwal_praktek.index', compact('dokters', 'jadwalPrakteks'));
+    }
+    
 
-    // Kirimkan data ke view
-    return view('jadwal_praktek.index', compact('dokters', 'jadwalPrakteks'));
-}
 
 
 

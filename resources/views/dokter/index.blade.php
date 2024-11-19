@@ -28,7 +28,18 @@
     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
         +Add Dokter
     </button>
-
+    <form action="{{ route('dokter.index') }}" method="GET">
+        <div class="input-group mb-3">
+            <input type="text" name="search" class="form-control" placeholder="Cari dokter (nama, spesialis, no hp)" 
+                value="{{ request('search') }}">
+            <button class="btn btn-outline-primary" type="submit">Cari</button>
+            <!-- Tombol Clear untuk menghapus query -->
+            <a href="{{ route('dokter.index') }}" class="btn btn-outline-secondary">Clear</a>
+        </div>
+    </form>
+    
+    
+    
     <!-- Modal for Add Dokter -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -170,3 +181,4 @@
 
 </html>
 @endsection
+

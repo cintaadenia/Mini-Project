@@ -7,11 +7,21 @@ use Illuminate\Http\Request;
 
 class DokterController extends Controller
 {
-    public function index()
+    public function index(Request $request)
 {
-    $dokters = Dokter::paginate(10);
+    $query = Dokter::query();
+
+    if ($request->has('search') && $request->search) {
+        $search = $request->search;
+        $query->where('nama', 'LIKE', "%$search%")
+              ->orWhere('spesialis', 'LIKE', "%$search%")
+              ->orWhere('no_hp', 'LIKE', "%$search%");
+    }
+
+    $dokters = $query->paginate(10);
     return view('dokter.index', compact('dokters'));
 }
+
 
 
     public function create()
