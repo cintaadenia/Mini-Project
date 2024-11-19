@@ -18,6 +18,29 @@
         </script>
         @endif
 
+        <form method="GET" action="{{ route('jadwal_praktek.index') }}" class="mb-3">
+            <div class="input-group mb-2">
+                <input type="text" name="search" class="form-control" placeholder="Cari berdasarkan nama dokter atau hari..." value="{{ request('search') }}">
+                <button type="submit" class="btn btn-primary">Cari</button>
+                @if(request('search') || request('start_time') || request('end_time'))
+                <a href="{{ route('jadwal_praktek.index') }}" class="btn btn-secondary">Clear</a>
+                @endif
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label for="start_time" class="form-label">Jam Mulai</label>
+                    <input type="time" name="start_time" id="start_time" class="form-control" value="{{ request('start_time') }}">
+                </div>
+                <div class="col">
+                    <label for="end_time" class="form-label">Jam Selesai</label>
+                    <input type="time" name="end_time" id="end_time" class="form-control" value="{{ request('end_time') }}">
+                </div>
+            </div>
+        </form>
+        
+        
+        
+
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addJadwalModal">
             + Tambah Jadwal
