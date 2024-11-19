@@ -12,7 +12,9 @@ class KunjunganController extends Controller
     public function index()
     {
         $kunjungans = Kunjungan::with(['pasien', 'dokter'])->paginate(10);
-        return view('kunjungan.index', compact('kunjungans'));
+        $pasien = Pasien::all();
+        $dokter = Dokter::all();
+        return view('kunjungan.index', compact('kunjungans','pasien','dokter'));
     }
 
     public function create()
@@ -28,7 +30,6 @@ class KunjunganController extends Controller
             'pasien_id' => 'required|exists:pasiens,id',
             'dokter_id' => 'required|exists:dokters,id',
             'tanggal_kunjungan' => 'required|date',
-            'keluhan' => 'required|string',
         ]);
 
         Kunjungan::create($request->all());
