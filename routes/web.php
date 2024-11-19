@@ -9,30 +9,44 @@ use App\Http\Controllers\ResepController;
 use App\Http\Controllers\JadwalPraktekController;
 use Illuminate\Container\Attributes\Auth;
 
+
 Route::get('/', function () {
     return view('dashboard');
 });
 
 
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// Obat routes
-Route::resource('obat', ObatController::class);
+// Apply the `auth` middleware to protect all routes except the dashboard
+Route::middleware('auth')->group(function () {
+    // Obat routes
+    Route::resource('obat', ObatController::class);
 
-// Pasien routes
-Route::resource('pasien', PasienController::class);
 
-// Resep routes
-Route::resource('resep', ResepController::class);
+    // Pasien routes
+    Route::resource('pasien', PasienController::class);
 
-// Kunjungan routes
-Route::resource('kunjungan', KunjunganController::class);
+    // Resep routes
+    Route::resource('resep', ResepController::class);
 
-// Jadwal Praktek routes
-Route::resource('jadwal_praktek', JadwalPraktekController::class);
+    // Kunjungan routes
+    Route::resource('kunjungan', KunjunganController::class);
 
-// Dokter routes
+    // Jadwal Praktek routes
+    Route::resource('jadwal_praktek', JadwalPraktekController::class);
 
-Route::resource('dokter', DokterController::class);
+    // Dokter routes
+    Route::resource('dokter', DokterController::class);
+  
+    Route::resource('kunjungan', KunjunganController::class);
+});
 
-Route::resource('kunjungan', KunjunganController::class);
+// Authentication routes
+Auth::routes();
+
+
+
+
+
+
