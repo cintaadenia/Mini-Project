@@ -47,25 +47,30 @@
                                     @endforeach
                                 </select>
                             </div>
-                            @error('nama')
+                            @error('pasien_id')
                                 <p style="color: red">{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputSpesialis" class="col-sm-2 col-form-label">Spesialis</label>
+                            <label for="dokter" class="col-sm-2 col-form-label">Dokter</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="spesialis" name="spesialis" value="{{ old('spesialis') }}">
+                                <select name="dokter_id" id="dokter_id" class="form-control">
+                                    <option>--- Dokter ---</option>
+                                    @foreach ($dokter as $dok)
+                                        <option value="{{$dok->id}}">{{$dok->nama}}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                            @error('spesialis')
+                            @error('dokter_id')
                                 <p style="color: red">{{ $message }}</p>
                             @enderror
                         </div>
                         <div class="mb-3 row">
-                            <label for="inputNo_hp" class="col-sm-2 col-form-label">No_hp</label>
+                            <label for="tanggal_kunjungan" class="col-sm-2 col-form-label">Tanggal Kunjungan</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" id="no_hp" name="no_hp" value="{{ old('no_hp') }}">
+                                <input type="date" class="form-control" id="tanggal_kunjungan" name="tanggal_kunjungan" value="{{ old('tanggal_kunjungan') }}">
                             </div>
-                            @error('no_hp')
+                            @error('tanggal_kunjungan')
                                 <p style="color: red">{{ $message }}</p>
                             @enderror
                         </div>

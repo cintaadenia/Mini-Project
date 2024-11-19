@@ -30,7 +30,6 @@ class KunjunganController extends Controller
             'pasien_id' => 'required|exists:pasiens,id',
             'dokter_id' => 'required|exists:dokters,id',
             'tanggal_kunjungan' => 'required|date',
-            'keluhan' => 'required|string',
         ]);
 
         Kunjungan::create($request->all());
