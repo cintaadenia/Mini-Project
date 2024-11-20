@@ -106,8 +106,16 @@
                         </div>
                         <div class="mb-3">
                             <label>Hari</label>
-                            <input type="text" name="hari" class="form-control" required>
-                        </div>
+                            <select name="hari" class="form-control" required>
+                                <option value="">Pilih Hari</option>
+                                <option value="Senin">Senin</option>
+                                <option value="Selasa">Selasa</option>
+                                <option value="Rabu">Rabu</option>
+                                <option value="Kamis">Kamis</option>
+                                <option value="Jumat">Jumat</option>
+                                <option value="Sabtu">Sabtu</option>
+                            </select>
+                        </div>                        
                         <div class="mb-3">
                             <label>Jam Mulai</label>
                             <input type="time" name="jam_mulai" class="form-control" required>
@@ -147,8 +155,16 @@
                         </div>
                         <div class="mb-3">
                             <label>Hari</label>
-                            <input type="text" id="editHari" name="hari" class="form-control" required>
+                            <select id="editHari" name="hari" class="form-control" required>
+                                <option value="Senin">Senin</option>
+                                <option value="Selasa">Selasa</option>
+                                <option value="Rabu">Rabu</option>
+                                <option value="Kamis">Kamis</option>
+                                <option value="Jumat">Jumat</option>
+                                <option value="Sabtu">Sabtu</option>
+                            </select>
                         </div>
+                        
                         <div class="mb-3">
                             <label>Jam Mulai</label>
                             <input type="time" id="editJamMulai" name="jam_mulai" class="form-control" required>
