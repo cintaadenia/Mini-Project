@@ -1,73 +1,203 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In & Sign Up</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: #2A3E5C; /* Dark blue background for body */
+    }
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+    .outer-container {
+      background-color: #2A3E5C; /* Dark blue */
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column; /* Allow space for animation above */
+    }
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+    .container {
+      background-color: #4A6D8C; /* Medium blue */
+      width: 600px;
+      height: 380px;
+      display: flex;
+      border-radius: 10px;
+      position: relative;
+    }
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+    .form-container.active {
+      margin-left: 275px;
+    }
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+    .form-container {
+      margin-left: 25px;
+      background-color: white;
+      height: 380px;
+      width: 305px;
+      align-self: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      position: absolute;
+      transition: margin-left 1.5s ease-in-out; /* Smooth animation */
+    }
 
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+    .form-item form {
+      z-index: 2;
+      position: relative;
+      animation: fadeIn 1s ease-out;
+    }
 
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+    /* Fade-in animation */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+    .form-item form input {
+      display: block;
+      padding: 12px;
+      width: 250px;
+      margin: 12px auto;
+      border: 1px solid #4A6D8C;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
 
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+    .form-item form .btn {
+      cursor: pointer;
+      display: block;
+      padding: 12px;
+      width: 250px;
+      margin: 10px auto;
+      text-align: center;
+      border: 2px solid #4A6D8C;
+      background-color: #4A6D8C;
+      color: white;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
 
-                        <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+    .form-item form .btn:hover {
+      background-color: #3A5D75; /* Darker blue on hover */
+      transform: scale(1.05); /* Slight scaling effect */
+    }
 
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
+    .info-container {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      position: relative;
+    }
 
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
+    .info-item {
+      color: white;
+      display: flex;
+      align-content: center;
+      align-items: center;
+      flex-direction: column;
+      font-weight: 500;
+      font-size: 20px;
+      z-index: 1;
+    }
 
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    .info-item .btn {
+      cursor: pointer;
+      background-color: transparent;
+      width: 90px;
+      padding: 12px;
+      border: 1px solid white;
+      font-size: 16px;
+      border-radius: 5px;
+      transition: opacity 0.3s, transform 0.3s ease;
+    }
+
+    .info-item .btn:hover {
+      opacity: 0.7;
+      transform: scale(1.05); /* Slight scaling effect */
+    }
+
+    /* Lottie animation at the top */
+    dotlottie-player {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 200px;
+    }
+  </style>
+  <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+</head>
+<body>
+  <!-- Lottie animation placed at the top of the screen -->
+  <dotlottie-player src="https://lottie.host/680d9a21-2dd6-436f-a589-dd46a94152f2/vPQkqPk12r.json" background="transparent" speed="1" loop autoplay></dotlottie-player>
+
+  <div class="outer-container">
+    <div class="container">
+      <div class="info-container">
+        <div class="info-item log-in">
+          <p>Have an account?</p>
+          <div class="btn">Log In</div>
         </div>
+        <div class="tree"></div>
+        <div class="info-item sign-up">
+          <p>Don't have an account?</p>
+          <div class="btn">Sign Up</div>
+        </div>
+      </div>
+      <div class="form-container">
+        <div class="form-item">
+          <form class="form-log-in" method="POST" action="{{ route('login') }}">
+            @csrf
+            <input name="email" placeholder="Email Address" type="email" required />
+            <input name="password" placeholder="Password" type="password" required />
+            <button type="submit" class="btn btn-primary">
+                {{ __('Login') }}
+            </button>
+          </form>
+          <form class="form-sign-up" style="display: none;" method="POST" action="{{ route('register') }}">
+            @csrf
+            <input name="name" placeholder="Name" type="text" required />
+            <input name="email" placeholder="Email Address" type="email" required />
+            <input name="password" placeholder="Password" type="password" required />
+            <input name="password_confirmation" placeholder="Confirm Password" type="password" required />
+            <button type="submit" class="btn btn-primary">
+                {{ __('Register') }}
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
-</div>
-@endsection
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    let currentlyVisible = ".form-log-in";
+    let currentlyHidden = ".form-sign-up";
+
+    $(".info-item .btn").click(function() {
+      $(".form-container").toggleClass("active");
+      $(currentlyVisible).fadeToggle(750, function() {
+        $(currentlyHidden).fadeToggle();
+        let temp = currentlyVisible;
+        currentlyVisible = currentlyHidden;
+        currentlyHidden = temp;
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -81,7 +81,7 @@
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
-        <a class="cta-btn" href="{{ route('register') }}">join us</a>
+        <a class="cta-btn" href="{{ route('login') }}">join us</a>
 
       </div>
 
