@@ -9,11 +9,11 @@ class Resep extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['rekam_medis_id', 'deskripsi'];
+    protected $fillable = ['kunjungan_id', 'deskripsi'];
 
-    public function rekamMedis()
+    public function kunjungan()
     {
-        return $this->belongsTo(RekamMedis::class);
+        return $this->belongsTo(Kunjungan::class);
     }
 
     public function obat()

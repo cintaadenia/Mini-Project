@@ -13,7 +13,7 @@ return new class extends Migration
 {
     Schema::create('reseps', function (Blueprint $table) {
         $table->id();
-        $table->foreignId('rekam_medis_id')->constrained('rekam_medis')->onDelete('cascade');
+        $table->foreignId('kunjungan_id')->constrained('kunjungans')->onDelete('cascade');
         $table->text('deskripsi');
         $table->timestamps();
     });
