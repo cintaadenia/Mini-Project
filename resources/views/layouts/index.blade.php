@@ -1554,6 +1554,9 @@
           <i class="icon-settings"></i>
         </div>
       </div>
+      <main class="py-4">
+        @yield('index')
+    </main>
       <!-- End Custom template -->
     </div>
     <!--   Core JS Files   -->
