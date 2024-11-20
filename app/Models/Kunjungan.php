@@ -24,5 +24,9 @@ class Kunjungan extends Model
     {
         return $this->hasOne(RekamMedis::class);
     }
+
+    public function resep(){
+        return $this->hasMany(Resep::class);
+    }
 }
 
