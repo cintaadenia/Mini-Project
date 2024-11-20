@@ -11,9 +11,8 @@ class Kunjungan extends Model
 
     protected $fillable = ['pasien_id', 'dokter_id', 'tanggal_kunjungan', 'keluhan'];
 
-    public function pasien()
-    {
-        return $this->belongsTo(Pasien::class);
+    public function pasien(){
+        return $this->belongsTo(Pasien::class, 'pasien_id', 'id');
     }
 
     public function dokter()
@@ -24,6 +23,10 @@ class Kunjungan extends Model
     public function rekamMedis()
     {
         return $this->hasOne(RekamMedis::class);
+    }
+
+    public function resep(){
+        return $this->hasMany(Resep::class);
     }
 }
 
