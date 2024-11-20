@@ -10,7 +10,7 @@
     <link
       rel="icon"
       href="assets/img/kaiadmin/favicon.ico"
-      type="image/x-icon"
+      type="image/x-icon" 
     />
 
     <!-- Fonts and icons -->
