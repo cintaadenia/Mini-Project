@@ -116,15 +116,15 @@
                                     @method('PUT')
                                     <div class="mb-3">
                                         <label for="editNama" class="form-label">Nama</label>
-                                        <input type="text" class="form-control" id="editNama" name="nama" required>
+                                        <input type="text" class="form-control" id="editNama" name="nama" value="{{$dokter->nama}}">
                                     </div>
                                     <div class="mb-3">
                                         <label for="editSpesialis" class="form-label">Spesialis</label>
-                                        <input type="text" class="form-control" id="editSpesialis" name="spesialis" required>
+                                        <input type="text" class="form-control" id="editSpesialis" name="spesialis" value="{{$dokter->spesialis}}">
                                     </div>
                                     <div class="mb-3">
                                         <label for="editNo_hp" class="form-label">No HP</label>
-                                        <input type="number" class="form-control" id="editNo_hp" name="no_hp" required>
+                                        <input type="number" class="form-control" id="editNo_hp" name="no_hp" value="{{$dokter->no_hp}}">
                                     </div>
                                     <button type="submit" class="btn btn-primary">Save Changes</button>
                                 </form>
