@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kunjungan;
 use App\Models\Resep;
 use App\Models\RekamMedis;
 use Illuminate\Http\Request;
@@ -10,8 +11,9 @@ class ResepController extends Controller
 {
     public function index()
     {
-        $reseps = Resep::with('rekamMedis')->paginate(10);
-        return view('resep.index', compact('reseps'));
+        $reseps = Resep::with('kunjungan')->paginate(10);
+        $Rekmed = Kunjungan::all();
+        return view('resep.index', compact('reseps','Rekmed'));
     }
 
     public function create()
@@ -23,11 +25,14 @@ class ResepController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'rekam_medis_id' => 'required|exists:rekam_medis,id',
-            'deskripsi' => 'required|string',
+            'kunjungan_id' => 'required',
+            'deskripsi' => 'required',
         ]);
-
-        Resep::create($request->all());
+        
+        Resep::create([
+            'kunjungan_id' => $request->kunjungan_id,
+            'deskripsi' => $request->deskripsi
+        ]);
         return redirect()->route('resep.index')->with('success', 'Resep berhasil ditambahkan.');
     }
 
