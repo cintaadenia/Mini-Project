@@ -39,7 +39,6 @@ Route::middleware('auth')->group(function () {
 });
 
 // Authentication routes
-Auth::routes();
 
 // Home route (redirect after login)
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
