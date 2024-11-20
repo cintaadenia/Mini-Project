@@ -48,10 +48,10 @@ class JadwalPraktekController extends Controller
     {
         $request->validate([
             'dokter_id' => 'required|exists:dokters,id',
-            'hari' => 'required|string',
+            'hari' => 'required|string|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
             'jam_mulai' => 'required',
             'jam_selesai' => 'required',
-        ]);
+        ]);        
 
         JadwalPraktek::create($request->all());
         return redirect()->route('jadwal_praktek.index')->with('success', 'Jadwal praktek berhasil ditambahkan.');
@@ -72,10 +72,10 @@ class JadwalPraktekController extends Controller
     {
         $request->validate([
             'dokter_id' => 'required|exists:dokters,id',
-            'hari' => 'required|string',
+            'hari' => 'required|string|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
             'jam_mulai' => 'required',
             'jam_selesai' => 'required',
-        ]);
+        ]);        
 
         $jadwalPraktek->update($request->all());
         return redirect()->route('jadwal_praktek.index')->with('success', 'Jadwal praktek berhasil diperbarui.');
