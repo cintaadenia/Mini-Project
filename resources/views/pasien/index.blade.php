@@ -25,7 +25,22 @@
         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addModal">
             + Tambah Pasien
         </button>
-
+        <div class="row mb-3">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <form action="{{ route('pasien.index') }}" method="GET">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Cari pasien..." value="{{ request('search') }}">
+                            <button class="btn btn-outline-secondary" type="submit">Cari</button>
+                            @if(request('search'))
+                            <a href="{{ route('pasien.index') }}" class="btn btn-outline-danger">Clear</a>
+                            @endif
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {{ $pasiens->appends(['search' => request('search')])->links() }}        
         <!-- Add Modal -->
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
             <div class="modal-dialog">
