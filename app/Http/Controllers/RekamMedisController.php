@@ -13,21 +13,30 @@ use function Laravel\Prompts\select;
 class RekamMedisController extends Controller
 {
     public function index(Request $request)
-    {
-        $rekamMedis = RekamMedis::with('kunjungan')->paginate(10);
-        // $search = $request->input('search');
-        // $rekam = Kunjungan::when($search, function ($query, $search) {
-        //     return $query->whereHas('pasien', function ($query) use ($search) {
-        //         $query->where('nama', 'like', '%' . $search . '%');
-        //     });
-        // })
-        // ->with(['kunjungan'])
-        // ->paginate(10);
+{
+    $search = $request->input('search');
 
-        $kunjungan = Kunjungan::with('pasien')->get();
-        $knjgn = Kunjungan::all();
-        return view('rekam_medis.index', compact('rekamMedis','knjgn','kunjungan'));
-    }
+    // Query for searching by patient's name, diagnosis, and action
+    $rekamMedis = RekamMedis::when($search, function ($query, $search) {
+        return $query->where(function ($query) use ($search) {
+            // Search by patient's name
+            $query->whereHas('kunjungan.pasien', function ($query) use ($search) {
+                $query->where('nama', 'like', '%' . $search . '%');
+            })
+            // Search by diagnosis
+            ->orWhere('diagnosa', 'like', '%' . $search . '%')
+            // Search by action
+            ->orWhere('tindakan', 'like', '%' . $search . '%');
+        });
+    })
+    ->with('kunjungan.pasien')
+    ->paginate(10);
+
+    // Get all kunjungan data
+    $kunjungans = Kunjungan::with('pasien')->get();
+
+    return view('rekam_medis.index', compact('rekamMedis', 'kunjungans'));
+}
 
     public function create()
     {

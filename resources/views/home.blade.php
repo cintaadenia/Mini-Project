@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@include('layouts.sidebar')
+
 <div class="container">
 
     <div class="row justify-content-center">
@@ -17,10 +17,6 @@
                     @endif
 
                     {{ __('You are logged in!') }}
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-danger">Logout</button>
-                    </form>
                     
                     
                     <!-- Chart Section -->

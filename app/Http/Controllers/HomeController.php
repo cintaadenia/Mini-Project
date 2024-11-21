@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Pasien;
 
 class HomeController extends Controller
@@ -26,7 +27,12 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
         $jumlahPasien = Pasien::count();
+
+        if ($user->role === 'admin') {
+            return view('admin-home', compact('jumlahPasien'));
+        }
 
         return view('home', compact('jumlahPasien'));
     }

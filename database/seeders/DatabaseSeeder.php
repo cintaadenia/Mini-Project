@@ -18,13 +18,13 @@ class DatabaseSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'name' => 'Admin',
-                'email' => 'admin@example.com',
+                'email' => 'admin@gmail.com',
                 'password' => Hash::make('password'),
                 'role' => 'admin', // Role admin
             ],
             [
                 'name' => 'User',
-                'email' => 'user@example.com',
+                'email' => 'user@gmail.com',
                 'password' => Hash::make('password'),
                 'role' => 'user', // Role user
             ],

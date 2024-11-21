@@ -48,13 +48,8 @@
         <div class="sidebar-logo">
           <!-- Logo Header -->
           <div class="logo-header" data-background-color="dark">
-            <a href="index.html" class="logo">
-              <img
-                src="sidebar/assets/img/kaiadmin/logo_light.svg"
-                alt="navbar brand"
-                class="navbar-brand"
-                height="20"
-              />
+            <a href="{{route('home')}}" class="logo">
+              <h1>admin</h1>
             </a>
             <div class="nav-toggle">
               <button class="btn btn-toggle toggle-sidebar">
@@ -115,6 +110,18 @@
                     <p>Rekam Medis</p>
                 </a>
             </li>
+            
+            <li class="nav-item">
+              <a href="{{ route('logout') }}"
+                 onclick="event.preventDefault();
+                           document.getElementById('logout-form').submit();">
+                  <i class="fas fa-sign-out-alt"></i>
+                  <p>Logout</p>
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                  @csrf
+              </form>
+          </li>
             
                   </ul>
                 </div>
