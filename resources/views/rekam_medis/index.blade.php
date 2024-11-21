@@ -25,19 +25,19 @@
         <div class="row mb-3">
             <div class="row mb-3">
                 <div class="col-md-6">
-                    <form action="{{ route('pasien.index') }}" method="GET">
+                    <form action="{{ route('rekam_medis.index') }}" method="GET">
                         <div class="input-group">
                             <input type="text" name="search" class="form-control" placeholder="Cari Rekam Medis..." value="{{ request('search') }}">
                             <button class="btn btn-outline-secondary" type="submit">Cari</button>
                             @if(request('search'))
-                            <a href="{{ route('pasien.index') }}" class="btn btn-outline-danger">Clear</a>
+                            <a href="{{ route('rekam_medis.index') }}" class="btn btn-outline-danger">Clear</a>
                             @endif
                         </div>
-                    </form>
+                    </form>                    
                 </div>
             </div>
         </div>
-        {{-- {{ $rekam->appends(['search' => request('search')])->links() }}         --}}
+          
         <!-- Add Modal -->
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -54,9 +54,11 @@
                                 <div class="col-sm-10">
                                     <select name="kunjungan_id" id="kunjungan_id" class="form-control">
                                         <option>--- Pasien ---</option>
-                                        @foreach ($kunjungan as $kun)
-                                        <option value="{{$kun->pasien_id}}">{{$kun->pasien->nama}}</option>
-                                        @endforeach
+                                        @foreach ($kunjungans as $kn)
+<option value="{{$kn->id}}">{{$kn->pasien->nama}}</option>
+@endforeach
+
+
                                     </select>
                                 </div>
                                 @error('kunjungan_id')
@@ -136,9 +138,10 @@
                                         <div class="col-sm-10">
                                             <select name="kunjungan_id" id="kunjungan_id" class="form-control">
                                                 <option value="{{$rm->kunjungan_id}}">{{$rm->kunjungan->pasien->nama}}</option>
-                                                @foreach ($knjgn as $kn)
-                                                <option value="{{$kn->pasien_id}}">{{$kun->pasien->nama}}</option>
-                                                @endforeach
+                                                @foreach ($kunjungans as $kn)
+    <option value="{{ $kn->id }}">{{ $kn->pasien->nama }}</option>
+@endforeach
+
                                             </select>
                                         </div>
                                         @error('kunjungan_id')

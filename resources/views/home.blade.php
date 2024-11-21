@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@include('layouts.sidebar')
+
 <div class="container">
 
     <div class="row justify-content-center">
@@ -17,6 +17,7 @@
                     @endif
 
                     {{ __('You are logged in!') }}
+                    
                     
                     <!-- Chart Section -->
                     <div class="mt-4">

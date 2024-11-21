@@ -9,12 +9,24 @@ use Illuminate\Http\Request;
 
 class ResepController extends Controller
 {
-    public function index()
-    {
-        $reseps = Resep::with('kunjungan')->paginate(10);
-        $Rekmed = Kunjungan::all();
-        return view('resep.index', compact('reseps','Rekmed'));
+    public function index(Request $request)
+{
+    $query = Resep::with('kunjungan');
+
+    // Cek apakah ada input 'search'
+    if ($request->has('search') && $request->search != '') {
+        $query->whereHas('kunjungan.pasien', function ($q) use ($request) {
+            $q->where('nama', 'like', '%' . $request->search . '%');
+        })
+        ->orWhere('deskripsi', 'like', '%' . $request->search . '%');
     }
+
+    $reseps = $query->paginate(10);
+    $Rekmed = Kunjungan::all();
+
+    return view('resep.index', compact('reseps', 'Rekmed'));
+}
+
 
     public function create()
     {
