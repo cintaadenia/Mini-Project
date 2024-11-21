@@ -43,7 +43,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addModalLabel">Tambah Pasien</h5>
+                        <h5 class="modal-title" id="addModalLabel">Tambah Resep</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="{{ route('resep.store') }}" method="POST">
@@ -55,7 +55,7 @@
                                     <select name="kunjungan_id" id="kunjungan_id" class="form-control">
                                         <option>--- Pasien ---</option>
                                         @foreach ($Rekmed as $rek)
-                                        <option value="{{$rek->id}}">{{$rek->pasien->nama}}</option>
+                                        <option value="{{$rek->pasien_id}}">{{$rek->pasien->nama}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -96,7 +96,7 @@
                     <td>{{ $resep->kunjungan->pasien->nama }}</td>
                     <td>{{ $resep->deskripsi }}</td>
                     <td>
-                        <form action="{{ route('rekam_medis.destroy', $resep->id) }}" method="POST" style="display: inline;">
+                        <form action="{{ route('resep.destroy', $resep->id) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
@@ -112,10 +112,10 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="addModalLabel">Tambah Pasien</h5>
+                                <h5 class="modal-title" id="addModalLabel">Tambah Resep</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <form action="{{ route('rekam_medis.update',$resep->id) }}" method="POST">
+                            <form action="{{ route('resep.update',$resep->id) }}" method="POST">
                                 @csrf
                                 @method('put')
                                 <div class="modal-body">
@@ -124,9 +124,9 @@
                                         <div class="col-sm-10">
                                             <select name="kunjungan_id" id="kunjungan_id" class="form-control">
                                                 <option value="{{$resep->kunjungan_id}}">{{$resep->kunjungan->pasien->nama}}</option>
-                                                {{-- @foreach ($knjgn as $kn)
-                                                <option value="{{$kn->pasien_id}}">{{$kun->pasien->nama}}</option>
-                                                @endforeach --}}
+                                                @foreach ($Rekmed as $rm)
+                                                <option value="{{$rm->pasien_id}}">{{$rm->pasien->nama}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                         @error('kunjungan_id')
@@ -134,21 +134,14 @@
                                         @enderror
                                     </div>
                                     <div class="mb-3 row">
-                                        <label for="diagnosa" class="col-sm-2 col-form-label">Diagnosa</label>
+                                        <label for="deskripsi" class="col-sm-2 col-form-label">Deskripsi</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="diagnosa" name="diagnosa" value="{{ $resep->diagnosa }}">
+                                            <input type="text" class="form-control" id="deskripsi" name="deskripsi" value="{{ $resep->deskripsi }}">
                                         </div>
-                                        @error('diagnosa')
-                                            <p style="color: red">{{$message}}</p>
-                                        @enderror
-                                    </div>
-                                    <div class="mb-3 row">
-                                        <label for="tindakan" class="col-sm-2 col-form-label">Tindakan</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="tindakan" name="tindakan" value="{{ $resep->tindakan }}">
-                                        </div>
-                                        @error('tindakan')
-                                            <p style="color: red">{{$message}}</p>
+                                        @error('deskripsi')
+                                        <script>
+                                            Swal.fire('Error', '{{$message}}', 'error');
+                                        </script>
                                         @enderror
                                     </div>
                                 </div>
