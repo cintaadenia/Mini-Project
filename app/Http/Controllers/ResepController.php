@@ -47,19 +47,21 @@ class ResepController extends Controller
         return view('resep.edit', compact('resep', 'rekamMedis'));
     }
 
-    public function update(Request $request, Resep $resep)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'rekam_medis_id' => 'required|exists:rekam_medis,id',
-            'deskripsi' => 'required|string',
+            'kunjungan_id' => 'required',
+            'deskripsi' => 'required',
         ]);
 
+        $resep = Resep::findOrFail($id);
         $resep->update($request->all());
         return redirect()->route('resep.index')->with('success', 'Resep berhasil diperbarui.');
     }
 
-    public function destroy(Resep $resep)
+    public function destroy($id)
     {
+        $resep = Resep::findOrFail($id);
         $resep->delete();
         return redirect()->route('resep.index')->with('success', 'Resep berhasil dihapus.');
     }
