@@ -9,18 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
-{
-    Schema::create('rekam_medis', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('kunjungan_id')->constrained('kunjungans')->onDelete('cascade');
-        $table->text('diagnosa');
-        $table->text('tindakan');
-        $table->timestamps();
-    });
-}
+    public function up(): void
+    {
+        Schema::create('rekam_medis', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('kunjungan_id')->constrained('kunjungans')->onDelete('cascade'); // Relasi dengan tabel kunjungans
+            $table->text('diagnosa'); // Kolom untuk diagnosa
+            $table->text('tindakan'); // Kolom untuk tindakan
+            $table->string('image'); // Kolom untuk menyimpan path file image
+            $table->timestamps();
+        });
+    }
 
-/**
+    /**
      * Reverse the migrations.
      */
     public function down(): void
