@@ -15,19 +15,9 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Menambahkan data pengguna dengan role admin dan user
-        DB::table('users')->insert([
-            [
-                'name' => 'Admin',
-                'email' => 'admin@gmail.com',
-                'password' => Hash::make('password'),
-                'role' => 'admin', // Role admin
-            ],
-            [
-                'name' => 'User',
-                'email' => 'user@gmail.com',
-                'password' => Hash::make('password'),
-                'role' => 'user', // Role user
-            ],
+        $this->call([
+            RoleAndPermissionSeeder::class,
+            UserSeeder::class,
         ]);
 
         // Anda dapat menambahkan user lain menggunakan factory jika diperlukan
