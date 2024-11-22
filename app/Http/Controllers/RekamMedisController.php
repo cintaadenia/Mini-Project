@@ -47,34 +47,25 @@ class RekamMedisController extends Controller
     public function store(Request $request)
 {
     $request->validate([
-        'kunjungan_id' => 'required|exists:kunjungans,id',
+        'kunjungan_id' => 'required|exists:kunjungans,pasien_id',
         'diagnosa' => 'required|string',
         'tindakan' => 'required|string',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
+
+    $data = $request->all();
 
     // Handle the image upload
     if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('rekam_medis', 'public');
-    } else {
-        $imagePath = null;
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->move(public_path('storage/rekam_medis'), $imageName);
+        $data['image'] = $imageName;
     }
 
-    // Create the Rekam Medis record
-    RekamMedis::create([
-        'kunjungan_id' => $request->kunjungan_id,
-        'diagnosa' => $request->diagnosa,
-        'tindakan' => $request->tindakan,
-        'image' => $imagePath, // Save image path if available
-    ]);
-
+    RekamMedis::create($data);
     return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil ditambahkan.');
 }
 
-    public function show(RekamMedis $rekamMedis)
-    {
-        return view('rekam_medis.show', compact('rekamMedis'));
-    }
 
     public function edit(RekamMedis $rekamMedis)
     {
@@ -85,35 +76,45 @@ class RekamMedisController extends Controller
     public function update(Request $request, $id)
 {
     $request->validate([
-        'kunjungan_id' => 'required|exists:kunjungans,id',
+        'kunjungan_id' => 'required',
         'diagnosa' => 'required|string',
         'tindakan' => 'required|string',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
     $rekamMedis = RekamMedis::findOrFail($id);
 
-    // Handle the image upload
+    $data = $request->all();
+
+    // Handle the image upload if a new image is uploaded
     if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('rekam_medis', 'public');
-    } else {
-        $imagePath = $rekamMedis->image; // Keep the existing image if not uploading a new one
+        // Delete the old image if it exists
+        if ($rekamMedis->image && file_exists(public_path('storage/rekam_medis/'.$rekamMedis->image))) {
+            unlink(public_path('storage/rekam_medis/'.$rekamMedis->image));
+        }
+
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->move(public_path('storage/rekam_medis'), $imageName);
+        $data['image'] = $imageName;
     }
 
-    $rekamMedis->update([
-        'kunjungan_id' => $request->kunjungan_id,
-        'diagnosa' => $request->diagnosa,
-        'tindakan' => $request->tindakan,
-        'image' => $imagePath, // Update the image path
-    ]);
-
+    $rekamMedis->update($data);
     return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil diperbarui.');
 }
 
-    public function destroy(RekamMedis $rekamMedis, $id)
-    {
-        $rekamMedis = RekamMedis::findOrFail($id);
-        $rekamMedis->delete();
-        return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil dihapus.');
+
+
+public function destroy(RekamMedis $rekamMedis, $id)
+{
+    $rekamMedis = RekamMedis::findOrFail($id);
+
+    // Delete the image if it exists
+    if ($rekamMedis->image && file_exists(public_path('storage/rekam_medis/'.$rekamMedis->image))) {
+        unlink(public_path('storage/rekam_medis/'.$rekamMedis->image));
     }
+
+    $rekamMedis->delete();
+    return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil dihapus.');
+}
+
 }

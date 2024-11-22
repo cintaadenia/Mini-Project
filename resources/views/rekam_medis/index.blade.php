@@ -59,6 +59,7 @@
                                         <option>--- Pilih Pasien ---</option>
                                         @foreach ($kunjungans as $kn)
                                         <option value="{{$kn->id}}">{{$kn->pasien->nama}}</option>
+                                        <option value="{{$kn->id}}">{{$kn->pasien->nama}}</option>
                                         @endforeach
                                     </select>
                                 </div>
