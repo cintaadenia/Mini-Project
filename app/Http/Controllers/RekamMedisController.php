@@ -55,7 +55,10 @@ class RekamMedisController extends Controller
 
     // Handle the image upload
     if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('rekam_medis', 'public');
+        // Get the original file name
+        $fileName = 'rekam-medis/' . $request->file('image')->getClientOriginalName();
+        // Store the image with the new file name
+        $imagePath = $request->file('image')->storeAs('rekam_medis', $fileName, 'public');
     } else {
         $imagePath = null;
     }
@@ -70,6 +73,7 @@ class RekamMedisController extends Controller
 
     return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil ditambahkan.');
 }
+
 
     public function show(RekamMedis $rekamMedis)
     {
