@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 
 <div class="container">
@@ -17,8 +16,8 @@
                     @endif
 
                     {{ __('You are logged in!') }}
-                    
-                    
+
+
                     <!-- Chart Section -->
                     <div class="mt-4">
                         <h5>Jumlah Pasien</h5>
@@ -49,7 +48,12 @@
         options: {
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true, // Mulai dari 0
+                    ticks: {
+                        stepSize: 10, // Langkah interval skala
+                        min: 1,       // Mulai dari 1
+                        max: 100      // Maksimum 100
+                    }
                 }
             }
         }
