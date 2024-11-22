@@ -86,9 +86,8 @@
         options: {
             scales: {
                 y: {
-                    beginAtZero: true, // Mulai dari 0
+                    beginAtZero: false, // Mulai dari 0
                     ticks: {
-                        stepSize: 10, // Langkah interval skala
                         min: 1,       // Mulai dari 1
                         max: 100      // Maksimum 100
                     }
