@@ -9,12 +9,24 @@ use Illuminate\Http\Request;
 
 class ResepController extends Controller
 {
-    public function index()
-    {
-        $reseps = Resep::with('kunjungan')->paginate(10);
-        $Rekmed = Kunjungan::all();
-        return view('resep.index', compact('reseps','Rekmed'));
+    public function index(Request $request)
+{
+    $query = Resep::with('kunjungan');
+
+    // Cek apakah ada input 'search'
+    if ($request->has('search') && $request->search != '') {
+        $query->whereHas('kunjungan.pasien', function ($q) use ($request) {
+            $q->where('nama', 'like', '%' . $request->search . '%');
+        })
+        ->orWhere('deskripsi', 'like', '%' . $request->search . '%');
     }
+
+    $reseps = $query->paginate(10);
+    $Rekmed = Kunjungan::all();
+
+    return view('resep.index', compact('reseps', 'Rekmed'));
+}
+
 
     public function create()
     {
@@ -47,19 +59,21 @@ class ResepController extends Controller
         return view('resep.edit', compact('resep', 'rekamMedis'));
     }
 
-    public function update(Request $request, Resep $resep)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'rekam_medis_id' => 'required|exists:rekam_medis,id',
-            'deskripsi' => 'required|string',
+            'kunjungan_id' => 'required',
+            'deskripsi' => 'required',
         ]);
 
+        $resep = Resep::findOrFail($id);
         $resep->update($request->all());
         return redirect()->route('resep.index')->with('success', 'Resep berhasil diperbarui.');
     }
 
-    public function destroy(Resep $resep)
+    public function destroy($id)
     {
+        $resep = Resep::findOrFail($id);
         $resep->delete();
         return redirect()->route('resep.index')->with('success', 'Resep berhasil dihapus.');
     }

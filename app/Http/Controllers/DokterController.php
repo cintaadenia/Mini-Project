@@ -57,11 +57,10 @@ class DokterController extends Controller
         $dokter = Dokter::findOrFail($id);
     
         $request->validate([
-            'nama' => 'required|string|max:255',
-            'spesialis' => 'required|string|max:255',
-            'no_hp' => 'required|integer|unique:dokters,no_hp,' . $dokter->id,
+            'nama' => 'required',
+            'spesialis' => 'required',
+            'no_hp' => 'required'
         ]);
-    
         // Update the doctor
         $dokter->update($request->all());
     

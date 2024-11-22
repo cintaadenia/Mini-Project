@@ -14,31 +14,33 @@ Route::get('/', function () {
     return view('dashboard');
 });
 
-// Apply the `auth` middleware to protect all routes except the dashboard
-Route::middleware('auth')->group(function () {
-    // Obat routes
-    Route::resource('obat', ObatController::class);
-
-    // Pasien routes
-    Route::resource('pasien', PasienController::class);
-
-    // Resep routes
-    Route::resource('resep', ResepController::class);
-
-    // Kunjungan routes
-    Route::resource('kunjungan', KunjunganController::class);
-
-    // Jadwal Praktek routes
-    Route::resource('jadwal_praktek', JadwalPraktekController::class);
-
-    // Dokter routes
-    Route::resource('dokter', DokterController::class);
-
-    Route::resource('rekam_medis', RekamMedisController::class);
-});
-
-// Authentication routes
 Auth::routes();
 
-// Home route (redirect after login)
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Hanya untuk admin
+Route::get('/admin', function () {
+    return view('admin-home');
+})->middleware('role:admin');
+
+
+// Obat routes
+Route::resource('obat', ObatController::class);
+
+// Pasien routes
+Route::resource('pasien', PasienController::class);
+
+// Resep routes
+Route::resource('resep', ResepController::class);
+
+// Kunjungan routes
+Route::resource('kunjungan', KunjunganController::class);
+
+// Jadwal Praktek routes
+Route::resource('jadwal_praktek', JadwalPraktekController::class);
+
+// Dokter routes
+
+Route::resource('dokter', DokterController::class);
+
+Route::resource('rekam_medis', RekamMedisController::class);
