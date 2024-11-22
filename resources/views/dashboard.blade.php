@@ -35,8 +35,8 @@
 
     <div class="topbar d-flex align-items-center">
       <div class="container d-flex justify-content-center justify-content-md-between">
-        <div class="d-none d-md-flex align-items-center">
-          <i class="bi bi-clock me-1"></i> Monday - Saturday, 8AM to 10PM
+        <div class="d-none d-md-flex align-items-center ms-auto">
+          <i class="bi bi-clock me-1 "></i> senin - sabtu, 8AM to 10PM
         </div>
         <div class="d-flex align-items-center">
         </div>
@@ -55,27 +55,8 @@
         <nav id="navmenu" class="navmenu">
           <ul>
             <li><a href="#hero" class="active">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#departments">Departments</a></li>
-            <li><a href="#doctors">Doctors</a></li>
-            <li class="dropdown"><a href="#"><span>Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-              <ul>
-                <li><a href="#">Dropdown 1</a></li>
-                <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
-                  <ul>
-                    <li><a href="#">Deep Dropdown 1</a></li>
-                    <li><a href="#">Deep Dropdown 2</a></li>
-                    <li><a href="#">Deep Dropdown 3</a></li>
-                    <li><a href="#">Deep Dropdown 4</a></li>
-                    <li><a href="#">Deep Dropdown 5</a></li>
-                  </ul>
-                </li>
-                <li><a href="#">Dropdown 2</a></li>
-                <li><a href="#">Dropdown 3</a></li>
-                <li><a href="#">Dropdown 4</a></li>
-              </ul>
-            </li>
+            <li><a href="#about">tentang</a></li>
+            <li><a href="#services">layanan</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -99,9 +80,9 @@
         <div class="carousel-item active">
           <img src="medicio/assets/img/hero-carousel/hero-carousel-1.jpg" alt="">
           <div class="container">
-            <h2>Welcome to AllCare</h2>
-            <p>We are here to provide the best health services for you and your family. With professional medical personnel, modern facilities, and a commitment to patient comfort, we are ready to become a trusted partner in maintaining your health.</p>
-            <a href="#about" class="btn-get-started">Read More</a>
+            <h2>selemat datang di AllCare</h2>
+            <p>Kami hadir untuk memberikan pelayanan kesehatan terbaik bagi Anda dan keluarga. Dengan tenaga medis yang profesional, fasilitas yang modern, serta komitmen terhadap kenyamanan pasien, kami siap menjadi mitra terpercaya dalam menjaga kesehatan Anda.</p>
+            <a href="#about" class="btn-get-started">lanjut -></a>
           </div>
         </div><!-- End Carousel Item -->
 
@@ -169,7 +150,7 @@
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>About Us<br></h2>
+        <h2>tentang <br></h2>
         <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
       </div><!-- End Section Title -->
 
