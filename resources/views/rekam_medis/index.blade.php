@@ -1,3 +1,5 @@
+@extends('layouts.app')
+@section('content')
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,11 +35,11 @@
                             <a href="{{ route('rekam_medis.index') }}" class="btn btn-outline-danger">Clear</a>
                             @endif
                         </div>
-                    </form>                    
+                    </form>
                 </div>
             </div>
         </div>
-          
+
         <!-- Add Modal -->
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -181,7 +183,7 @@
         {{-- {{ $pasiens->links() }} --}}
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
+@endsection

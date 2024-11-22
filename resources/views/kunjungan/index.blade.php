@@ -23,7 +23,7 @@
             Swal.fire('Success', '{{ session('success') }}', 'success');
         </script>
         @endif
-        
+
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addModal">
             + Tambah Kunjungan
@@ -184,9 +184,7 @@
         {{ $kunjungans->links() }}
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-    </script>
+    
 </body>
 
 </html>
