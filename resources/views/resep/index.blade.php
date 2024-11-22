@@ -1,3 +1,7 @@
+@extends('layouts.app')
+@section('content')
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -159,7 +163,7 @@
         {{-- {{ $pasiens->links() }} --}}
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    </body>
 
 </html>
+@endsection

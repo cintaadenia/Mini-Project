@@ -8,6 +8,7 @@ use App\Http\Controllers\ResepController;
 use App\Http\Controllers\KunjunganController;
 use App\Http\Controllers\JadwalPraktekController;
 use App\Http\Controllers\RekamMedisController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('dashboard');

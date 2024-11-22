@@ -1,3 +1,5 @@
+@extends('layouts.app')
+@section('content')
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,8 +37,22 @@
                         @endif
                     </div>
                 </form>
+        <div class="row mb-3">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <form action="{{ route('rekam_medis.index') }}" method="GET">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Cari Rekam Medis..." value="{{ request('search') }}">
+                            <button class="btn btn-outline-secondary" type="submit">Cari</button>
+                            @if(request('search'))
+                            <a href="{{ route('rekam_medis.index') }}" class="btn btn-outline-danger">Clear</a>
+                            @endif
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+
 
         <!-- Add Modal -->
         <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
@@ -212,3 +228,4 @@
 </body>
 
 </html>
+@endsection

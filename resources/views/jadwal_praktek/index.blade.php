@@ -40,9 +40,9 @@
                 </div>
             </div>
         </form>
-        
-        
-        
+
+
+
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addJadwalModal">
@@ -115,7 +115,7 @@
                                 <option value="Jumat">Jumat</option>
                                 <option value="Sabtu">Sabtu</option>
                             </select>
-                        </div>                        
+                        </div>
                         <div class="mb-3">
                             <label>Jam Mulai</label>
                             <input type="time" name="jam_mulai" class="form-control" required>
@@ -164,7 +164,7 @@
                                 <option value="Sabtu">Sabtu</option>
                             </select>
                         </div>
-                        
+
                         <div class="mb-3">
                             <label>Jam Mulai</label>
                             <input type="time" id="editJamMulai" name="jam_mulai" class="form-control" required>
@@ -182,7 +182,6 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Edit button handler
         document.querySelectorAll('.editJadwalBtn').forEach(button => {
