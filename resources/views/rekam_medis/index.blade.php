@@ -122,8 +122,7 @@
                     <td>{{ $rm->kunjungan->pasien->nama }}</td>
                     <td>{{ $rm->diagnosa }}</td>
                     <td>{{ $rm->tindakan }}</td>
-                    <td><img src="{{ asset('/storage/rekam_medis'.$rm->image) }}" alt="gambar"></td>               
-                    
+                    <td><img src="{{ asset('/storage/rekam_medis/'.$rm->image) }}" height="100px" width="80px" alt="gambar"></td>
                     <td>
                         <form action="{{ route('rekam_medis.destroy', $rm->id) }}" method="POST" style="display: inline;">
                             @csrf
