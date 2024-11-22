@@ -1,3 +1,4 @@
+
 @extends('layouts.sidebar')
 @section('side')
 
@@ -100,3 +101,4 @@
 </body>
 </html>
 @endsection
+
