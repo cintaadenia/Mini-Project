@@ -55,10 +55,8 @@
                                     <select name="kunjungan_id" id="kunjungan_id" class="form-control">
                                         <option>--- Pasien ---</option>
                                         @foreach ($kunjungans as $kn)
-<option value="{{$kn->id}}">{{$kn->pasien->nama}}</option>
-@endforeach
-
-
+                                        <option value="{{$kn->id}}">{{$kn->pasien->nama}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 @error('kunjungan_id')
