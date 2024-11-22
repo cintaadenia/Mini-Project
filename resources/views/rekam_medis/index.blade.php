@@ -37,19 +37,6 @@
                         @endif
                     </div>
                 </form>
-        <div class="row mb-3">
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <form action="{{ route('rekam_medis.index') }}" method="GET">
-                        <div class="input-group">
-                            <input type="text" name="search" class="form-control" placeholder="Cari Rekam Medis..." value="{{ request('search') }}">
-                            <button class="btn btn-outline-secondary" type="submit">Cari</button>
-                            @if(request('search'))
-                            <a href="{{ route('rekam_medis.index') }}" class="btn btn-outline-danger">Clear</a>
-                            @endif
-                        </div>
-                    </form>
-                </div>
             </div>
         </div>
 
@@ -71,7 +58,7 @@
                                     <select name="kunjungan_id" id="kunjungan_id" class="form-control">
                                         <option>--- Pilih Pasien ---</option>
                                         @foreach ($kunjungans as $kn)
-                                        <option value="{{ $kn->id }}">{{ $kn->pasien->nama }}</option>
+                                        <option value="{{$kn->id}}">{{$kn->pasien->nama}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -135,10 +122,7 @@
                     <td>{{ $rm->kunjungan->pasien->nama }}</td>
                     <td>{{ $rm->diagnosa }}</td>
                     <td>{{ $rm->tindakan }}</td>
-                    <td>
-                        <img src="{{ Storage::url('rekam-medis/' . $rm->image) }}" alt="Gambar" width="100">
-                    </td>                    
-                    
+                    <td><img src="{{ asset('/storage/rekam_medis/'.$rm->image) }}" height="100px" width="80px" alt="gambar"></td>
                     <td>
                         <form action="{{ route('rekam_medis.destroy', $rm->id) }}" method="POST" style="display: inline;">
                             @csrf
