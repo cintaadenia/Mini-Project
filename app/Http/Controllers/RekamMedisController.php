@@ -45,16 +45,31 @@ class RekamMedisController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'kunjungan_id' => 'required|exists:kunjungans,pasien_id',
-            'diagnosa' => 'required|string',
-            'tindakan' => 'required|string',
-        ]);
+{
+    $request->validate([
+        'kunjungan_id' => 'required|exists:kunjungans,id',
+        'diagnosa' => 'required|string',
+        'tindakan' => 'required|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
+    ]);
 
-        RekamMedis::create($request->all());
-        return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil ditambahkan.');
+    // Handle the image upload
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('rekam_medis', 'public');
+    } else {
+        $imagePath = null;
     }
+
+    // Create the Rekam Medis record
+    RekamMedis::create([
+        'kunjungan_id' => $request->kunjungan_id,
+        'diagnosa' => $request->diagnosa,
+        'tindakan' => $request->tindakan,
+        'image' => $imagePath, // Save image path if available
+    ]);
+
+    return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil ditambahkan.');
+}
 
     public function show(RekamMedis $rekamMedis)
     {
@@ -68,16 +83,32 @@ class RekamMedisController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'kunjungan_id' => 'required',
-            'diagnosa' => 'required|string',
-            'tindakan' => 'required|string',
-        ]);
-        $rekamMedis = RekamMedis::findOrFail($id);
-        $rekamMedis->update($request->all());
-        return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil diperbarui.');
+{
+    $request->validate([
+        'kunjungan_id' => 'required|exists:kunjungans,id',
+        'diagnosa' => 'required|string',
+        'tindakan' => 'required|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
+    ]);
+
+    $rekamMedis = RekamMedis::findOrFail($id);
+
+    // Handle the image upload
+    if ($request->hasFile('image')) {
+        $imagePath = $request->file('image')->store('rekam_medis', 'public');
+    } else {
+        $imagePath = $rekamMedis->image; // Keep the existing image if not uploading a new one
     }
+
+    $rekamMedis->update([
+        'kunjungan_id' => $request->kunjungan_id,
+        'diagnosa' => $request->diagnosa,
+        'tindakan' => $request->tindakan,
+        'image' => $imagePath, // Update the image path
+    ]);
+
+    return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil diperbarui.');
+}
 
     public function destroy(RekamMedis $rekamMedis, $id)
     {
