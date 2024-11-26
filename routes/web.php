@@ -19,8 +19,9 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Hanya untuk admin
-Route::get('/admin', [PasienController::class, 'adminHome'])->middleware('auth', 'role:admin');
-
+Route::get('/admin', function () {
+    return view('admin-home');
+})->middleware('auth','role:admin');
 
 
 // Obat routes
