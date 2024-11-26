@@ -27,7 +27,7 @@
                 <tbody>
                   <tr>
                     <td>Jumlah Pasien</td>
-                    <td>{{ $jumlahPasien }}</td>
+                    <td>{{ DB::table('pasiens')->count() }}</td>
                   </tr>
                 </tbody>
               </table>
