@@ -48,7 +48,7 @@
         <div class="sidebar-logo">
           <!-- Logo Header -->
           <div class="logo-header" data-background-color="dark">
-            <a href="{{route('home')}}" class="logo">
+            <a href="{{url('/admin')}}" class="logo">
               <h1>admin</h1>
             </a>
             <div class="nav-toggle">
