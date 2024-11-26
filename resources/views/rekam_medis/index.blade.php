@@ -1,5 +1,6 @@
-@extends('layouts.app')
-@section('content')
+@extends($layout)
+
+@section($content)
 <!DOCTYPE html>
 <html lang="en">
 
@@ -129,7 +130,7 @@
                             <span>No Image</span>
                         @endif
                     </td>
-                    
+
                     <td>
                         <form action="{{ route('rekam_medis.destroy', $rm->id) }}" method="POST" style="display: inline;">
                             @csrf
@@ -215,7 +216,6 @@
     </div>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

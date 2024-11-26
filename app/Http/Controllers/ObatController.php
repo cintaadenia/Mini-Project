@@ -10,9 +10,16 @@ class ObatController extends Controller
 {
     public function index()
     {
+        if(auth()->user()->hasRole('admin')){
+            $layout = 'layouts.sidebar';
+            $content = 'side';
+        }else{
+            $layout = 'layouts.app';
+            $content = 'content';
+        }
         $obats = Obat::with('resep')->paginate(10);
         $resep = Resep::all();
-        return view('obat.index', compact('obats','resep'));
+        return view('obat.index', compact('obats','resep','layout','content'));
     }
 
     public function create()

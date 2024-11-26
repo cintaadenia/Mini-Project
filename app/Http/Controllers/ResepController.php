@@ -11,6 +11,13 @@ class ResepController extends Controller
 {
     public function index(Request $request)
 {
+    if(auth()->user()->hasRole('admin')){
+        $layout = 'layouts.sidebar';
+        $content = 'side';
+    }else{
+        $layout = 'layouts.app';
+        $content = 'content';
+    }
     $query = Resep::with('kunjungan');
 
     // Cek apakah ada input 'search'
@@ -24,7 +31,7 @@ class ResepController extends Controller
     $reseps = $query->paginate(10);
     $Rekmed = Kunjungan::all();
 
-    return view('resep.index', compact('reseps', 'Rekmed'));
+    return view('resep.index', compact('reseps', 'Rekmed','layout','content'));
 }
 
 
@@ -40,7 +47,7 @@ class ResepController extends Controller
             'kunjungan_id' => 'required',
             'deskripsi' => 'required',
         ]);
-        
+
         Resep::create([
             'kunjungan_id' => $request->kunjungan_id,
             'deskripsi' => $request->deskripsi

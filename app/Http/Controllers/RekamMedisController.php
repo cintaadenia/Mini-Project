@@ -14,6 +14,13 @@ class RekamMedisController extends Controller
 {
     public function index(Request $request)
 {
+    if(auth()->user()->hasRole('admin')){
+        $layout = 'layouts.sidebar';
+        $content = 'side';
+    }else{
+        $layout = 'layouts.app';
+        $content = 'content';
+    }
     $search = $request->input('search');
 
     // Query for searching by patient's name, diagnosis, and action
@@ -35,7 +42,7 @@ class RekamMedisController extends Controller
     // Get all kunjungan data
     $kunjungans = Kunjungan::with('pasien')->get();
 
-    return view('rekam_medis.index', compact('rekamMedis', 'kunjungans'));
+    return view('rekam_medis.index', compact('rekamMedis', 'kunjungans','layout','content'));
 }
 
     public function create()
@@ -115,4 +122,5 @@ public function destroy(RekamMedis $rekamMedis, $id)
 
     $rekamMedis->delete();
     return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil dihapus.');
+}
 }
