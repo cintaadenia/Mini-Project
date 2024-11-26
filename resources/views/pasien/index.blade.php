@@ -150,6 +150,13 @@
         </table>
         {{ $pasiens->links() }}
     </div>
+    <div class="container">
+        <div class="card shadow">
+            <div class="card-body">
+                <h1>{{DB::table('pasiens')->count()}}</h1>
+            </div>
+        </div>
+    </div>
 
 </body>
 
