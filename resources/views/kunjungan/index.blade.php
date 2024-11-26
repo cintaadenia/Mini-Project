@@ -118,11 +118,31 @@
                     <td>{{ $kunjungan->dokter->nama }}</td>
                     <td>{{ $kunjungan->tanggal_kunjungan }}</td>
                     <td>
-                        <form action="{{ route('kunjungan.destroy', $kunjungan->id) }}" method="POST" style="display: inline;">
+                        <form id="delete-form-{{ $kunjungan->id }}" action="{{ route('kunjungan.destroy', $kunjungan->id) }}" method="POST" style="display: none;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
                         </form>
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                onclick="confirmDelete({{ $kunjungan->id }})">Hapus</button>
+                                <script>
+                                    function confirmDelete(id) {
+                                        Swal.fire({
+                                            title: 'Apakah Anda yakin?',
+                                            text: "Data ini akan dihapus secara permanen!",
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'Ya, hapus!',
+                                            cancelButtonText: 'Batal'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                // Submit form hapus
+                                                document.getElementById('delete-form-' + id).submit();
+                                            }
+                                        });
+                                    }
+                                </script>
                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $kunjungan->id }}">
                             Edit
                         </button>

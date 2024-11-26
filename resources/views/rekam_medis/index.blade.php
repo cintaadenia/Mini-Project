@@ -22,9 +22,11 @@
         @endif
 
         <!-- Button trigger modal -->
+        @if (auth()->user()->hasRole('admin'))
         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addModal">
             + Tambah Rekam Medis
         </button>
+        @endif
 
         <!-- Search Form -->
         <div class="row mb-3">
@@ -114,7 +116,10 @@
                     <th>Diagnosa</th>
                     <th>Tindakan</th>
                     <th>Gambar</th>
+                    @if (auth()->user()->hasRole('admin'))
                     <th>Aksi</th>
+                    @endif
+                    
                 </tr>
             </thead>
             <tbody>
@@ -124,7 +129,6 @@
                     <td>{{ $rm->diagnosa }}</td>
                     <td>{{ $rm->tindakan }}</td>
                     <td><img src="{{ asset('/storage/rekam_medis/'.$rm->image) }}" height="100px" width="80px" alt="gambar"></td>
-
                     <td>
                         <form action="{{ route('rekam_medis.destroy', $rm->id) }}" method="POST" style="display: inline;">
                             @csrf
@@ -134,7 +138,8 @@
                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $rm->id }}">
                             Edit
                         </button>
-                    </td>
+                    </td>                 
+                    
                 </tr>
 
                 <!-- Edit Modal -->

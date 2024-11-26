@@ -17,7 +17,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+    
 // Hanya untuk admin
 Route::get('/admin', function () {
     return view('admin-home');
@@ -25,6 +25,7 @@ Route::get('/admin', function () {
 
 // Pasien dan Rekam Medis (dapat diakses oleh semua user)
 Route::middleware('auth')->group(function () {
+    Route::resource('dokter', DokterController::class);
     Route::resource('pasien', PasienController::class);
     Route::resource('rekam_medis', RekamMedisController::class);
 });
@@ -32,8 +33,9 @@ Route::middleware('auth')->group(function () {
 // Fitur lain (hanya admin)
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('obat', ObatController::class);
-    Route::resource('dokter', DokterController::class);
     Route::resource('resep', ResepController::class);
     Route::resource('kunjungan', KunjunganController::class);
     Route::resource('jadwal_praktek', JadwalPraktekController::class);
+
 });
+
