@@ -175,7 +175,7 @@
               <i class="fas fa-flask flex-shrink-0"></i>
               <div>
                 <span data-purecounter-start="0" data-purecounter-end="{{DB::table('obats')->count()}}" data-purecounter-duration="1" class="purecounter">{{DB::table('obats')->count()}}</span>
-                <p>Research Labs</p>
+                <p style="font-weight: bold">Obat</p>
               </div>
             </div>
           </div><!-- End Stats Item -->
