@@ -123,7 +123,18 @@
                     <td>{{ $rm->kunjungan->pasien->nama }}</td>
                     <td>{{ $rm->diagnosa }}</td>
                     <td>{{ $rm->tindakan }}</td>
+<<<<<<< HEAD
                     <td><img src="{{ asset('/storage/rekam_medis/'.$rm->image) }}" height="100px" width="80px" alt="gambar"></td>
+=======
+                    <td>
+                        @if($rm->image)
+                            <img src="{{ asset('storage/rekam_medis/'.$rm->image) }}" height="100px" width="80px" alt="gambar">
+                        @else
+                            <span>No Image</span>
+                        @endif
+                    </td>
+                    
+>>>>>>> c1c911eb78ab35bc4cd17fea2c282f0cb8e4281c
                     <td>
                         <form action="{{ route('rekam_medis.destroy', $rm->id) }}" method="POST" style="display: inline;">
                             @csrf

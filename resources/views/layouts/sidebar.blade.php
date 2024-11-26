@@ -110,7 +110,7 @@
                     <p>Rekam Medis</p>
                 </a>
             </li>
-            
+
             <li class="nav-item">
               <a href="{{ route('logout') }}"
                  onclick="event.preventDefault();
@@ -122,17 +122,19 @@
                   @csrf
               </form>
           </li>
-            
+
                   </ul>
                 </div>
               </li>
             </ul>
           </div>
         </div>
+        <main class="py-4">
+            @yield('side')
+        </main>
       </div>
       <!-- End Sidebar -->
 
-      
       <!-- End Custom template -->
     </div>
     <!--   Core JS Files   -->
