@@ -33,8 +33,9 @@ Route::middleware('auth')->group(function () {
 // Fitur lain (hanya admin)
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('obat', ObatController::class);
-    Route::resource('dokter', DokterController::class);
     Route::resource('resep', ResepController::class);
     Route::resource('kunjungan', KunjunganController::class);
     Route::resource('jadwal_praktek', JadwalPraktekController::class);
+
 });
+
