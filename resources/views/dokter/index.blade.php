@@ -22,11 +22,13 @@
             @endif
         
 
-
+            @if (auth()->user()->hasRole('admin'))
+            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="addModal">
+                + Tambah Dokter
+            </button>
+                    @endif
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addModal">
-            + Tambah Dokter
-        </button>
+
 
         <div class="row mb-3">
             <div class="col-md-6">
@@ -99,7 +101,10 @@
                     <th>Nama</th>
                     <th>Spesialis</th>
                     <th>Phone</th>
+                    @if (auth()->user()->hasRole('admin'))
                     <th>Aksi</th>
+                    @endif
+
                 </thead>
                 <tbody>
                     @foreach ($dokters as $dokter)
@@ -107,6 +112,7 @@
                         <td>{{ $dokter->nama }}</td>
                         <td>{{ $dokter->spesialis }}</td>
                         <td>{{ $dokter->no_hp }}</td>
+                        @if (auth()->user()->hasRole('admin'))
                         <td>
                             <form id="delete-form-{{$dokter->id}}" action="{{ route('dokter.destroy', $dokter->id) }}" method="POST" style="display: inline;">
                                 @csrf
@@ -138,6 +144,8 @@
                                 Edit
                             </button>
                         </td>
+                    @endif
+
                     </tr>
                     <div class="modal fade" id="editDokterModal" tabindex="-1" aria-labelledby="editDokterModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
