@@ -70,12 +70,31 @@
                     <td>
                         <button class="btn btn-warning btn-sm editJadwalBtn" data-id="{{ $jadwal->id }}"
                             data-bs-toggle="modal" data-bs-target="#editJadwalModal">Edit</button>
-                        <form action="{{ route('jadwal_praktek.destroy', $jadwal->id) }}" method="POST"
-                            style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
-                        </form>
+                            <form id="delete-form-{{ $jadwal->id }}" action="{{ route('jadwal_praktek.destroy', $jadwal->id) }}" method="POST" style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                                <button type="submit" class="btn btn-danger btn-sm"
+                                    onclick="confirmDelete({{ $jadwal->id }})">Hapus</button>
+                                    <script>
+                                        function confirmDelete(id) {
+                                            Swal.fire({
+                                                title: 'Apakah Anda yakin?',
+                                                text: "Data ini akan dihapus secara permanen!",
+                                                icon: 'warning',
+                                                showCancelButton: true,
+                                                confirmButtonColor: '#3085d6',
+                                                cancelButtonColor: '#d33',
+                                                confirmButtonText: 'Ya, hapus!',
+                                                cancelButtonText: 'Batal'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    // Submit form hapus
+                                                    document.getElementById('delete-form-' + id).submit();
+                                                }
+                                            });
+                                        }
+                                    </script>
                     </td>
                 </tr>
                 @endforeach

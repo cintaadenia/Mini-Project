@@ -138,7 +138,7 @@
                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $rm->id }}">
                             Edit
                         </button>
-                    </td>                    @endif
+                    </td>                 
                     
                 </tr>
 
