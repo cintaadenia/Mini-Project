@@ -202,13 +202,15 @@
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item d-flex align-items-center w-100 h-100">
-              <i class="far fa-hospital flex-shrink-0"></i>
+              <i class="far fa-user-injured flex-shrink-0"></i> <!-- Ikon untuk pasien -->
               <div>
-                <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Departments</p>
+                <!-- Menampilkan jumlah pasien -->
+                <span>{{ DB::table('pasiens')->count() }}</span> 
+                <p>Jumlah Pasien</p>
               </div>
             </div>
-          </div><!-- End Stats Item -->
+          </div>
+          <!-- End Stats Item -->
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item d-flex align-items-center w-100 h-100">
