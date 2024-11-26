@@ -9,16 +9,23 @@ class PasienController extends Controller
 {
     public function index(Request $request)
     {
+        if(auth()->user()->hasRole('admin')){
+            $layout = 'layouts.sidebar';
+            $content = 'side';
+        }else{
+            $layout = 'layouts.app';
+            $content = 'content';
+        }
         $search = $request->input('search');
         $pasiens = Pasien::when($search, function ($query, $search) {
             $query->where('nama', 'like', "%$search%")
                   ->orWhere('alamat', 'like', "%$search%")
                   ->orWhere('no_hp', 'like', "%$search%");
         })->paginate(10);
-    
-        return view('pasien.index', compact('pasiens'));
+
+        return view('pasien.index', compact('pasiens','layout','content'));
     }
-    
+
 
     public function create()
     {
