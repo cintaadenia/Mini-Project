@@ -202,7 +202,7 @@
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item d-flex align-items-center w-100 h-100">
-              <i class="far fa-user-injured flex-shrink-0"></i> <!-- Ikon untuk pasien -->
+              <i class="bi bi-hospital"></i> <!-- Ikon untuk pasien -->
               <div>
                 <!-- Menampilkan jumlah pasien -->
                 <span data-purecounter-start="0" data-purecounter-end="{{DB::table('pasiens')->count()}}" data-purecounter-duration="1" class="purecounter"></span>
@@ -216,8 +216,8 @@
             <div class="stats-item d-flex align-items-center w-100 h-100">
               <i class="fas fa-flask flex-shrink-0"></i>
               <div>
-                <span data-purecounter-start="0" data-purecounter-end="{{DB::table('obats')->count()}}" data-purecounter-duration="1" class="purecounter"></span>
-                <p style="font-weight: bold">Obat</p>
+                <span data-purecounter-start="0" data-purecounter-end="{{DB::table('obats')->count()}}" data-purecounter-duration="1" class="purecounter">{{DB::table('obats')->count()}}</span>
+                <p>Research Labs</p>
               </div>
             </div>
           </div><!-- End Stats Item -->

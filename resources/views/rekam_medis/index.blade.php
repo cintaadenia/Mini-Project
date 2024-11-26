@@ -1,5 +1,6 @@
-@extends('layouts.app')
-@section('content')
+@extends($layout)
+
+@section($content)
 <!DOCTYPE html>
 <html lang="en">
 
@@ -125,6 +126,14 @@
                     <td>{{ $rm->tindakan }}</td>
                     <td><img src="{{ asset('/storage/rekam_medis/'.$rm->image) }}" height="100px" width="80px" alt="gambar"></td>
                     <td>
+                        @if($rm->image)
+                            <img src="{{ asset('storage/rekam_medis/'.$rm->image) }}" height="100px" width="80px" alt="gambar">
+                        @else
+                            <span>No Image</span>
+                        @endif
+                    </td>
+
+                    <td>
                         <form action="{{ route('rekam_medis.destroy', $rm->id) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')
@@ -209,7 +218,6 @@
     </div>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

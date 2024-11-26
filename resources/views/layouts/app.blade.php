@@ -48,38 +48,13 @@
         <!-- Left links -->
         <ul class="navbar-nav me-auto d-flex flex-row mt-3 mt-lg-0">
           <li class="nav-item text-center mx-2 mx-lg-1">
-            <a class="nav-link" href="{{ route('dokter.index') }}">
-                dokter
-            </a>
-          </li>
-          <li class="nav-item text-center mx-2 mx-lg-1">
             <a class="nav-link " aria-disabled="true" href="{{ route('pasien.index') }}">
               pasien
             </a>
           </li>
           <li class="nav-item text-center mx-2 mx-lg-1">
-            <a class="nav-link " aria-disabled="true" href="{{ route('jadwal_praktek.index') }}">
-              jadwal praktek
-            </a>
-          </li>
-          <li class="nav-item text-center mx-2 mx-lg-1">
-            <a class="nav-link " aria-disabled="true" href="{{ route('kunjungan.index') }}">
-              kunjungan
-            </a>
-          </li>
-          <li class="nav-item text-center mx-2 mx-lg-1">
-            <a class="nav-link " aria-disabled="true" href="{{ route('obat.index') }}">
-              obat
-            </a>
-          </li>
-          <li class="nav-item text-center mx-2 mx-lg-1">
             <a class="nav-link " aria-disabled="true" href="{{ route('rekam_medis.index') }}">
               rekam medis
-            </a>
-          </li>
-          <li class="nav-item text-center mx-2 mx-lg-1">
-            <a class="nav-link " aria-disabled="true" href="{{ route('resep.index') }}">
-              resep
             </a>
           </li>
         </ul>

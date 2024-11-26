@@ -11,6 +11,13 @@ class KunjunganController extends Controller
 {
     public function index(Request $request)
 {
+    if(auth()->user()->hasRole('admin')){
+        $layout = 'layouts.sidebar';
+        $content = 'side';
+    }else{
+        $layout = 'layouts.app';
+        $content = 'content';
+    }
     $search = $request->get('search');
 
     $kunjungans = Kunjungan::when($search, function ($query, $search) {
@@ -26,7 +33,7 @@ class KunjunganController extends Controller
     $pasiens = Pasien::all();  // Fetch all patients
     $dokters = Dokter::all();  // Fetch all doctors
 
-    return view('kunjungan.index', compact('kunjungans', 'pasiens', 'dokters'));  // Pass dokters to the view
+    return view('kunjungan.index', compact('kunjungans', 'pasiens', 'dokters','layout','content'));  // Pass dokters to the view
 }
 
 
