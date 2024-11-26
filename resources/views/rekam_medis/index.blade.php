@@ -22,9 +22,11 @@
         @endif
 
         <!-- Button trigger modal -->
+        @if (auth()->user()->hasRole('admin'))
         <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addModal">
             + Tambah Rekam Medis
         </button>
+        @endif
 
         <!-- Search Form -->
         <div class="row mb-3">
@@ -114,7 +116,10 @@
                     <th>Diagnosa</th>
                     <th>Tindakan</th>
                     <th>Gambar</th>
+                    @if (auth()->user()->hasRole('admin'))
                     <th>Aksi</th>
+                    @endif
+                    
                 </tr>
             </thead>
             <tbody>
@@ -130,7 +135,7 @@
                             <span>No Image</span>
                         @endif
                     </td>
-
+                    @if (auth()->user()->hasRole('admin'))
                     <td>
                         <form action="{{ route('rekam_medis.destroy', $rm->id) }}" method="POST" style="display: inline;">
                             @csrf
@@ -140,7 +145,8 @@
                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $rm->id }}">
                             Edit
                         </button>
-                    </td>
+                    </td>                    @endif
+                    
                 </tr>
 
                 <!-- Edit Modal -->
