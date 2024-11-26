@@ -66,4 +66,12 @@ class PasienController extends Controller
         $pasien->delete();
         return redirect()->route('pasien.index')->with('success', 'Data pasien berhasil dihapus.');
     }
+
+    public function adminHome()
+{
+    $jumlahPasien = Pasien::count(); // Hitung total pasien dari tabel 'pasiens'
+    return view('admin-home', compact('jumlahPasien'));
+}
+
+
 }
