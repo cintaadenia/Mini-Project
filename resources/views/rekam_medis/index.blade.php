@@ -125,13 +125,6 @@
                     <td>{{ $rm->diagnosa }}</td>
                     <td>{{ $rm->tindakan }}</td>
                     <td><img src="{{ asset('/storage/rekam_medis/'.$rm->image) }}" height="100px" width="80px" alt="gambar"></td>
-                    <td>
-                        @if($rm->image)
-                            <img src="{{ asset('storage/rekam_medis/'.$rm->image) }}" height="100px" width="80px" alt="gambar">
-                        @else
-                            <span>No Image</span>
-                        @endif
-                    </td>
 
                     <td>
                         <form action="{{ route('rekam_medis.destroy', $rm->id) }}" method="POST" style="display: inline;">

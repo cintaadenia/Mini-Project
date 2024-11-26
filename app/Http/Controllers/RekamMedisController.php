@@ -124,5 +124,3 @@ public function destroy(RekamMedis $rekamMedis, $id)
     return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil dihapus.');
 }
 }
-}
-
