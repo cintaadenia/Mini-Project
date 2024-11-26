@@ -194,7 +194,7 @@
             <div class="stats-item d-flex align-items-center w-100 h-100">
               <i class="fas fa-user-md flex-shrink-0"></i>
               <div>
-                <span data-purecounter-start="0" data-purecounter-end="25" data-purecounter-duration="1" class="purecounter"></span>
+                <span data-purecounter-start="0" data-purecounter-end="" data-purecounter-duration="1" class="purecounter"></span>
                 <p>Doctors</p>
               </div>
             </div>
