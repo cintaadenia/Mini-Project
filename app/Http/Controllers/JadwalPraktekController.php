@@ -10,13 +10,20 @@ class JadwalPraktekController extends Controller
 {
     public function index(Request $request)
     {
+        if(auth()->user()->hasRole('admin')){
+            $layout = 'layouts.sidebar';
+            $content = 'side';
+        }else{
+            $layout = 'layouts.app';
+            $content = 'content';
+        }
         $dokters = Dokter::all();
-    
+
         // Pencarian
         $search = $request->input('search');
         $startTime = $request->input('start_time');
         $endTime = $request->input('end_time');
-    
+
         $jadwalPrakteks = JadwalPraktek::with('dokter')
             ->when($search, function ($query, $search) {
                 $query->whereHas('dokter', function ($query) use ($search) {
@@ -30,10 +37,10 @@ class JadwalPraktekController extends Controller
                 $query->where('jam_selesai', '<=', $endTime);
             })
             ->paginate(10);
-    
-        return view('jadwal_praktek.index', compact('dokters', 'jadwalPrakteks'));
+
+        return view('jadwal_praktek.index', compact('dokters', 'jadwalPrakteks','layout','content'));
     }
-    
+
 
 
 
@@ -51,7 +58,7 @@ class JadwalPraktekController extends Controller
             'hari' => 'required|string|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
             'jam_mulai' => 'required',
             'jam_selesai' => 'required',
-        ]);        
+        ]);
 
         JadwalPraktek::create($request->all());
         return redirect()->route('jadwal_praktek.index')->with('success', 'Jadwal praktek berhasil ditambahkan.');
@@ -75,7 +82,7 @@ class JadwalPraktekController extends Controller
             'hari' => 'required|string|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
             'jam_mulai' => 'required',
             'jam_selesai' => 'required',
-        ]);        
+        ]);
 
         $jadwalPraktek->update($request->all());
         return redirect()->route('jadwal_praktek.index')->with('success', 'Jadwal praktek berhasil diperbarui.');

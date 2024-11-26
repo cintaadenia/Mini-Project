@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends($layout)
 
-@section('content')
+@section($content)
 <!DOCTYPE html>
 <html lang="en">
 

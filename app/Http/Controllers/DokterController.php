@@ -3,12 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dokter;
+use App\Models\User;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 
 class DokterController extends Controller
 {
     public function index(Request $request)
 {
+
+    if(auth()->user()->hasRole('admin')){
+        $layout = 'layouts.sidebar';
+        $content = 'side';
+    }else{
+        $layout = 'layouts.app';
+        $content = 'content';
+    }
+
     $query = Dokter::query();
 
     if ($request->has('search') && $request->search) {
@@ -19,7 +30,7 @@ class DokterController extends Controller
     }
 
     $dokters = $query->paginate(10);
-    return view('dokter.index', compact('dokters'));
+    return view('dokter.index', compact('dokters','layout','content'));
 }
 
 
@@ -55,7 +66,7 @@ class DokterController extends Controller
     public function update(Request $request, $id)
     {
         $dokter = Dokter::findOrFail($id);
-    
+
         $request->validate([
             'nama' => 'required',
             'spesialis' => 'required',
@@ -63,17 +74,17 @@ class DokterController extends Controller
         ]);
         // Update the doctor
         $dokter->update($request->all());
-    
+
         // Return success message and redirect to the list page
         return redirect()->route('dokter.index')->with('success', 'Data dokter berhasil diperbarui.');
     }
-    
+
     public function destroy($id)
     {
         $dokter = Dokter::findOrFail($id);
         $dokter->delete();
-    
+
         return redirect()->route('dokter.index')->with('success', 'Data dokter berhasil dihapus.');
     }
-    
+
 }
