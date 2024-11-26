@@ -108,13 +108,31 @@
                         <td>{{ $dokter->spesialis }}</td>
                         <td>{{ $dokter->no_hp }}</td>
                         <td>
-                            <form action="{{ route('dokter.destroy', $dokter->id) }}" method="POST" style="display: inline;">
+                            <form id="delete-form-{{$dokter->id}}" action="{{ route('dokter.destroy', $dokter->id) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this doctor?');">
-                                    Delete
-                                </button>
                             </form>
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                        onclick="confirmDelete({{ $dokter->id }})">Hapus</button>
+                                        <script>
+                                            function confirmDelete(id) {
+                                                Swal.fire({
+                                                    title: 'Apakah Anda yakin?',
+                                                    text: "Data ini akan dihapus secara permanen!",
+                                                    icon: 'warning',
+                                                    showCancelButton: true,
+                                                    confirmButtonColor: '#3085d6',
+                                                    cancelButtonColor: '#d33',
+                                                    confirmButtonText: 'Ya, hapus!',
+                                                    cancelButtonText: 'Batal'
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        // Submit form hapus
+                                                        document.getElementById('delete-form-' + id).submit();
+                                                    }
+                                                });
+                                            }
+                                        </script>
                             <button type="button" class="btn btn-outline-warning btn-sm editDokterBtn" data-id="{{ $dokter->id }}"
                                 data-bs-toggle="modal" data-bs-target="#editDokterModal">
                                 Edit
