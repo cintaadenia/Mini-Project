@@ -82,7 +82,7 @@
             </li>
             <li class="nav-item">
                 <a href="{{ route('pasien.index') }}">
-                    <i class="fas fa-user-injured"></i>
+                <i class="fas fa-procedures"></i>
                     <p>Pasien</p>
                 </a>
             </li>
@@ -100,7 +100,7 @@
             </li>
             <li class="nav-item">
                 <a href="{{ route('jadwal_praktek.index') }}">
-                    <i class="fas fa-calendar-day"></i>
+                    <i class="fas fa-calendar-plus"></i>
                     <p>Jadwal Praktek</p>
                 </a>
             </li>
