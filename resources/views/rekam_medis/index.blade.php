@@ -128,14 +128,7 @@
                     <td>{{ $rm->kunjungan->pasien->nama }}</td>
                     <td>{{ $rm->diagnosa }}</td>
                     <td>{{ $rm->tindakan }}</td>
-                    <td>
-                        @if($rm->image)
-                            <img src="{{ asset('storage/rekam_medis/'.$rm->image) }}" height="100px" width="80px" alt="gambar">
-                        @else
-                            <span>No Image</span>
-                        @endif
-                    </td>
-                    @if (auth()->user()->hasRole('admin'))
+                    <td><img src="{{ asset('/storage/rekam_medis/'.$rm->image) }}" height="100px" width="80px" alt="gambar"></td>
                     <td>
                         <form action="{{ route('rekam_medis.destroy', $rm->id) }}" method="POST" style="display: inline;">
                             @csrf
@@ -165,9 +158,11 @@
                                         <label for="kunjungan" class="col-sm-2 col-form-label">Kunjungan</label>
                                         <div class="col-sm-10">
                                             <select name="kunjungan_id" id="kunjungan_id" class="form-control">
-                                                <option value="{{ $rm->kunjungan_id }}">{{ $rm->kunjungan->pasien->nama }}</option>
+                                                <option value="{{ $rm->kunjungan_id }}" selected>{{ $rm->kunjungan->pasien->nama }}</option>
                                                 @foreach ($kunjungans as $kn)
+                                                @if ($kn->id !== $rm->kunjungan_id)
                                                 <option value="{{ $kn->id }}">{{ $kn->pasien->nama }}</option>
+                                                @endif
                                                 @endforeach
                                             </select>
                                         </div>

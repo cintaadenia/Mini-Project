@@ -20,6 +20,7 @@
                 Swal.fire('Success', '{{ session('success') }}', 'success');
             </script>
             @endif
+        
 
 
         <!-- Button trigger modal -->

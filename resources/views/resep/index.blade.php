@@ -128,9 +128,11 @@
                                         <label for="kunjungan" class="col-sm-2 col-form-label">Kunjungan</label>
                                         <div class="col-sm-10">
                                             <select name="kunjungan_id" id="kunjungan_id" class="form-control">
-                                                <option value="{{$resep->kunjungan_id}}">{{$resep->kunjungan->pasien->nama}}</option>
+                                                <option value="{{$resep->kunjungan_id}}" selected>{{$resep->kunjungan->pasien->nama}}</option>
                                                 @foreach ($Rekmed as $rm)
+                                                @if ($rm->id !== $resep->kunjungan_id)
                                                 <option value="{{$rm->pasien_id}}">{{$rm->pasien->nama}}</option>
+                                                @endif
                                                 @endforeach
                                             </select>
                                         </div>

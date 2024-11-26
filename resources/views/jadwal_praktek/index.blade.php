@@ -148,8 +148,11 @@
                         <div class="mb-3">
                             <label>Dokter</label>
                             <select id="editDokterId" name="dokter_id" class="form-control">
+                                <option value="{{$jadwal->dokter_id}}" selected>{{$jadwal->dokter->nama}}</option>
                                 @foreach($dokters as $dokter)
-                                <option value="{{ $dokter->id }}">{{ $dokter->nama }}</option>
+                                    @if ($dokter->id !== $jadwal->dokter_id)
+                                    <option value="{{ $dokter->id }}">{{ $dokter->nama }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -167,11 +170,11 @@
 
                         <div class="mb-3">
                             <label>Jam Mulai</label>
-                            <input type="time" id="editJamMulai" name="jam_mulai" class="form-control" required>
+                            <input type="time" id="editJamMulai" name="jam_mulai" class="form-control" value="{{$jadwal->jam_mulai}}">
                         </div>
                         <div class="mb-3">
                             <label>Jam Selesai</label>
-                            <input type="time" id="editJamSelesai" name="jam_selesai" class="form-control" required>
+                            <input type="time" id="editJamSelesai" name="jam_selesai" class="form-control" value="{{$jadwal->jam_selesai}}">
                         </div>
                     </div>
                     <div class="modal-footer">
