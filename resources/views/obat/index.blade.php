@@ -185,11 +185,13 @@
                                                 <label for="resep" class="col-sm-2 col-form-label">Resep</label>
                                                 <div class="col-sm-10">
                                                     <select name="resep_id" id="resep_id" class="form-control">
-                                                        <option value="{{ $obt->resep->kunjungan_id }}">
+                                                        <option value="{{ $obt->resep_id }}">
                                                             {{ $obt->resep->kunjungan->pasien->nama }}</option>
                                                         @foreach ($resep as $res)
+                                                            @if ($res->id !== $obt->resep_id)
                                                             <option value="{{ $res->id }}">
                                                                 {{ $res->kunjungan->pasien->nama }}</option>
+                                                            @endif
                                                         @endforeach
                                                     </select>
                                                 </div>

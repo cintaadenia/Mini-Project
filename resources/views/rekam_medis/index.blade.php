@@ -60,7 +60,6 @@
                                         <option>--- Pilih Pasien ---</option>
                                         @foreach ($kunjungans as $kn)
                                         <option value="{{$kn->id}}">{{$kn->pasien->nama}}</option>
-                                        <option value="{{$kn->id}}">{{$kn->pasien->nama}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -154,9 +153,11 @@
                                         <label for="kunjungan" class="col-sm-2 col-form-label">Kunjungan</label>
                                         <div class="col-sm-10">
                                             <select name="kunjungan_id" id="kunjungan_id" class="form-control">
-                                                <option value="{{ $rm->kunjungan_id }}">{{ $rm->kunjungan->pasien->nama }}</option>
+                                                <option value="{{ $rm->kunjungan_id }}" selected>{{ $rm->kunjungan->pasien->nama }}</option>
                                                 @foreach ($kunjungans as $kn)
+                                                @if ($kn->id !== $rm->kunjungan_id)
                                                 <option value="{{ $kn->id }}">{{ $kn->pasien->nama }}</option>
+                                                @endif
                                                 @endforeach
                                             </select>
                                         </div>
