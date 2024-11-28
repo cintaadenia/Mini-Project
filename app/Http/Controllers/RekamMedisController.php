@@ -54,7 +54,7 @@ class RekamMedisController extends Controller
     public function store(Request $request)
 {
     $request->validate([
-        'kunjungan_id' => 'required|exists:kunjungans,pasien_id',
+        'kunjungan_id' => 'required|exists:kunjungans,id',
         'diagnosa' => 'required|string',
         'tindakan' => 'required|string',
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',

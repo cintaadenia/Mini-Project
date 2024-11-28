@@ -20,7 +20,7 @@
                 Swal.fire('Success', '{{ session('success') }}', 'success');
             </script>
             @endif
-        
+
 
             @if (auth()->user()->hasRole('admin'))
             <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addModal">
