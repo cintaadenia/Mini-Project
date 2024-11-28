@@ -168,6 +168,7 @@
                 {{ __('Login') }}
             </button>
           </form>
+          
           <form class="form-sign-up" style="display: none;" method="POST" action="{{ route('register') }}">
             @csrf
             <input name="name" placeholder="Name" type="text" required />
