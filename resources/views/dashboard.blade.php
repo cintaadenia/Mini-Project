@@ -130,10 +130,6 @@
               <li><i class="bi bi-check2-all"></i> <span>Meningkatkan kualitas hidup melalui pencegahan dan pengobatan yang tepat.
               </span></li>
             </ul>
-            <p>
-              Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-              velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident
-            </p>
           </div>
         </div>
 
@@ -160,8 +156,8 @@
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item d-flex align-items-center w-100 h-100">
-              <i class="bi bi-hospital"></i> <!-- Ikon untuk pasien -->
-              <div>
+                <i class="bi bi-people"></i>
+                <div>
                 <!-- Menampilkan jumlah pasien -->
                 <span data-purecounter-start="0" data-purecounter-end="{{DB::table('pasiens')->count()}}" data-purecounter-duration="1" class="purecounter"></span>
                 <p style="font-weight: bold">Jumlah Pasien</p>
@@ -172,8 +168,8 @@
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item d-flex align-items-center w-100 h-100">
-              <i class="fas fa-flask flex-shrink-0"></i>
-              <div>
+                <i class="fas fa-pills"></i>
+                <div>
                 <span data-purecounter-start="0" data-purecounter-end="{{DB::table('obats')->count()}}" data-purecounter-duration="1" class="purecounter">{{DB::table('obats')->count()}}</span>
                 <p style="font-weight: bold">Obat</p>
               </div>
@@ -197,63 +193,15 @@
     </section><!-- /Stats Section -->
 
     <!-- Features Section -->
-    <section id="features" class="features section">
 
-      <div class="container">
-
-        <div class="row justify-content-around gy-4">
-          <div class="features-image col-lg-6" data-aos="fade-up" data-aos-delay="100"><img src="medicio/assets/img/features.jpg" alt=""></div>
-
-          <div class="col-lg-5 d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="200">
-            <h3>Enim quis est voluptatibus aliquid consequatur fugiat</h3>
-            <p>Esse voluptas cumque vel exercitationem. Reiciendis est hic accusamus. Non ipsam et sed minima temporibus laudantium. Soluta voluptate sed facere corporis dolores excepturi</p>
-
-            <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="300">
-              <i class="fa-solid fa-hand-holding-medical flex-shrink-0"></i>
-              <div>
-                <h4><a href="" class="stretched-link">Lorem Ipsum</a></h4>
-                <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
-              </div>
-            </div><!-- End Icon Box -->
-
-            <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="400">
-              <i class="fa-solid fa-suitcase-medical flex-shrink-0"></i>
-              <div>
-                <h4><a href="" class="stretched-link">Nemo Enim</a></h4>
-                <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
-              </div>
-            </div><!-- End Icon Box -->
-
-            <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="500">
-              <i class="fa-solid fa-staff-snake flex-shrink-0"></i>
-              <div>
-                <h4><a href="" class="stretched-link">Dine Pad</a></h4>
-                <p>Explicabo est voluptatum asperiores consequatur magnam. Et veritatis odit. Sunt aut deserunt minus aut eligendi omnis</p>
-              </div>
-            </div><!-- End Icon Box -->
-
-            <div class="icon-box d-flex position-relative" data-aos="fade-up" data-aos-delay="600">
-              <i class="fa-solid fa-lungs flex-shrink-0"></i>
-              <div>
-                <h4><a href="" class="stretched-link">Tride clov</a></h4>
-                <p>Est voluptatem labore deleniti quis a delectus et. Saepe dolorem libero sit non aspernatur odit amet. Et eligendi</p>
-              </div>
-            </div><!-- End Icon Box -->
-
-          </div>
-        </div>
-
-      </div>
-
-    </section><!-- /Features Section -->
 
     <!-- Services Section -->
     <section id="services" class="services section">
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>Services</h2>
-        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+        <h2>layanan</h2>
+        <p>Kami memberikan layanan medis umum yang menyeluruh, dari pemeriksaan kesehatan rutin hingga diagnosis penyakit. Dengan tim medis yang profesional dan berpengalaman, kami berkomitmen untuk menjaga kesehatan Anda dengan perhatian penuh dan pelayanan yang ramah</p>
       </div><!-- End Section Title -->
 
       <div class="container">
@@ -292,7 +240,8 @@
               <a href="#" class="stretched-link">
                 <h3>Penyuluhan Kesehatan</h3>
               </a>
-              <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.</p>
+              <p>Memberikan edukasi tentang gaya hidup sehat, pola makan yang baik, pentingnya olahraga, manajemen stres, serta pencegahan penyakit.
+                Konseling mengenai kebiasaan sehat, seperti berhenti merokok, mengurangi konsumsi alkohol, dan pola tidur yang baik.</p>
             </div>
           </div><!-- End Service Item -->
 
@@ -304,7 +253,8 @@
               <a href="#" class="stretched-link">
                 <h3>Vaksinasi</h3>
               </a>
-              <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea fuga sit provident adipisci neque.</p>
+              <p>Penyediaan vaksin untuk mencegah penyakit menular, seperti vaksinasi untuk anak-anak (misalnya vaksin DPT, polio) dan vaksin untuk orang dewasa (seperti vaksin flu, vaksin hepatitis, vaksin tetanus).
+                Vaksinasi untuk perjalanan internasional (misalnya vaksin hepatitis A, B, atau vaksin demam tifoid)</p>
               <a href="#" class="stretched-link"></a>
             </div>
           </div><!-- End Service Item -->
@@ -317,7 +267,8 @@
               <a href="#" class="stretched-link">
                 <h3>Perawatan Luka Ringan</h3>
               </a>
-              <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem alias eius labore.</p>
+              <p>Pengobatan dan perawatan untuk luka ringan, lecet, atau memar.
+                Penanganan cedera ringan seperti keseleo atau patah tulang yang tidak membutuhkan perawatan rumah sakit</p>
               <a href="#" class="stretched-link"></a>
             </div>
           </div><!-- End Service Item -->
@@ -330,7 +281,7 @@
               <a href="#" class="stretched-link">
                 <h3>Pemberian Obat-obatan</h3>
               </a>
-              <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti recusandae ducimus enim.</p>
+              <p>Pemberian resep obat untuk mengobati kondisi medis yang umum seperti infeksi, nyeri, alergi, atau gangguan lainnya.</p>
               <a href="#" class="stretched-link"></a>
             </div>
           </div><!-- End Service Item -->

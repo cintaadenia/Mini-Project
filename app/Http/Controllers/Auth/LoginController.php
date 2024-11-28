@@ -54,10 +54,10 @@ class LoginController extends Controller
 
         return redirect('/home');
     }
-
     protected function sendFailedLoginResponse(Request $request)
 {
     return redirect()->back()->with('error', 'Akun tidak ditemukan atau password salah.');
 }
 
 }
+
