@@ -130,7 +130,7 @@
                 <tbody>
                     @foreach ($obats as $obt)
                         <tr>
-                            <td>{{ $obt->resep_id }}</td>
+                            <td>{{ $obt->resep->kunjungan->pasien->nama }}</td>
                             <td>{{ $obt->nama_obat }}</td>
                             <td>{{ $obt->jumlah }}</td>
                             <td>{{ $obt->dosis }}</td>
