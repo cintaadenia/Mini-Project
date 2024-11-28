@@ -60,7 +60,7 @@
                                     <select name="kunjungan_id" id="kunjungan_id" class="form-control">
                                         <option>--- Pasien ---</option>
                                         @foreach ($Rekmed as $rek)
-                                        <option value="{{$rek->pasien_id}}">{{$rek->pasien->nama}}</option>
+                                        <option value="{{$rek->id}}">{{$rek->pasien->nama}}</option>
                                         @endforeach
                                     </select>
                                 </div>
