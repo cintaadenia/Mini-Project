@@ -177,14 +177,6 @@
         </table>
         {{ $pasiens->links() }}
     </div>
-    @if (auth()->user()->hasRole('admin'))
-    <div class="container">
-        <div class="card shadow">
-            <div class="card-body">
-                <h1>{{DB::table('pasiens')->count()}}</h1>
-            </div>
-        </div>
-    </div>                    @endif
 
 
 </body>
