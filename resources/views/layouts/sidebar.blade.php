@@ -82,7 +82,8 @@
             </li>
             <li class="nav-item">
                 <a href="{{ route('pasien.index') }}">
-                    <i class="fas fa-user-injured"></i>
+                  <i class="bi bi-person-standing"></i>
+                  
                     <p>Pasien</p>
                 </a>
             </li>

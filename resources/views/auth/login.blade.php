@@ -158,6 +158,7 @@
           <div class="btn">Sign Up</div>
         </div>
       </div>
+      
       <div class="form-container">
         <div class="form-item">
           <form class="form-log-in" method="POST" action="{{ route('login') }}">
