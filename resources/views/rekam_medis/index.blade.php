@@ -131,6 +131,7 @@
                     <td>{{ $rm->diagnosa }}</td>
                     <td>{{ $rm->tindakan }}</td>
                     <td><img src="{{ asset('/storage/rekam_medis/'.$rm->image) }}" height="100px" width="80px" alt="gambar"></td>
+                    @if (auth()->user()->hasRole('admin'))
                     <td>
                         <form id="delete-form-{{ $rm->id }}" action="{{ route('rekam_medis.destroy', $rm->id) }}" method="POST" style="display: none;">
                             @csrf
@@ -161,8 +162,8 @@
                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $rm->id }}">
                             Edit
                         </button>
-                    </td>                 
-                    
+                    </td>    
+                    @endif             
                 </tr>
 
                 <!-- Edit Modal -->
