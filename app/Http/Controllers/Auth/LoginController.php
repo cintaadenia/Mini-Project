@@ -52,13 +52,4 @@ class LoginController extends Controller
 
         return redirect('/home');
     }
-
-    protected function sendFailedLoginResponse(\Illuminate\Http\Request $request)
-{
-    return back()->withInput($request->only('email'))
-                 ->withErrors([
-                     'email' => __('These credentials do not match our records.'),
-                 ]);
-}
-
 }
