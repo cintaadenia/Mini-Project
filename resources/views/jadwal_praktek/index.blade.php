@@ -116,7 +116,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label>Dokter</label>
+                            <label>Dokter</label> table
                             <select name="dokter_id" class="form-control">
                                 @foreach($dokters as $dokter)
                                 <option value="{{ $dokter->id }}">{{ $dokter->nama }}</option>
