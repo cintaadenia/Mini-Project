@@ -86,7 +86,10 @@
                     <th>Alamat</th>
                     <th>No HP</th>
                     <th>Tanggal Lahir</th>
+                    @if (auth()->user()->hasRole('admin'))
                     <th>Aksi</th>
+                    @endif
+
                 </tr>
             </thead>
             <tbody>
@@ -96,6 +99,7 @@
                     <td>{{ $pasien->alamat }}</td>
                     <td>{{ $pasien->no_hp }}</td>
                     <td>{{ $pasien->tanggal_lahir }}</td>
+                    @if (auth()->user()->hasRole('admin'))
                     <td>
                         <form id="delete-form-{{ $pasien->id }}" action="{{ route('pasien.destroy', $pasien->id) }}" method="POST" style="display: none;">
                             @csrf
@@ -103,6 +107,7 @@
                         </form>
                             <button type="submit" class="btn btn-danger btn-sm"
                                 onclick="confirmDelete({{ $pasien->id }})">Hapus</button>
+
                                 <script>
                                     function confirmDelete(id) {
                                         Swal.fire({
@@ -126,6 +131,8 @@
                             Edit
                         </button>
                     </td>
+                       @endif
+
                 </tr>
 
                 <!-- Edit Modal -->
@@ -170,13 +177,15 @@
         </table>
         {{ $pasiens->links() }}
     </div>
+    @if (auth()->user()->hasRole('admin'))
     <div class="container">
         <div class="card shadow">
             <div class="card-body">
                 <h1>{{DB::table('pasiens')->count()}}</h1>
             </div>
         </div>
-    </div>
+    </div>                    @endif
+
 
 </body>
 
