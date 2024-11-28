@@ -265,10 +265,9 @@
               <div class="icon">
                 <i class="fas fa-heartbeat"></i>
               </div>
-              <a href="#" class="stretched-link">
-                <h3>Nesciunt Mete</h3>
-              </a>
-              <p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus dolores iure perferendis tempore et consequatur.</p>
+                <h3>Pemeriksaan Kesehatan Rutin</h3>
+              <p>Pemeriksaan fisik umum untuk memantau kesehatan secara keseluruhan, seperti pengukuran tekanan darah, suhu tubuh, dan pemeriksaan fisik lainnya.
+                Pemeriksaan kesehatan berkala untuk mendeteksi masalah kesehatan sejak dini, seperti diabetes, kolesterol tinggi, atau hipertensi</p>
             </div>
           </div><!-- End Service Item -->
 
@@ -278,9 +277,10 @@
                 <i class="fas fa-pills"></i>
               </div>
               <a href="#" class="stretched-link">
-                <h3>Eosle Commodi</h3>
+                <h3>Pengobatan Penyakit Ringan</h3>
               </a>
-              <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque eum hic non ut nesciunt dolorem.</p>
+              <p>Pengobatan untuk penyakit umum seperti flu, batuk, demam, pilek, sakit tenggorokan, dan infeksi saluran pernapasan atas.
+                Pengobatan untuk gangguan pencernaan seperti diare, sakit perut, mual, dan muntah</p>
             </div>
           </div><!-- End Service Item -->
 
@@ -290,7 +290,7 @@
                 <i class="fas fa-hospital-user"></i>
               </div>
               <a href="#" class="stretched-link">
-                <h3>Ledo Markt</h3>
+                <h3>Penyuluhan Kesehatan</h3>
               </a>
               <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id voluptas adipisci eos earum corrupti.</p>
             </div>
@@ -302,7 +302,7 @@
                 <i class="fas fa-dna"></i>
               </div>
               <a href="#" class="stretched-link">
-                <h3>Asperiores Commodit</h3>
+                <h3>Vaksinasi</h3>
               </a>
               <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea fuga sit provident adipisci neque.</p>
               <a href="#" class="stretched-link"></a>
@@ -315,7 +315,7 @@
                 <i class="fas fa-wheelchair"></i>
               </div>
               <a href="#" class="stretched-link">
-                <h3>Velit Doloremque</h3>
+                <h3>Perawatan Luka Ringan</h3>
               </a>
               <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut. Sed animi at autem alias eius labore.</p>
               <a href="#" class="stretched-link"></a>
@@ -328,7 +328,7 @@
                 <i class="fas fa-notes-medical"></i>
               </div>
               <a href="#" class="stretched-link">
-                <h3>Dolori Architecto</h3>
+                <h3>Pemberian Obat-obatan</h3>
               </a>
               <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure. Corrupti recusandae ducimus enim.</p>
               <a href="#" class="stretched-link"></a>
