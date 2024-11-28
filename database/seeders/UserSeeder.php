@@ -1,4 +1,4 @@
-                                                                                    <?php
+<?php
 
 namespace Database\Seeders;
 
@@ -14,13 +14,13 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'agos',
-            'email' => 'agos@gmail.com',
+            'name' => 'admin',
+            'email' => 'admin@gmail.com',
             'password' => '12345678'
         ])->assignRole('admin');
         User::create([
-            'name' => 'wkwk',
-            'email' => 'agos2@gmail.com',
+            'name' => 'user',
+            'email' => 'user@gmail.com',
             'password' => '12345678'
         ])->assignRole('user');
     }
