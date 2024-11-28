@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Pasien;
+use App\Models\RekamMedis;
 
 class HomeController extends Controller
 {
@@ -34,6 +35,11 @@ class HomeController extends Controller
             return view('admin-home', compact('jumlahPasien'));
         }
 
-        return view('home', compact('jumlahPasien'));
+        $diagnosaCount = RekamMedis::selectRaw('kunjungan_id, count(diagnosa) as total')
+                                  ->groupBy('kunjungan_id')
+                                  ->get();
+
+        
+        return view('home', compact('jumlahPasien','diagnosaCount'));
     }
 }
