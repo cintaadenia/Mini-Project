@@ -168,12 +168,37 @@
                 {{ __('Login') }}
             </button>
           </form>
+
+          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+          <script>
+              @if(session('error'))
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Login Gagal',
+                  text: "{{ session('error') }}",
+                  confirmButtonText: 'OK'
+              });
+              @endif
+          </script>
+
           <form class="form-sign-up" style="display: none;" method="POST" action="{{ route('register') }}">
             @csrf
-            <input name="name" placeholder="Name" type="text" required />
-            <input name="email" placeholder="Email Address" type="email" required />
-            <input name="password" placeholder="Password" type="password" required />
-            <input name="password_confirmation" placeholder="Confirm Password" type="password" required />
+            <input name="name" placeholder="Name" type="text"/>
+            @if($errors->has('name'))
+    <small style="color: red;">{{ $errors->first('name') }}</small>
+@endif
+            <input name="email" placeholder="Email Address" type="email"/>
+            @if($errors->has('email'))
+    <small style="color: red;">{{ $errors->first('email') }}</small>
+@endif
+            <input name="password" placeholder="Password" type="password"/>
+            @if($errors->has('password'))
+    <small style="color: red;">{{ $errors->first('password') }}</small>
+@endif
+            <input name="password_confirmation" placeholder="Confirm Password" type="password"/>
+            @if($errors->has('password_confirmation'))
+    <small style="color: red;">{{ $errors->first('password_confirmation') }}</small>
+@endif
             <button type="submit" class="btn btn-primary">
                 {{ __('Register') }}
             </button>
@@ -198,6 +223,35 @@
       });
     });
   </script>
+  <script>
+    @if(session('error'))
+    Swal.fire({
+        icon: 'error',
+        title: 'Registration Failed',
+        text: "{{ session('error') }}",
+        confirmButtonText: 'OK'
+    });
+    @endif
+
+    @if ($errors->any())
+    Swal.fire({
+        icon: 'error',
+        title: 'Validation Errors',
+        html: "<ul>@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>",
+        confirmButtonText: 'OK'
+    });
+    @endif
+
+    @if(session('success'))
+    Swal.fire({
+        icon: 'success',
+        title: 'Success',
+        text: "{{ session('success') }}",
+        confirmButtonText: 'OK'
+    });
+    @endif
+</script>
+
 
 </body>
 </html>
