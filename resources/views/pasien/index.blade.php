@@ -97,11 +97,31 @@
                     <td>{{ $pasien->no_hp }}</td>
                     <td>{{ $pasien->tanggal_lahir }}</td>
                     <td>
-                        <form action="{{ route('pasien.destroy', $pasien->id) }}" method="POST" style="display: inline;">
+                        <form id="delete-form-{{ $pasien->id }}" action="{{ route('pasien.destroy', $pasien->id) }}" method="POST" style="display: none;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
                         </form>
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                onclick="confirmDelete({{ $pasien->id }})">Hapus</button>
+                                <script>
+                                    function confirmDelete(id) {
+                                        Swal.fire({
+                                            title: 'Apakah Anda yakin?',
+                                            text: "Data ini akan dihapus secara permanen!",
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'Ya, hapus!',
+                                            cancelButtonText: 'Batal'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                // Submit form hapus
+                                                document.getElementById('delete-form-' + id).submit();
+                                            }
+                                        });
+                                    }
+                                </script>
                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $pasien->id }}">
                             Edit
                         </button>
@@ -149,6 +169,13 @@
             </tbody>
         </table>
         {{ $pasiens->links() }}
+    </div>
+    <div class="container">
+        <div class="card shadow">
+            <div class="card-body">
+                <h1>{{DB::table('pasiens')->count()}}</h1>
+            </div>
+        </div>
     </div>
 
 </body>

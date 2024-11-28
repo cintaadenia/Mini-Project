@@ -152,8 +152,8 @@
             <div class="stats-item d-flex align-items-center w-100 h-100">
               <i class="fas fa-user-md flex-shrink-0"></i>
               <div>
-                <span data-purecounter-start="0" data-purecounter-end="25" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Doctors</p>
+                <span data-purecounter-start="0" data-purecounter-end="{{DB::table('dokters')->count()}}" data-purecounter-duration="1" class="purecounter"></span>
+                <p style="font-weight: bold">Doctors</p>
               </div>
             </div>
           </div><!-- End Stats Item -->
@@ -163,8 +163,8 @@
               <i class="bi bi-hospital"></i> <!-- Ikon untuk pasien -->
               <div>
                 <!-- Menampilkan jumlah pasien -->
-                <span>{{ DB::table('pasiens')->count() }}</span> 
-                <p>Jumlah Pasien</p>
+                <span data-purecounter-start="0" data-purecounter-end="{{DB::table('pasiens')->count()}}" data-purecounter-duration="1" class="purecounter"></span>
+                <p style="font-weight: bold">Jumlah Pasien</p>
               </div>
             </div>
           </div>
@@ -175,7 +175,7 @@
               <i class="fas fa-flask flex-shrink-0"></i>
               <div>
                 <span data-purecounter-start="0" data-purecounter-end="{{DB::table('obats')->count()}}" data-purecounter-duration="1" class="purecounter">{{DB::table('obats')->count()}}</span>
-                <p>Research Labs</p>
+                <p style="font-weight: bold">Obat</p>
               </div>
             </div>
           </div><!-- End Stats Item -->
@@ -185,7 +185,7 @@
               <i class="fas fa-award flex-shrink-0"></i>
               <div>
                 <span data-purecounter-start="0" data-purecounter-end="150" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Awards</p>
+                <p style="font-weight: bold">Awards</p>
               </div>
             </div>
           </div><!-- End Stats Item -->

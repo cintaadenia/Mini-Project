@@ -20,12 +20,15 @@
                 Swal.fire('Success', '{{ session('success') }}', 'success');
             </script>
             @endif
+        
 
-
+            @if (auth()->user()->hasRole('admin'))
+            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="addModal">
+                + Tambah Dokter
+            </button>
+                    @endif
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addModal">
-            + Tambah Dokter
-        </button>
+
 
         <div class="row mb-3">
             <div class="col-md-6">
@@ -98,7 +101,10 @@
                     <th>Nama</th>
                     <th>Spesialis</th>
                     <th>Phone</th>
+                    @if (auth()->user()->hasRole('admin'))
                     <th>Aksi</th>
+                    @endif
+
                 </thead>
                 <tbody>
                     @foreach ($dokters as $dokter)
@@ -106,19 +112,40 @@
                         <td>{{ $dokter->nama }}</td>
                         <td>{{ $dokter->spesialis }}</td>
                         <td>{{ $dokter->no_hp }}</td>
+                        @if (auth()->user()->hasRole('admin'))
                         <td>
-                            <form action="{{ route('dokter.destroy', $dokter->id) }}" method="POST" style="display: inline;">
+                            <form id="delete-form-{{$dokter->id}}" action="{{ route('dokter.destroy', $dokter->id) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete this doctor?');">
-                                    Delete
-                                </button>
                             </form>
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                        onclick="confirmDelete({{ $dokter->id }})">Hapus</button>
+                                        <script>
+                                            function confirmDelete(id) {
+                                                Swal.fire({
+                                                    title: 'Apakah Anda yakin?',
+                                                    text: "Data ini akan dihapus secara permanen!",
+                                                    icon: 'warning',
+                                                    showCancelButton: true,
+                                                    confirmButtonColor: '#3085d6',
+                                                    cancelButtonColor: '#d33',
+                                                    confirmButtonText: 'Ya, hapus!',
+                                                    cancelButtonText: 'Batal'
+                                                }).then((result) => {
+                                                    if (result.isConfirmed) {
+                                                        // Submit form hapus
+                                                        document.getElementById('delete-form-' + id).submit();
+                                                    }
+                                                });
+                                            }
+                                        </script>
                             <button type="button" class="btn btn-outline-warning btn-sm editDokterBtn" data-id="{{ $dokter->id }}"
                                 data-bs-toggle="modal" data-bs-target="#editDokterModal">
                                 Edit
                             </button>
                         </td>
+                    @endif
+
                     </tr>
                     <div class="modal fade" id="editDokterModal" tabindex="-1" aria-labelledby="editDokterModalLabel" aria-hidden="true">
                         <div class="modal-dialog">

@@ -60,7 +60,7 @@
                                     <select name="kunjungan_id" id="kunjungan_id" class="form-control">
                                         <option>--- Pasien ---</option>
                                         @foreach ($Rekmed as $rek)
-                                        <option value="{{$rek->pasien_id}}">{{$rek->pasien->nama}}</option>
+                                        <option value="{{$rek->id}}">{{$rek->pasien->nama}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -101,11 +101,31 @@
                     <td>{{ $resep->kunjungan->pasien->nama }}</td>
                     <td>{{ $resep->deskripsi }}</td>
                     <td>
-                        <form action="{{ route('resep.destroy', $resep->id) }}" method="POST" style="display: inline;">
+                        <form id="delete-form-{{ $resep->id }}" action="{{ route('resep.destroy', $resep->id) }}" method="POST" style="display: none;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Hapus</button>
                         </form>
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                onclick="confirmDelete({{ $resep->id }})">Hapus</button>
+                                <script>
+                                    function confirmDelete(id) {
+                                        Swal.fire({
+                                            title: 'Apakah Anda yakin?',
+                                            text: "Data ini akan dihapus secara permanen!",
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'Ya, hapus!',
+                                            cancelButtonText: 'Batal'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                // Submit form hapus
+                                                document.getElementById('delete-form-' + id).submit();
+                                            }
+                                        });
+                                    }
+                                </script>
                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $resep->id }}">
                             Edit
                         </button>
@@ -128,9 +148,11 @@
                                         <label for="kunjungan" class="col-sm-2 col-form-label">Kunjungan</label>
                                         <div class="col-sm-10">
                                             <select name="kunjungan_id" id="kunjungan_id" class="form-control">
-                                                <option value="{{$resep->kunjungan_id}}">{{$resep->kunjungan->pasien->nama}}</option>
+                                                <option value="{{$resep->kunjungan_id}}" selected>{{$resep->kunjungan->pasien->nama}}</option>
                                                 @foreach ($Rekmed as $rm)
+                                                @if ($rm->id !== $resep->kunjungan_id)
                                                 <option value="{{$rm->pasien_id}}">{{$rm->pasien->nama}}</option>
+                                                @endif
                                                 @endforeach
                                             </select>
                                         </div>

@@ -118,11 +118,31 @@
                     <td>{{ $kunjungan->dokter->nama }}</td>
                     <td>{{ $kunjungan->tanggal_kunjungan }}</td>
                     <td>
-                        <form action="{{ route('kunjungan.destroy', $kunjungan->id) }}" method="POST" style="display: inline;">
+                        <form id="delete-form-{{ $kunjungan->id }}" action="{{ route('kunjungan.destroy', $kunjungan->id) }}" method="POST" style="display: none;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
                         </form>
+                            <button type="submit" class="btn btn-danger btn-sm"
+                                onclick="confirmDelete({{ $kunjungan->id }})">Hapus</button>
+                                <script>
+                                    function confirmDelete(id) {
+                                        Swal.fire({
+                                            title: 'Apakah Anda yakin?',
+                                            text: "Data ini akan dihapus secara permanen!",
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'Ya, hapus!',
+                                            cancelButtonText: 'Batal'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                // Submit form hapus
+                                                document.getElementById('delete-form-' + id).submit();
+                                            }
+                                        });
+                                    }
+                                </script>
                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $kunjungan->id }}">
                             Edit
                         </button>
@@ -145,9 +165,11 @@
                                         <label for="pasien" class="col-sm-2 col-form-label">Pasien</label>
                                         <div class="col-sm-10">
                                             <select name="pasien_id" id="pasien_id" class="form-control">
-                                                <option>--- Pasien ---</option>
+                                                <option value="{{$kunjungan->pasien_id}}" selected>{{$kunjungan->pasien->nama}}</option>
                                                 @foreach ($pasiens as $pas)
-                                                <option value="{{$pas->id}}" {{ $kunjungan->pasien_id == $pas->id ? 'selected' : '' }}>{{$pas->nama}}</option>
+                                                    @if ($pas->id !== $kunjungan->pasien_id)
+                                                    <option value="{{$pas->id}}" {{ $kunjungan->pasien_id == $pas->id ? 'selected' : '' }}>{{$pas->nama}}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
@@ -156,9 +178,11 @@
                                         <label for="dokter" class="col-sm-2 col-form-label">Dokter</label>
                                         <div class="col-sm-10">
                                             <select name="dokter_id" id="dokter_id" class="form-control">
-                                                <option>--- Dokter ---</option>
+                                                <option value="{{$kunjungan->dokter_id}}" selected>{{$kunjungan->dokter->nama}}</option>
                                                 @foreach ($dokters as $dok)
-                                                <option value="{{$dok->id}}" {{ $kunjungan->dokter_id == $dok->id ? 'selected' : '' }}>{{$dok->nama}}</option>
+                                                    @if ($dok->id !== $kunjungan->dokter_id)
+                                                    <option value="{{$dok->id}}" {{ $kunjungan->dokter_id == $dok->id ? 'selected' : '' }}>{{$dok->nama}}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </div>
