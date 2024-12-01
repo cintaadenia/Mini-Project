@@ -8,23 +8,29 @@ use Illuminate\Http\Request;
 class PasienController extends Controller
 {
     public function index(Request $request)
-    {
-        if(auth()->user()->hasRole('admin')){
-            $layout = 'layouts.sidebar';
-            $content = 'side';
-        }else{
-            $layout = 'layouts.app';
-            $content = 'content';
-        }
-        $search = $request->input('search');
-        $pasiens = Pasien::when($search, function ($query, $search) {
-            $query->where('nama', 'like', "%$search%")
-                  ->orWhere('alamat', 'like', "%$search%")
-                  ->orWhere('no_hp', 'like', "%$search%");
-        })->paginate(10);
-
-        return view('pasien.index', compact('pasiens','layout','content'));
+{
+    // Tentukan layout dan content berdasarkan peran pengguna
+    if (auth()->user()->hasRole('admin')) {
+        $layout = 'layouts.sidebar';
+        $content = 'side';
+        $pasiens = Pasien::query(); // Admin dapat melihat semua pasien
+    } else {
+        $layout = 'layouts.app';
+        $content = 'content';
+        $pasiens = Pasien::where('user_id', auth()->id()); // Non-admin hanya dapat melihat pasien mereka
     }
+
+    // Tambahkan pencarian
+    $search = $request->input('search');
+    $pasiens = $pasiens->when($search, function ($query, $search) {
+        $query->where('nama', 'like', "%$search%")
+              ->orWhere('alamat', 'like', "%$search%")
+              ->orWhere('no_hp', 'like', "%$search%");
+    })->paginate(10);
+
+    return view('pasien.index', compact('pasiens', 'layout', 'content'));
+}
+
 
 
     public function create()
@@ -33,17 +39,23 @@ class PasienController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'alamat' => 'required|string',
-            'no_hp' => 'required|unique:pasiens',
-            'tanggal_lahir' => 'required|date',
-        ]);
+{
+    $request->validate([
+        'nama' => 'required|string|max:255',
+        'alamat' => 'required|string',
+        'no_hp' => 'required|unique:pasiens',
+        'tanggal_lahir' => 'required|date',
+    ]);
 
-        Pasien::create($request->all());
-        return redirect()->route('pasien.index')->with('success', 'Data pasien berhasil ditambahkan.');
-    }
+    // Tambahkan `user_id` ke data yang disimpan
+    $data = $request->all();
+    $data['user_id'] = auth()->id();
+
+    Pasien::create($data);
+
+    return redirect()->route('pasien.index')->with('success', 'Data pasien berhasil ditambahkan.');
+}
+
 
     public function show(Pasien $pasien)
     {
