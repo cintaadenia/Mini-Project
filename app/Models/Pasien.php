@@ -9,11 +9,15 @@ class Pasien extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama', 'alamat', 'no_hp', 'tanggal_lahir'];
+    protected $fillable = ['nama', 'alamat', 'no_hp', 'tanggal_lahir', 'user_id'];
 
     public function kunjungan()
     {
         return $this->hasMany(Kunjungan::class, 'pasien_id', 'id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
 

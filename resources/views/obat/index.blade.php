@@ -54,10 +54,10 @@
                             @csrf
                             <div class="modal-body">
                                 <div class="mb-3 row">
-                                    <label for="resep" class="col-sm-2 col-form-label">Resep</label>
+                                    <label for="resep" class="col-sm-2 col-form-label">nama</label>
                                     <div class="col-sm-10">
                                         <select name="resep_id" id="resep_id" class="form-control">
-                                            <option>--- Resep ---</option>
+                                            <option>--- nama pasien ---</option>
                                             @foreach ($resep as $res)
                                                 <option value="{{ $res->id }}">{{ $res->kunjungan->pasien->nama }}
                                                 </option>
@@ -120,7 +120,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Resep</th>
+                        <th>nama pasien</th>
                         <th>Nama Obat</th>
                         <th>Jumlah</th>
                         <th>Dosis</th>
@@ -130,7 +130,7 @@
                 <tbody>
                     @foreach ($obats as $obt)
                         <tr>
-                            <td>{{ $obt->resep_id }}</td>
+                            <td>{{ $obt->resep->kunjungan->pasien->nama }}</td>
                             <td>{{ $obt->nama_obat }}</td>
                             <td>{{ $obt->jumlah }}</td>
                             <td>{{ $obt->dosis }}</td>

@@ -7,7 +7,6 @@ use App\Models\Kunjungan;
 use App\Models\Pasien;
 use Illuminate\Container\Attributes\DB;
 use Illuminate\Http\Request;
-
 use function Laravel\Prompts\select;
 
 class RekamMedisController extends Controller

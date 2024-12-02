@@ -58,7 +58,7 @@
                         @csrf
                         <div class="modal-body">
                             <div class="mb-3 row">
-                                <label for="kunjungan" class="col-sm-2 col-form-label">Kunjungan</label>
+                                <label for="kunjungan" class="col-sm-2 col-form-label">pasien</label>
                                 <div class="col-sm-10">
                                     <select name="kunjungan_id" id="kunjungan_id" class="form-control">
                                         <option>--- Pilih Pasien ---</option>
@@ -114,7 +114,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Kunjungan</th>
+                    <th>pasien</th>
                     <th>Diagnosa</th>
                     <th>Tindakan</th>
                     <th>Gambar</th>
@@ -131,6 +131,7 @@
                     <td>{{ $rm->diagnosa }}</td>
                     <td>{{ $rm->tindakan }}</td>
                     <td><img src="{{ asset('/storage/rekam_medis/'.$rm->image) }}" height="100px" width="80px" alt="gambar"></td>
+                    @if (auth()->user()->hasRole('admin'))
                     <td>
                         <form id="delete-form-{{ $rm->id }}" action="{{ route('rekam_medis.destroy', $rm->id) }}" method="POST" style="display: none;">
                             @csrf
@@ -161,8 +162,8 @@
                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $rm->id }}">
                             Edit
                         </button>
-                    </td>                 
-                    
+                    </td>    
+                    @endif             
                 </tr>
 
                 <!-- Edit Modal -->
@@ -178,7 +179,7 @@
                                 @method('PUT')
                                 <div class="modal-body">
                                     <div class="mb-3 row">
-                                        <label for="kunjungan" class="col-sm-2 col-form-label">Kunjungan</label>
+                                        <label for="kunjungan" class="col-sm-2 col-form-label">pasien</label>
                                         <div class="col-sm-10">
                                             <select name="kunjungan_id" id="kunjungan_id" class="form-control">
                                                 <option value="{{ $rm->kunjungan_id }}" selected>{{ $rm->kunjungan->pasien->nama }}</option>

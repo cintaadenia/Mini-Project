@@ -114,8 +114,7 @@
 
         <div class="row gy-4">
           <div class="col-lg-6 position-relative align-self-start" data-aos="fade-up" data-aos-delay="100">
-            <img src="medicio/assets/img/about.jpg" class="img-fluid" alt="">
-            <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox pulsating-play-btn"></a>
+            <img src="medicio/assets/img/allcare2.webp" class="img-fluid" alt="">
           </div>
           <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="200">
             <h3>AllCare</h3>
@@ -224,9 +223,7 @@
               <div class="icon">
                 <i class="fas fa-pills"></i>
               </div>
-              <a href="#" class="stretched-link">
                 <h3>Pengobatan Penyakit Ringan</h3>
-              </a>
               <p>Pengobatan untuk penyakit umum seperti flu, batuk, demam, pilek, sakit tenggorokan, dan infeksi saluran pernapasan atas.
                 Pengobatan untuk gangguan pencernaan seperti diare, sakit perut, mual, dan muntah</p>
             </div>
@@ -237,9 +234,7 @@
               <div class="icon">
                 <i class="fas fa-hospital-user"></i>
               </div>
-              <a href="#" class="stretched-link">
                 <h3>Penyuluhan Kesehatan</h3>
-              </a>
               <p>Memberikan edukasi tentang gaya hidup sehat, pola makan yang baik, pentingnya olahraga, manajemen stres, serta pencegahan penyakit.
                 Konseling mengenai kebiasaan sehat, seperti berhenti merokok, mengurangi konsumsi alkohol, dan pola tidur yang baik.</p>
             </div>
@@ -250,12 +245,9 @@
               <div class="icon">
                 <i class="fas fa-dna"></i>
               </div>
-              <a href="#" class="stretched-link">
                 <h3>Vaksinasi</h3>
-              </a>
               <p>Penyediaan vaksin untuk mencegah penyakit menular, seperti vaksinasi untuk anak-anak (misalnya vaksin DPT, polio) dan vaksin untuk orang dewasa (seperti vaksin flu, vaksin hepatitis, vaksin tetanus).
                 Vaksinasi untuk perjalanan internasional (misalnya vaksin hepatitis A, B, atau vaksin demam tifoid)</p>
-              <a href="#" class="stretched-link"></a>
             </div>
           </div><!-- End Service Item -->
 
@@ -264,12 +256,9 @@
               <div class="icon">
                 <i class="fas fa-wheelchair"></i>
               </div>
-              <a href="#" class="stretched-link">
                 <h3>Perawatan Luka Ringan</h3>
-              </a>
               <p>Pengobatan dan perawatan untuk luka ringan, lecet, atau memar.
                 Penanganan cedera ringan seperti keseleo atau patah tulang yang tidak membutuhkan perawatan rumah sakit</p>
-              <a href="#" class="stretched-link"></a>
             </div>
           </div><!-- End Service Item -->
 
@@ -278,11 +267,8 @@
               <div class="icon">
                 <i class="fas fa-notes-medical"></i>
               </div>
-              <a href="#" class="stretched-link">
                 <h3>Pemberian Obat-obatan</h3>
-              </a>
               <p>Pemberian resep obat untuk mengobati kondisi medis yang umum seperti infeksi, nyeri, alergi, atau gangguan lainnya.</p>
-              <a href="#" class="stretched-link"></a>
             </div>
           </div><!-- End Service Item -->
 

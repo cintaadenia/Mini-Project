@@ -29,7 +29,7 @@ class JadwalPraktekController extends Controller
                 $query->whereHas('dokter', function ($query) use ($search) {
                     $query->where('nama', 'like', "%{$search}%");
                 })->orWhere('hari', 'like', "%{$search}%");
-            })
+            }) 
             ->when($startTime, function ($query, $startTime) {
                 $query->where('jam_mulai', '>=', $startTime);
             })
