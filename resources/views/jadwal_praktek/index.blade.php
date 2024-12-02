@@ -97,7 +97,6 @@
                                     </script>
                     </td>
                 </tr>
-                @endforeach
             </tbody>
         </table>
 
@@ -203,6 +202,7 @@
             </form>
         </div>
     </div>
+    @endforeach
 
     <script>
         // Edit button handler
