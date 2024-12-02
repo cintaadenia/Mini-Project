@@ -1,5 +1,5 @@
-@extends('layouts.app')
-@section('content')
+@extends('layouts.index')
+@section('index')
     <div class="container-fluid">
 
         <div class="page-header min-height-300 border-radius-xl mt-4" style=""><span
