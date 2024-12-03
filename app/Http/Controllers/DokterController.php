@@ -12,7 +12,7 @@ class DokterController extends Controller
     public function index(Request $request)
 {
 
-    if(auth()->user()->hasRole('admin')){
+    if(auth()->user()->hasRole('admin|dokter')){
         $layout = 'layouts.sidebar';
         $content = 'side';
     }else{

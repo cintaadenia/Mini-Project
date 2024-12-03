@@ -1,5 +1,6 @@
-@extends('layouts.index')
 @section('index')
+@extends('layouts.app')
+
     <div class="container-fluid">
 
         <div class="page-header min-height-300 border-radius-xl mt-4" style=""><span
@@ -54,4 +55,5 @@
         <!-- Chart.js CDN -->
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+        
     @endsection

@@ -13,8 +13,9 @@
                 {{ session('status') }}
               </div>
             @endif
+            @if (auth()->user()->hasRole('admin'))
             <h1>Anda adalah ADMIN</h1>
-
+             
             <div class="mt-4">
               <h5>Statistik</h5>
               <!-- Tabel Data -->
@@ -58,6 +59,10 @@
                 <canvas id="statisticsChart" width="400" height="200"></canvas>
               </div>
             </div>
+            @endif
+            @if (auth()->user()->hasRole('dokter'))
+            <h1>Anda adalah Dokter</h1>
+            @endif
           </div>
         </div>
       </div>
