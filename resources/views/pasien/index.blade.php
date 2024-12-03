@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Pasien</title>
 </head>
-
+    
 <body>
     <div class="container mt-5">
         <h1>Daftar Pasien</h1>
