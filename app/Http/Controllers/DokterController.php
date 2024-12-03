@@ -41,16 +41,26 @@ class DokterController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'spesialis' => 'required|string|max:255',
-            'no_hp' => 'required|unique:dokters,no_hp',
-        ]);
+{
+    $request->validate([
+        'nama' => 'required|string|max:255',
+        'spesialis' => 'required|string|max:255',
+        'no_hp' => 'required|unique:dokters,no_hp',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Add image validation
+    ]);
 
-        Dokter::create($request->all());
-        return redirect()->route('dokter.index')->with('success', 'Data dokter berhasil ditambahkan.');
+    $data = $request->all();
+
+    // Handle the image upload if provided
+    if ($request->hasFile('image')) {
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->move(public_path('storage/dokters'), $imageName);
+        $data['image'] = $imageName;
     }
+
+    Dokter::create($data);
+    return redirect()->route('dokter.index')->with('success', 'Data dokter berhasil ditambahkan.');
+}
 
     public function show(Dokter $dokter)
     {
@@ -64,20 +74,33 @@ class DokterController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $dokter = Dokter::findOrFail($id);
+{
+    $dokter = Dokter::findOrFail($id);
 
-        $request->validate([
-            'nama' => 'required',
-            'spesialis' => 'required',
-            'no_hp' => 'required'
-        ]);
-        // Update the doctor
-        $dokter->update($request->all());
+    $request->validate([
+        'nama' => 'required',
+        'spesialis' => 'required',
+        'no_hp' => 'required',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Add image validation
+    ]);
 
-        // Return success message and redirect to the list page
-        return redirect()->route('dokter.index')->with('success', 'Data dokter berhasil diperbarui.');
+    $data = $request->all();
+
+    // Handle image upload if a new image is uploaded
+    if ($request->hasFile('image')) {
+        // Delete the old image if it exists
+        if ($dokter->image && file_exists(public_path('storage/dokters/'.$dokter->image))) {
+            unlink(public_path('storage/dokters/'.$dokter->image));
+        }
+
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->move(public_path('storage/dokters'), $imageName);
+        $data['image'] = $imageName;
     }
+
+    $dokter->update($data);
+    return redirect()->route('dokter.index')->with('success', 'Data dokter berhasil diperbarui.');
+}
 
     public function destroy($id)
     {
