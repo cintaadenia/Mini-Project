@@ -37,7 +37,7 @@
             box-sizing: border-box;
         }
 
-        header {
+        .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -51,15 +51,23 @@
             z-index: 10;
         }
 
-        header h1 {
+        .navbar h1 {
             color: var(--main-color);
             font-size: 3rem;
             font-weight: 900;
             margin: 0;
         }
 
+        .navbar ul {
+            display: flex;
+            text-decoration: none;
+        }
 
-        header nav a {
+        .navbar ul li {
+            display: inline-block;
+        }
+
+        .navbar ul li a {
             margin: 0 2rem;
             text-decoration: none;
             color: #333;
@@ -71,7 +79,7 @@
             display: flex;
             justify-content: space-evenly;
             align-items: center;
-            padding: 164px 40px 0 40px;
+            padding: 120px 40px 0 40px;
             background-color: #f5f5f5;
             overflow: hidden;
             position: relative;
@@ -80,7 +88,6 @@
         .hero-content {
             display: flex;
             flex-direction: column;
-            padding: 96px 0;
         }
 
         .hero h2 {
@@ -117,24 +124,27 @@
         }
 
         .hero img {
+            height: 900px;
             width: auto;
-            height: 600px;
+            object-fit: cover;
             margin-left: 0;
+        }
+
+        .page-doctor {
+            padding: 148px 0 2rem;
         }
 
         .section-title {
             text-align: center;
-            margin: 6rem 0 2rem;
         }
 
         .section-title h3 {
             font-size: 4rem;
-            margin: 0;
+            margin: 1rem;
         }
 
         .section-title p {
             font-size: 2rem;
-            color: #666;
         }
 
         .doctors {
@@ -180,7 +190,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 10rem;
+            padding: 10rem 168px 0;
             text-align: center;
         }
 
@@ -282,46 +292,196 @@
             scroll-behavior: smooth;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1366px) {
+            .navbar h1 {
+                font-size: 2rem;
+                /* Mengurangi ukuran font h1 */
+            }
+
+            .navbar ul li a {
+                font-size: 1.2rem;
+                /* Mengurangi ukuran font pada link navigasi */
+                margin: 0 1rem;
+                /* Mengurangi margin antar link */
+            }
+
+            .navbar {
+                padding: 1rem 1.5rem;
+                /* Mengurangi padding pada header */
+            }
+
             .hero {
-                flex-direction: column;
-                text-align: center;
+                padding: 96px 30px 0 30px;
+                /* Mengurangi padding untuk ruang lebih efisien */
+            }
+
+            .hero-content {
+                padding: 60px 0;
+                /* Mengurangi padding vertikal */
+            }
+
+            .hero h2 {
+                font-size: 4.5rem;
+                /* Mengurangi ukuran font h2 */
+            }
+
+            .hero p {
+                font-size: 1.6rem;
+                /* Mengurangi ukuran font paragraf */
+            }
+
+            .hero a {
+                padding: 0.8rem 3rem;
+                /* Mengurangi padding pada tombol */
+                font-size: 0.9rem;
+                /* Mengurangi ukuran font pada tombol */
             }
 
             .hero img {
-                margin-top: 20px;
+                height: 600px;
+                width: auto;
+                object-fit: cover;
+                margin-left: 0;
             }
 
-            .doctors {
-                flex-direction: column;
-                align-items: center;
+            .page-doctor {
+                padding: 96px 0 0;
+            }
+
+            /* Section Title */
+            .section-title h3 {
+                font-size: 2.5rem;
+                /* Mengurangi ukuran font judul */
+            }
+
+            .section-title p {
+                font-size: 1.3rem;
+                /* Mengurangi ukuran font paragraf */
+            }
+
+            /* Doctors Section */
+            .doctor-group {
+                padding: 0 6rem;
+                /* Mengurangi padding pada grup dokter */
             }
 
             .doctor-card {
-                width: 80%;
-                margin: 10px 0;
+                width: 200;
+                /* Mengurangi lebar kartu dokter */
+                margin: 0.5rem 1rem;
+                /* Mengurangi margin antar kartu dokter */
+                padding: 15px;
+                /* Mengurangi padding dalam kartu dokter */
             }
 
-            .form-section form input {
-                width: 80%;
+            .doctor-card h4 {
+                font-size: 1.3rem;
+                /* Mengurangi ukuran font nama dokter */
             }
+
+            .doctor-card p {
+                font-size: 1rem;
+                /* Mengurangi ukuran font deskripsi dokter */
+            }
+
+            /* Form Section */
+            .form-section {
+                padding: 5rem 4rem 0;
+                justify-content: space-evenly;
+            }
+
+            .form-left {
+                padding: 4rem 2rem;
+                /* Mengurangi padding pada form-left */
+            }
+
+            .form-right {
+                display: flex;
+                flex-direction: column;
+                padding: 1rem 2rem;
+                margin: 4rem 2rem;
+                background: #87c5d4;
+                border-radius: 32px;
+                justify-content: center;
+                align-items: center;
+                width: 500px;
+            }
+
+            .form-section h3 {
+                font-size: 2.5rem;
+                /* Mengurangi ukuran font judul form */
+            }
+
+            .form-section p {
+                font-size: 1.3rem;
+            }
+
+            .form-section input {
+                width: 450px;
+                /* Membuat input mengisi lebar 100% */
+                padding: 0.8rem 1.8rem;
+                /* Mengurangi padding dalam input */
+                font-size: 1rem;
+                /* Mengurangi ukuran font dalam input */
+            }
+
+            .form-section form button {
+                width: 150px;
+                /* Tombol mengisi 60% lebar */
+                padding: 0.8rem 0.8rem;
+                /* Mengurangi padding tombol */
+                font-size: 1rem;
+                /* Mengurangi ukuran font tombol */
+            }
+
+            /* Patient Info Section */
+            .patient-info {
+                padding: 4rem 6rem;
+                /* Mengurangi padding pada patient-info */
+            }
+
+            .patient-info h3 {
+                font-size: 3rem;
+                /* Mengurangi ukuran font judul patient-info */
+            }
+
+            .patient-info p {
+                font-size: 1.6rem;
+                /* Mengurangi ukuran font deskripsi patient-info */
+            }
+
+            .patient-card {
+                width: 500px;
+                /* Membuat kartu pasien mengisi lebar penuh */
+                padding: 15px;
+                /* Mengurangi padding pada kartu pasien */
+                font-size: 1.6rem;
+                /* Mengurangi ukuran font dalam kartu pasien */
+            }
+
+            /* Icon dalam patient-card */
+            .patient-card i {
+                font-size: 1.6rem;
+                /* Mengurangi ukuran icon */
+            }
+
         }
     </style>
 </head>
 
 <body>
-    <header>
+    {{-- <header>
         <h1>
             KLINIK
         </h1>
         <nav>
-            <a href="#section-title">
+            <a href="#page-2">
                 Dokter
             </a>
             <a href="#patien-info">
                 Pasien
             </a>
-            <a href="#">
+            <a href="#form-section">
                 Kunjungan
             </a>
             <a href="#">
@@ -329,7 +489,27 @@
             </a>
         </nav>
         <div class="gap"></div>
-    </header>
+    </header> --}}
+    <nav class="navbar">
+        <h1>
+            KLINIK
+        </h1>
+        <ul>
+            <li><a href="#page-doctor">
+                    Dokter
+                </a></li>
+            <li><a href="#form-section">
+                    Pasien
+                </a></li>
+            <li><a href="#patien-info">
+                    Kunjungan
+                </a></li>
+            <li><a href="#">
+                    Diagnosa
+                </a></li>
+        </ul>
+        <div class="gap"></div>
+    </nav>
     <section id="hero" class="hero">
         <div class="hero-content">
             <div>
@@ -351,71 +531,73 @@
             <img alt="Dokter memegang clipboard" src="{{ asset('Medicio/assets/img/doctorphoto.png') }}" />
         </div>
     </section>
-    <section id="section-title" class="section-title">
-        <h3>
-            Tim Dokter Spesialis Kami
-        </h3>
-        <p>
-            Kami menghadirkan layanan kesehatan terbaik dengan <br> dukungan dokter berpengalaman di bidangnya.
-        </p>
-    </section>
-    <section id="doctors" class="doctors">
-        <div class="doctor-group">
-            <div class="doctor-card">
-                <img alt="Dr. Andi Wijaya, Sp.PD" height="200"
-                    src="https://storage.googleapis.com/a1aa/image/k7Q1hnfWuKVtIi5aWNptzoqk3CHxmZU28e1NbYwdqDkCwD3TA.jpg"
-                    width="200" />
-                <h4>
-                    Dr. Andi Wijaya, Sp.PD
-                </h4>
-                <p>
-                    Dokter Spesialis Penyakit Dalam
-                </p>
-                <p>
-                    Senin - Jumat, 08:00 - 16:00
-                </p>
-            </div>
-            <div class="doctor-card">
-                <img alt="Dr. Siti Nurhaliza, Sp.A" height="200"
-                    src="https://storage.googleapis.com/a1aa/image/M52TCe3fgnltnk06sAx7t5HXQAKScCmf7o0lBNdBt7UIgHunA.jpg"
-                    width="200" />
-                <h4>
-                    Dr. Siti Nurhaliza, Sp.A
-                </h4>
-                <p>
-                    Dokter Spesialis Anak
-                </p>
-                <p>
-                    Senin - Sabtu, 09:00 - 17:00
-                </p>
-            </div>
-            <div class="doctor-card">
-                <img alt="Dr. Bagus Pratama, Sp.OG" height="200"
-                    src="https://storage.googleapis.com/a1aa/image/J2ieJP8BF9U9OidzseW75RhTS3qjCsdYSvkxlSjKNsVGwD3TA.jpg"
-                    width="200" />
-                <h4>
-                    Dr. Bagus Pratama, Sp.OG
-                </h4>
-                <p>
-                    Dokter Spesialis Kandungan
-                </p>
-                <p>
-                    Senin - Jumat, 10:00 - 14:00
-                </p>
-            </div>
-            <div class="doctor-card">
-                <img alt="Dr. Rina Suhartini, Sp.KK" height="200"
-                    src="https://storage.googleapis.com/a1aa/image/CQRA6lv8TC7AOx37XgsYcuF0oDdz486bRjCpYfgl8DRE4h7JA.jpg"
-                    width="200" />
-                <h4>
-                    Dr. Rina Suhartini, Sp.KK
-                </h4>
-                <p>
-                    Dokter Spesialis Kulit dan Kelamin
-                </p>
-                <p>
-                    Selasa, Kamis, Sabtu, 13:00 - 19:00
-                </p>
+    <section id="page-doctor" class="page-doctor">
+        <div id="section-title" class="section-title">
+            <h3>
+                Tim Dokter Spesialis Kami
+            </h3>
+            <p>
+                Kami menghadirkan layanan kesehatan terbaik dengan <br> dukungan dokter berpengalaman di bidangnya.
+            </p>
+        </div>
+        <div id="doctors" class="doctors">
+            <div class="doctor-group">
+                <div class="doctor-card">
+                    <img alt="Dr. Andi Wijaya, Sp.PD" height="200"
+                        src="https://storage.googleapis.com/a1aa/image/k7Q1hnfWuKVtIi5aWNptzoqk3CHxmZU28e1NbYwdqDkCwD3TA.jpg"
+                        width="200" />
+                    <h4>
+                        Dr. Andi Wijaya, Sp.PD
+                    </h4>
+                    <p>
+                        Dokter Spesialis Penyakit Dalam
+                    </p>
+                    <p>
+                        Senin - Jumat, 08:00 - 16:00
+                    </p>
+                </div>
+                <div class="doctor-card">
+                    <img alt="Dr. Siti Nurhaliza, Sp.A" height="200"
+                        src="https://storage.googleapis.com/a1aa/image/M52TCe3fgnltnk06sAx7t5HXQAKScCmf7o0lBNdBt7UIgHunA.jpg"
+                        width="200" />
+                    <h4>
+                        Dr. Siti Nurhaliza, Sp.A
+                    </h4>
+                    <p>
+                        Dokter Spesialis Anak
+                    </p>
+                    <p>
+                        Senin - Sabtu, 09:00 - 17:00
+                    </p>
+                </div>
+                <div class="doctor-card">
+                    <img alt="Dr. Bagus Pratama, Sp.OG" height="200"
+                        src="https://storage.googleapis.com/a1aa/image/J2ieJP8BF9U9OidzseW75RhTS3qjCsdYSvkxlSjKNsVGwD3TA.jpg"
+                        width="200" />
+                    <h4>
+                        Dr. Bagus Pratama, Sp.OG
+                    </h4>
+                    <p>
+                        Dokter Spesialis Kandungan
+                    </p>
+                    <p>
+                        Senin - Jumat, 10:00 - 14:00
+                    </p>
+                </div>
+                <div class="doctor-card">
+                    <img alt="Dr. Rina Suhartini, Sp.KK" height="200"
+                        src="https://storage.googleapis.com/a1aa/image/CQRA6lv8TC7AOx37XgsYcuF0oDdz486bRjCpYfgl8DRE4h7JA.jpg"
+                        width="200" />
+                    <h4>
+                        Dr. Rina Suhartini, Sp.KK
+                    </h4>
+                    <p>
+                        Dokter Spesialis Kulit dan Kelamin
+                    </p>
+                    <p>
+                        Selasa, Kamis, Sabtu, 13:00 - 19:00
+                    </p>
+                </div>
             </div>
         </div>
     </section>
@@ -472,20 +654,16 @@
     </section>
 </body>
 <script>
-    document.querySelectorAll('nav ul li a').forEach(anchor => {
+    document.querySelectorAll('nav a').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
 
-            // Ambil ID dari anchor yang diklik
-            const targetId = this.getAttribute('href').substring(1);
-
-            // Scroll ke section yang sesuai dengan animasi
-            document.getElementById(targetId).scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
             });
         });
     });
 </script>
+
 
 </html>
