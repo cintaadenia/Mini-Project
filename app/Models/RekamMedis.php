@@ -15,5 +15,12 @@ class RekamMedis extends Model
     {
         return $this->belongsTo(Kunjungan::class);
     }
+    
+    public function images()
+{
+    return $this->hasMany(RekamMedisImage::class);
+}
+
+
 }
 

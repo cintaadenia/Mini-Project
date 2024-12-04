@@ -91,15 +91,16 @@
                             </div>
 
                             <!-- Image Input for Create Modal -->
-                            <div class="mb-3 row">
-                                <label for="image" class="col-sm-2 col-form-label">Image</label>
-                                <div class="col-sm-10">
-                                    <input type="file" class="form-control" id="image" name="image[]" multiple>
+                            <div id="image-container">
+                                <div class="mb-3 row">
+                                    <label for="image" class="col-sm-2 col-form-label">Image</label>
+                                    <div class="col-sm-10">
+                                        <input type="file" class="form-control" id="image" name="images[]">
+                                    </div>
                                 </div>
-                                @error('image')
-                                    <p style="color: red">{{ $message }}</p>
-                                @enderror
                             </div>
+                            <button type="button" class="btn btn-secondary" id="add-image-button">Tambah Gambar</button>
+                            
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -130,7 +131,11 @@
                     <td>{{ $rm->kunjungan->pasien->nama }}</td>
                     <td>{{ $rm->diagnosa }}</td>
                     <td>{{ $rm->tindakan }}</td>
-                    <td><img src="{{ asset('/storage/rekam_medis/'.$rm->image) }}" height="100px" width="80px" alt="gambar"></td>
+                    <td>
+                        @foreach ($rm->images as $image)
+                            <img src="{{ asset('storage/' . $image->image_path) }}" height="100" width="80" alt="Gambar">
+                        @endforeach
+                    </td>                    
                     @if (auth()->user()->hasRole('admin'))
                     <td>
                         <form id="delete-form-{{ $rm->id }}" action="{{ route('rekam_medis.destroy', $rm->id) }}" method="POST" style="display: none;">
@@ -242,6 +247,20 @@
 
     <!-- Bootstrap JS -->
 </body>
+<script>
+    document.getElementById('add-image-button').addEventListener('click', function () {
+        const container = document.getElementById('image-container');
+        const inputGroup = `
+            <div class="mb-3 row">
+                <label for="image" class="col-sm-2 col-form-label">Image</label>
+                <div class="col-sm-10">
+                    <input type="file" class="form-control" name="images[]">
+                </div>
+            </div>`;
+        container.insertAdjacentHTML('beforeend', inputGroup);
+    });
+</script>
+
 
 </html>
 @endsection

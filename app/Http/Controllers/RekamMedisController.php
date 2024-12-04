@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\RekamMedis;
 use App\Models\Kunjungan;
 use App\Models\Pasien;
+use App\Models\RekamMedisImage;
 use Illuminate\Container\Attributes\DB;
 use Illuminate\Http\Request;
 use function Laravel\Prompts\select;
@@ -56,22 +57,27 @@ class RekamMedisController extends Controller
         'kunjungan_id' => 'required|exists:kunjungans,id',
         'diagnosa' => 'required|string',
         'tindakan' => 'required|string',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
-    $data = $request->all();
+    $rekamMedis = RekamMedis::create([
+        'kunjungan_id' => $request->kunjungan_id,
+        'diagnosa' => $request->diagnosa,
+        'tindakan' => $request->tindakan,
+    ]);
 
-    // Handle the image upload
-    if ($request->hasFile('image')) {
-        $imageName = time().'.'.$request->image->extension();
-        $request->image->move(public_path('storage/rekam_medis'), $imageName);
-        $data['image'] = $imageName;
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $image) {
+            $path = $image->store('rekam_medis', 'public');
+            RekamMedisImage::create([
+                'rekam_medis_id' => $rekamMedis->id,
+                'image_path' => $path,
+            ]);
+        }
     }
 
-    RekamMedis::create($data);
-    return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil ditambahkan.');
+    return redirect()->back()->with('success', 'Rekam Medis berhasil ditambahkan!');
 }
-
 
     public function edit(RekamMedis $rekamMedis)
     {
