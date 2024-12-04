@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('dokter', DokterController::class);
     Route::resource('pasien', PasienController::class);
     Route::resource('rekam_medis', RekamMedisController::class);
+    Route::resource('kunjungan', KunjunganController::class);
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -44,7 +45,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('dokter', DokterController::class);
     Route::resource('resep', ResepController::class);
-    Route::resource('kunjungan', KunjunganController::class);
     Route::resource('jadwal_praktek', JadwalPraktekController::class);
     
 });
