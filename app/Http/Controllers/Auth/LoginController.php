@@ -52,6 +52,10 @@ class LoginController extends Controller
             return redirect('/admin');
         }
 
+        if ($user->hasRole('dokter')) {
+            return redirect('/admin'); // Redirect to admin dashboard as requested
+        }
+
         return redirect('/home');
     }
     protected function sendFailedLoginResponse(Request $request)
