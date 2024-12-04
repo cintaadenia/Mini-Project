@@ -12,7 +12,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
         rel="stylesheet">
-
     <style>
         body {
             
@@ -26,7 +25,6 @@
             background-position: right top;
             background-size: 400px;
             
-
             /* Dark blue background for body */
         }
 
@@ -320,7 +318,7 @@
 
         .form-inner form .pass-link a,
         .form-inner form .signup-link a {
-            color: #fa4299;
+          color: rgb(160, 160, 229);
             text-decoration: none;
         }
 
@@ -342,7 +340,8 @@
             width: 300%;
             position: absolute;
             left: -100%;
-            background: -webkit-linear-gradient(right, #e5dfe6, #fa4299, #a445b2, #fa4299);
+            /* background: -webkit-linear-gradient(right, #e5dfe6, #fa4299, #a445b2, #fa4299); */
+            background-color: rgb(160, 160, 229);
             border-radius: 5px;
             transition: all 0.4s ease;
             ;
@@ -511,12 +510,13 @@
                     <div class="slider-tab"></div>
                 </div>
                 <div class="form-inner">
-                    <form action="#" class="login">
+                    <form action="{{route('login')}}" class="login" method="POST">
+                      @csrf
                         <div class="field">
-                            <input type="text" placeholder="Email Address" required>
+                            <input type="text" placeholder="Email Address" name="email" required>
                         </div>
                         <div class="field">
-                            <input type="password" placeholder="Password" required>
+                            <input type="password" placeholder="Password" name="password" required>
                         </div>
                         <div class="pass-link">
                             <a href="#">Forgot password?</a>
@@ -529,19 +529,19 @@
                             Not a member? <a href="">Signup now</a>
                         </div>
                     </form>
-                    <form action="#" class="signup">
+                    <form action="{{route('register')}}" class="signup" method="POST">
+                      @csrf
                       <div class="field">
-                        <i class="bi bi-person-circle"></i>
-                        <input type="text" placeholder="name" required>
+                        <input type="text"  placeholder="name" name="name" required>
                     </div>
                         <div class="field">
-                            <input type="text" placeholder="Email Address" required>
+                            <input type="text" placeholder="Email Address" name="email" required>
                         </div>
                         <div class="field">
-                            <input type="password" placeholder="Password" required>
+                            <input type="password" placeholder="Password" name="password" required>
                         </div>
                         <div class="field">
-                            <input type="password" placeholder="Confirm password" required>
+                            <input type="password" placeholder="Confirm password" name="password_confirmation" required>
                         </div>
                         <div class="field btn">
                             <div class="btn-layer"></div>
