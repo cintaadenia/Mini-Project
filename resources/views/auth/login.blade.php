@@ -510,7 +510,7 @@
                     <div class="slider-tab"></div>
                 </div>
                 <div class="form-inner">
-                    <form action="#" class="login">
+                    <form action="{{route('login')}}" class="login">
                         <div class="field">
                             <input type="text" placeholder="Email Address" name="email" required>
                         </div>
@@ -528,7 +528,7 @@
                             Not a member? <a href="">Signup now</a>
                         </div>
                     </form>
-                    <form action="#" class="signup">
+                    <form action="{{route('register')}}" class="signup">
                       <div class="field">
                         <input type="text"  placeholder="name" name="name" required>
                     </div>
