@@ -28,13 +28,13 @@ Route::middleware('auth')->group(function () {
     Route::resource('dokter', DokterController::class);
     Route::resource('pasien', PasienController::class);
     Route::resource('rekam_medis', RekamMedisController::class);
+    Route::resource('kunjungan', KunjunganController::class);
 });
 
 // Fitur lain (hanya admin)
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('obat', ObatController::class);
     Route::resource('resep', ResepController::class);
-    Route::resource('kunjungan', KunjunganController::class);
     Route::resource('jadwal_praktek', JadwalPraktekController::class);
 
 });
