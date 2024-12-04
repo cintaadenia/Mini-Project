@@ -510,7 +510,8 @@
                     <div class="slider-tab"></div>
                 </div>
                 <div class="form-inner">
-                    <form action="{{route('login')}}" class="login">
+                    <form action="{{route('login')}}" class="login" method="POST">
+                      @csrf
                         <div class="field">
                             <input type="text" placeholder="Email Address" name="email" required>
                         </div>
@@ -528,7 +529,8 @@
                             Not a member? <a href="">Signup now</a>
                         </div>
                     </form>
-                    <form action="{{route('register')}}" class="signup">
+                    <form action="{{route('register')}}" class="signup" method="POST">
+                      @csrf
                       <div class="field">
                         <input type="text"  placeholder="name" name="name" required>
                     </div>
