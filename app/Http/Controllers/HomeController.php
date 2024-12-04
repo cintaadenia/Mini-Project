@@ -39,12 +39,13 @@ class HomeController extends Controller
             ->groupBy('kunjungan_id')
             ->get();
 
-        if (auth()->user()->hasRole('admin')) {
-            $pasien = Pasien::query(); // Admin dapat melihat semua pasien
-        } else {
-            $pasien = Pasien::where('user_id', auth()->id()); // Non-admin hanya dapat melihat pasien mereka
-        }
+        // if (auth()->user()->hasRole('admin')) {
+        //     $pasien = Pasien::query(); // Admin dapat melihat semua pasien
+        // } else {
+        //     $pasien = Pasien::where('user_id', auth()->id()); // Non-admin hanya dapat melihat pasien mereka
+        // }
 
+        $pasien = Pasien::all();
         return view('home', compact('jumlahPasien', 'diagnosaCount', 'pasien'));
     }
 }
