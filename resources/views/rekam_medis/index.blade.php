@@ -94,7 +94,7 @@
                             <div class="mb-3 row">
                                 <label for="image" class="col-sm-2 col-form-label">Image</label>
                                 <div class="col-sm-10">
-                                    <input type="file" class="form-control" id="image" name="image">
+                                    <input type="file" class="form-control" id="image" name="image[]" multiple>
                                 </div>
                                 @error('image')
                                     <p style="color: red">{{ $message }}</p>
