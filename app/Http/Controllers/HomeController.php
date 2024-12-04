@@ -10,7 +10,7 @@ use App\Models\RekamMedis;
 class HomeController extends Controller
 {
 
-    
+
     /**
      * Create a new controller instance.
      *
@@ -36,10 +36,15 @@ class HomeController extends Controller
         }
 
         $diagnosaCount = RekamMedis::selectRaw('kunjungan_id, count(diagnosa) as total')
-                                  ->groupBy('kunjungan_id')
-                                  ->get();
+            ->groupBy('kunjungan_id')
+            ->get();
 
-        
-        return view('home', compact('jumlahPasien','diagnosaCount'));
+        if (auth()->user()->hasRole('admin')) {
+            $pasien = Pasien::query(); // Admin dapat melihat semua pasien
+        } else {
+            $pasien = Pasien::where('user_id', auth()->id()); // Non-admin hanya dapat melihat pasien mereka
+        }
+
+        return view('home', compact('jumlahPasien', 'diagnosaCount', 'pasien'));
     }
 }

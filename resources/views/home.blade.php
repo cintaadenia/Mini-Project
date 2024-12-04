@@ -19,6 +19,7 @@
         rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         :root {
             --main-color: #2697b1;
@@ -271,6 +272,12 @@
             margin: 0 0 6rem;
         }
 
+        .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
         .patient-card {
             border: 1px solid #000000;
             border-radius: 16px;
@@ -286,6 +293,18 @@
 
         .patient-card i {
             margin-right: 10px;
+        }
+
+        .patient-card .label {
+            width: 100px;
+            /* Lebar tetap untuk label */
+            font-weight: bold;
+        }
+
+        .patient-card .value {
+            flex: 1;
+            /* Membuat teks dinamis */
+            color: #555;
         }
 
         html {
@@ -470,6 +489,12 @@
 </head>
 
 <body>
+    @if (session('success'))
+        <script>
+            Swal.fire('Success', '{{ session('success') }}', 'success');
+        </script>
+    @endif
+    <header>
     {{-- <header>
         <h1>
             KLINIK
@@ -524,7 +549,7 @@
                 </p>
             </div>
             <div class="button">
-                <a href="#">Janji Temu</a>
+                <a href="{{route('kunjungan.index')}}">Janji Temu</a>
             </div>
         </div>
         <div class="img">
@@ -610,12 +635,26 @@
                 Masukkan informasi Anda untuk <br> membuat janji atau mengakses layanan <br> kami.
             </p>
         </div>
-        <div class="form-right">
-            <form>
-                <input placeholder="Nama Lengkap" type="text" />
-                <input placeholder="Alamat" type="text" />
-                <input placeholder="Nomor Handphone" type="text" />
-                <input placeholder="Tanggal Lahir" type="text" />
+        <div class="form-right" id="form-pasien">
+            <form action="{{ route('pasien.store') }}" method="POST">
+                @csrf
+                <input placeholder="Nama Lengkap" type="text" name="nama" value="{{ old('nama') }}" />
+                @error('nama')
+                    <p style="color: red">{{ $message }}</p>
+                @enderror
+                <input placeholder="Alamat" type="text" name="alamat" value="{{ old('alamat') }}" />
+                @error('alamat')
+                    <p style="color: red">{{ $message }}</p>
+                @enderror
+                <input placeholder="Nomor Handphone" type="text" name="no_hp" value="{{ old('no_hp') }}" />
+                @error('no_hp')
+                    <p style="color: red">{{ $message }}</p>
+                @enderror
+                <input placeholder="Tanggal Lahir" type="date" name="tanggal_lahir"
+                    value="{{ old('tanggal_lahir') }}" />
+                @error('tanggal_lahir')
+                    <p style="color: red">{{ $message }}</p>
+                @enderror
                 <button type="submit">
                     Kirim
                 </button>
@@ -629,27 +668,31 @@
         <p>
             Data yang Anda isi akan digunakan untuk <br> kebutuhan pelayanan kesehatan.
         </p>
-        <div class="patient-card">
-            <p>
-                <i class="fas fa-user">
-                </i>
-                Nama: Andi Wijaya
-            </p>
-            <p>
-                <i class="fas fa-map-marker-alt">
-                </i>
-                Alamat: Jl. Sejahtera No. 45
-            </p>
-            <p>
-                <i class="fas fa-phone">
-                </i>
-                No. HP: 081234567890
-            </p>
-            <p>
-                <i class="fas fa-calendar-alt">
-                </i>
-                Tgl Lahir: 1 Januari 1990
-            </p>
+        <div class="container">
+            @foreach ($pasien as $pas)
+                <div class="patient-card">
+                    <p>
+                        <i class="fas fa-user"></i>
+                        <span class="label">Nama        :</span>
+                        <span class="value">{{ $pas->nama }}</span>
+                    </p>
+                    <p>
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span class="label">Alamat      :</span>
+                        <span class="value">{{ $pas->alamat }}</span>
+                    </p>
+                    <p>
+                        <i class="fas fa-phone"></i>
+                        <span class="label">No. HP      :</span>
+                        <span class="value">{{ $pas->no_hp }}</span>
+                    </p>
+                    <p>
+                        <i class="fas fa-calendar-alt"></i>
+                        <span class="label">Tgl Lahir   :</span>
+                        <span class="value">{{ $pas->tanggal_lahir }}</span>
+                    </p>
+                </div>
+            @endforeach
         </div>
     </section>
 </body>

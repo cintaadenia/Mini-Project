@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('dokter', DokterController::class);
-    Route::resource('pasien', PasienController::class);
+    // Route::resource('pasien', PasienController::class);
     Route::resource('rekam_medis', RekamMedisController::class);
     Route::resource('obat', ObatController::class);
 });
@@ -52,7 +52,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 // Dokter-only routes (accessible only by users with the 'dokter' role)
 Route::middleware(['auth', 'role:dokter|admin'])->group(function () {
     Route::resource('resep', ResepController::class);
-    Route::resource('kunjungan', KunjunganController::class);
+    // Route::resource('kunjungan', KunjunganController::class);
     Route::resource('jadwal_praktek', JadwalPraktekController::class);
     Route::resource('obat', ObatController::class);
 });
