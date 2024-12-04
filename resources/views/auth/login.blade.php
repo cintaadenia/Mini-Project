@@ -512,10 +512,10 @@
                 <div class="form-inner">
                     <form action="#" class="login">
                         <div class="field">
-                            <input type="text" placeholder="Email Address" required>
+                            <input type="text" placeholder="Email Address" name="email" required>
                         </div>
                         <div class="field">
-                            <input type="password" placeholder="Password" required>
+                            <input type="password" placeholder="Password" name="password" required>
                         </div>
                         <div class="pass-link">
                             <a href="#">Forgot password?</a>
@@ -530,16 +530,16 @@
                     </form>
                     <form action="#" class="signup">
                       <div class="field">
-                        <input type="text"  placeholder="name" required>
+                        <input type="text"  placeholder="name" name="name" required>
                     </div>
                         <div class="field">
-                            <input type="text" placeholder="Email Address" required>
+                            <input type="text" placeholder="Email Address" name="email" required>
                         </div>
                         <div class="field">
-                            <input type="password" placeholder="Password" required>
+                            <input type="password" placeholder="Password" name="password" required>
                         </div>
                         <div class="field">
-                            <input type="password" placeholder="Confirm password" required>
+                            <input type="password" placeholder="Confirm password" name="password_confirmation" required>
                         </div>
                         <div class="field btn">
                             <div class="btn-layer"></div>
