@@ -1,58 +1,491 @@
-@section('index')
-@extends('layouts.app')
+<html lang="en">
 
-    <div class="container-fluid">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>
+        Klinik
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --main-color: #2697b1;
+        }
 
-        <div class="page-header min-height-300 border-radius-xl mt-4" style=""><span
-                class="mask bg-gradient-success opacity-6"></span></div>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-                        <div class="card-body">
-                            @if (session('status'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('status') }}
-                                </div>
-                            @endif
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            border-bottom: 1px solid #000000;
+            position: fixed;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
 
-                            <div class="card mb-3" style="width: full height: 200px;">
-                                <div class="row no-gutters">
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Selamat Datang {{ Auth::user()->name }}</h5>
-                                            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                                Eveniet vero ducimus totam dicta cum consectetur reiciendis possimus libero
-                                                dolor corporis repudiandae similique ipsam debitis voluptate enim iure
-                                                quisquam, iusto voluptatibus.</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 d-flex align-items-center justify-content-center">
-                                        <dotlottie-player
-                                            src="https://lottie.host/10944744-7d58-486a-bb9f-ba57e1717d71/h8h6VNOo6G.lottie"
-                                            background="transparent" speed="1" style="width: 300px; height: 300px" loop
-                                            autoplay></dotlottie-player>
-                                    </div>
-                                </div>
-                            </div>
-                            {{-- {{ __('You are logged in!') }} --}}
+        header h1 {
+            color: var(--main-color);
+            font-size: 3rem;
+            font-weight: 900;
+            margin: 0;
+        }
 
-                        </div>
-                    </div>
-                </div>
+
+        header nav a {
+            margin: 0 2rem;
+            text-decoration: none;
+            color: #333;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .hero {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            padding: 164px 40px 0 40px;
+            background-color: #f5f5f5;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            padding: 96px 0;
+        }
+
+        .hero h2 {
+            font-size: 6rem;
+            font-weight: 900;
+            margin: 0;
+        }
+
+        .hero h2 span {
+            color: var(--main-color);
+        }
+
+        .hero p {
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 10px 0 20px;
+        }
+
+        .button {
+            margin: 4rem 0;
+        }
+
+        .hero a {
+            background-color: var(--main-color);
+            color: white;
+            border: none;
+            padding: 1rem 4rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            border-radius: 12px;
+            margin-top: 5rem;
+        }
+
+        .hero img {
+            width: auto;
+            height: 600px;
+            margin-left: 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 6rem 0 2rem;
+        }
+
+        .section-title h3 {
+            font-size: 4rem;
+            margin: 0;
+        }
+
+        .section-title p {
+            font-size: 2rem;
+            color: #666;
+        }
+
+        .doctors {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 2rem 2rem 4rem 2rem;
+        }
+
+        .doctor-group {
+            display: flex;
+            padding: 0 12rem;
+        }
+
+        .doctor-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            padding: 20px;
+            margin: 10px;
+            width: 300px;
+        }
+
+        .doctor-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+        }
+
+        .doctor-card h4 {
+            font-size: 1.5rem;
+            margin: 10px 0 5px;
+        }
+
+        .doctor-card p {
+            font-size: 1.2rem;
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .form-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10rem;
+            text-align: center;
+        }
+
+        .form-left {
+            text-align: left;
+            align-items: left;
+        }
+
+        .form-left {
+            padding: 6rem 4rem;
+        }
+
+        .form-right {
+            display: flex;
+            flex-direction: column;
+            padding: 3rem 3.5rem;
+            margin: 4rem 2rem;
+            background: #87c5d4;
+            border-radius: 64px;
+            justify-content: center;
+            align-items: center
+        }
+
+        .form-section h3 {
+            font-size: 4rem;
+            margin: 0 0 20px;
+        }
+
+        .form-section p {
+            font-size: 1.5rem;
+            color: #666;
+            margin: 0 0 20px;
+        }
+
+        .form-section form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: left;
+        }
+
+        .form-section input {
+            width: 750px;
+            padding: 1.5rem 2rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 1rem 0;
+            border: 2px solid #8d8d8d;
+            border-radius: 10px;
+        }
+
+        .form-section form button {
+            background-color: #0f8ca9;
+            color: white;
+            border: none;
+            width: 40%;
+            padding: 1.5rem 1.5rem;
+            font-size: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        .patient-info {
+            padding: 6rem 12rem;
+            text-align: center;
+        }
+
+        .patient-info h3 {
+            font-size: 4rem;
+            margin: 0 0 2rem;
+        }
+
+        .patient-info p {
+            font-size: 2rem;
+            color: #000000;
+            margin: 0 0 6rem;
+        }
+
+        .patient-card {
+            border: 1px solid #000000;
+            border-radius: 16px;
+            padding: 20px;
+            width: 700px;
+            text-align: left;
+        }
+
+        .patient-card p {
+            margin: 5px 0;
+            font-size: 2rem;
+        }
+
+        .patient-card i {
+            margin-right: 10px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero img {
+                margin-top: 20px;
+            }
+
+            .doctors {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .doctor-card {
+                width: 80%;
+                margin: 10px 0;
+            }
+
+            .form-section form input {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>
+            KLINIK
+        </h1>
+        <nav>
+            <a href="#section-title">
+                Dokter
+            </a>
+            <a href="#patien-info">
+                Pasien
+            </a>
+            <a href="#">
+                Kunjungan
+            </a>
+            <a href="#">
+                Diagnosa
+            </a>
+        </nav>
+        <div class="gap"></div>
+    </header>
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <div>
+                <h2>
+                    Selamat Datang di <br>
+                    <span>
+                        KLINIK
+                    </span>
+                </h2>
+                <p>
+                    Jangan ragu untuk membuat janji temu dengan dokter <br> melalui website ini.
+                </p>
+            </div>
+            <div class="button">
+                <a href="#">Janji Temu</a>
             </div>
         </div>
+        <div class="img">
+            <img alt="Dokter memegang clipboard" src="{{ asset('Medicio/assets/img/doctorphoto.png') }}" />
+        </div>
+    </section>
+    <section id="section-title" class="section-title">
+        <h3>
+            Tim Dokter Spesialis Kami
+        </h3>
+        <p>
+            Kami menghadirkan layanan kesehatan terbaik dengan <br> dukungan dokter berpengalaman di bidangnya.
+        </p>
+    </section>
+    <section id="doctors" class="doctors">
+        <div class="doctor-group">
+            <div class="doctor-card">
+                <img alt="Dr. Andi Wijaya, Sp.PD" height="200"
+                    src="https://storage.googleapis.com/a1aa/image/k7Q1hnfWuKVtIi5aWNptzoqk3CHxmZU28e1NbYwdqDkCwD3TA.jpg"
+                    width="200" />
+                <h4>
+                    Dr. Andi Wijaya, Sp.PD
+                </h4>
+                <p>
+                    Dokter Spesialis Penyakit Dalam
+                </p>
+                <p>
+                    Senin - Jumat, 08:00 - 16:00
+                </p>
+            </div>
+            <div class="doctor-card">
+                <img alt="Dr. Siti Nurhaliza, Sp.A" height="200"
+                    src="https://storage.googleapis.com/a1aa/image/M52TCe3fgnltnk06sAx7t5HXQAKScCmf7o0lBNdBt7UIgHunA.jpg"
+                    width="200" />
+                <h4>
+                    Dr. Siti Nurhaliza, Sp.A
+                </h4>
+                <p>
+                    Dokter Spesialis Anak
+                </p>
+                <p>
+                    Senin - Sabtu, 09:00 - 17:00
+                </p>
+            </div>
+            <div class="doctor-card">
+                <img alt="Dr. Bagus Pratama, Sp.OG" height="200"
+                    src="https://storage.googleapis.com/a1aa/image/J2ieJP8BF9U9OidzseW75RhTS3qjCsdYSvkxlSjKNsVGwD3TA.jpg"
+                    width="200" />
+                <h4>
+                    Dr. Bagus Pratama, Sp.OG
+                </h4>
+                <p>
+                    Dokter Spesialis Kandungan
+                </p>
+                <p>
+                    Senin - Jumat, 10:00 - 14:00
+                </p>
+            </div>
+            <div class="doctor-card">
+                <img alt="Dr. Rina Suhartini, Sp.KK" height="200"
+                    src="https://storage.googleapis.com/a1aa/image/CQRA6lv8TC7AOx37XgsYcuF0oDdz486bRjCpYfgl8DRE4h7JA.jpg"
+                    width="200" />
+                <h4>
+                    Dr. Rina Suhartini, Sp.KK
+                </h4>
+                <p>
+                    Dokter Spesialis Kulit dan Kelamin
+                </p>
+                <p>
+                    Selasa, Kamis, Sabtu, 13:00 - 19:00
+                </p>
+            </div>
+        </div>
+    </section>
+    <section id="form-section" class="form-section">
+        <div class="form-left">
+            <h3>
+                Lengkapi Data <br> Diri Anda
+            </h3>
+            <p>
+                Masukkan informasi Anda untuk <br> membuat janji atau mengakses layanan <br> kami.
+            </p>
+        </div>
+        <div class="form-right">
+            <form>
+                <input placeholder="Nama Lengkap" type="text" />
+                <input placeholder="Alamat" type="text" />
+                <input placeholder="Nomor Handphone" type="text" />
+                <input placeholder="Tanggal Lahir" type="text" />
+                <button type="submit">
+                    Kirim
+                </button>
+            </form>
+        </div>
+    </section>
+    <section id="patien-info" class="patient-info">
+        <h3>
+            Informasi Pasien
+        </h3>
+        <p>
+            Data yang Anda isi akan digunakan untuk <br> kebutuhan pelayanan kesehatan.
+        </p>
+        <div class="patient-card">
+            <p>
+                <i class="fas fa-user">
+                </i>
+                Nama: Andi Wijaya
+            </p>
+            <p>
+                <i class="fas fa-map-marker-alt">
+                </i>
+                Alamat: Jl. Sejahtera No. 45
+            </p>
+            <p>
+                <i class="fas fa-phone">
+                </i>
+                No. HP: 081234567890
+            </p>
+            <p>
+                <i class="fas fa-calendar-alt">
+                </i>
+                Tgl Lahir: 1 Januari 1990
+            </p>
+        </div>
+    </section>
+</body>
+<script>
+    document.querySelectorAll('nav ul li a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
 
-        <!-- Chart.js CDN -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
-        
-    @endsection
+            // Ambil ID dari anchor yang diklik
+            const targetId = this.getAttribute('href').substring(1);
+
+            // Scroll ke section yang sesuai dengan animasi
+            document.getElementById(targetId).scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        });
+    });
+</script>
+
+</html>
