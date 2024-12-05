@@ -32,11 +32,15 @@
         },
       });
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- CSS Files -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="sidebar/assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="sidebar/assets/css/plugins.min.css" />
     <link rel="stylesheet" href="sidebar/assets/css/kaiadmin.min.css" />
+    <link rel="stylesheet" href="/css/home_admin.css">
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
     <link rel="stylesheet" href="sidebar/assets/css/demo.css" />
@@ -137,10 +141,12 @@
 
       <!-- End Custom template -->
     </div>
+
     <!--   Core JS Files   -->
     <script src="sidebar/assets/js/core/jquery-3.7.1.min.js"></script>
     <script src="sidebar/assets/js/core/popper.min.js"></script>
     <script src="sidebar/assets/js/core/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
     <!-- jQuery Scrollbar -->
     <script src="sidebar/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>

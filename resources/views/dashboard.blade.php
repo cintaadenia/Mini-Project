@@ -56,7 +56,7 @@
             <li><a href="#hero" class="active">Home</a></li>
             <li><a href="#about">tentang</a></li>
             <li><a href="#services">layanan</a></li>
-            <li><a href="#footer">Contact</a></li>
+            <li><a href="#contact">Contact</a></li>
           </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
@@ -293,7 +293,7 @@
 
   </main>
 
-  <footer id="footer" class="footer light-background">
+  <footer id="contact" class="footer light-background">
 
     <div class="container footer-top">
       <div class="row gy-4">

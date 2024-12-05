@@ -217,6 +217,7 @@
         <div class="container">
             @foreach ($pasien as $pas)
                 <div class="patient-card">
+                    <b>Data Pasien Anda: {{$loop->iteration}}</b>
                     <p>
                         <i class="fas fa-user"></i>
                         <span class="label">Nama        :</span>
