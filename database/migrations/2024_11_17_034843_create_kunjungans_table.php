@@ -13,8 +13,11 @@ return new class extends Migration
 {
     Schema::create('kunjungans', function (Blueprint $table) {
         $table->id();
+        $table->unsignedBigInteger('user_id');
+        $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         $table->foreignId('pasien_id')->constrained('pasiens')->onDelete('cascade');
-        $table->foreignId('dokter_id')->constrained('dokters')->onDelete('cascade');
+        $table->unsignedBigInteger('dokter_id')->nullable();
+        $table->foreign('dokter_id')->references('id')->on('pasiens')->onDelete('cascade');
         $table->string('keluhan');
         $table->date('tanggal_kunjungan');
         $table->timestamps();

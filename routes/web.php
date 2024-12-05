@@ -26,6 +26,11 @@ Route::get('/admin', function () {
     return view('admin-home');
 })->middleware(['auth', 'role:admin|dokter']);
 
+Route::get('/notifikasi', function () {
+    $notifications = auth()->user()->notifications;
+    return view('notifikasi.index', compact('notifications'));
+})->name('notifikasi.index');
+
 // Routes accessible by both admin and dokter
 Route::middleware('auth')->group(function () {
     Route::resource('dokter', DokterController::class);

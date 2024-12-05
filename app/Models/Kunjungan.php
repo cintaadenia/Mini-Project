@@ -9,7 +9,11 @@ class Kunjungan extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['pasien_id', 'dokter_id',  'keluhan','tanggal_kunjungan'];
+    protected $guarded = ['id'];
+
+    protected $casts = [
+        'is_assigned' => 'boolean',
+    ];
 
     public function pasien(){
         return $this->belongsTo(Pasien::class, 'pasien_id', 'id');
@@ -27,6 +31,10 @@ class Kunjungan extends Model
 
     public function resep(){
         return $this->hasMany(Resep::class);
+    }
+
+    public function user(){
+        $this->belongsTo(User::class);
     }
 }
 
