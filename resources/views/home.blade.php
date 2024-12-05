@@ -67,6 +67,9 @@
             <li><a href="#">
                     Diagnosa
                 </a></li>
+            <li>
+                <a href="{{ route('logout') }}">Logout</a>
+            </li>
         </ul>
         <div class="gap"></div>
     </nav>
@@ -206,6 +209,7 @@
         <div class="container">
             @foreach ($pasien as $pas)
                 <div class="patient-card">
+                    <b>Data Pasien Anda: {{$loop->iteration}}</b>
                     <p>
                         <i class="fas fa-user"></i>
                         <span class="label">Nama        :</span>

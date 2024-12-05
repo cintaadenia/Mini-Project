@@ -45,7 +45,7 @@ class HomeController extends Controller
         //     $pasien = Pasien::where('user_id', auth()->id()); // Non-admin hanya dapat melihat pasien mereka
         // }
 
-        $pasien = Pasien::all();
+        $pasien = Pasien::where('user_id', auth()->id())->get();
         return view('home', compact('jumlahPasien', 'diagnosaCount', 'pasien'));
     }
 }

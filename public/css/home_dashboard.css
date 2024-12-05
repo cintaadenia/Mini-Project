@@ -461,4 +461,10 @@ html {
         /* Mengurangi ukuran icon */
     }
 
+    .patient-card b {
+        font-size: 1.3rem;
+        text-align: center;
+        font-weight: 550;
+    }
+
 }

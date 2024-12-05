@@ -5,18 +5,24 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-12">
-        <div class="card">
-          <div class="card-header">{{ __('Dashboard') }}</div>
+        <div class="card" style="background-color: rgb(132, 132, 248)">
           <div class="card-body">
-            @if (session('status'))
+            {{-- @if (session('status'))
               <div class="alert alert-success" role="alert">
                 {{ session('status') }}
               </div>
-            @endif
-            @if (auth()->user()->hasRole('admin'))
-            <h1>Anda adalah ADMIN</h1>
+            @endif --}}
+            {{-- @if (auth()->user()->hasRole('admin')) --}}
+            <div class="header-admin">
+              <div class="text-section">
+                <h1>Selamat datang,Admin!</h1>
+            <h3>Kelola data klinik anda dengan mudah.</h3>
+              </div>
+            <img src="/asset/img/dokter.png" alt="">
+            </div>
+            
              
-            <div class="mt-4">
+            {{-- <div class="mt-4">
               <h5>Statistik</h5>
               <!-- Tabel Data -->
               <table class="table table-bordered">
@@ -58,13 +64,55 @@
               <div class="mt-4">
                 <canvas id="statisticsChart" width="400" height="200"></canvas>
               </div>
-            </div>
-            @endif
-            @if (auth()->user()->hasRole('dokter'))
+            </div> --}}
+            {{-- @endif --}}
+            {{-- @if (auth()->user()->hasRole('dokter'))
             <h1>Anda adalah Dokter</h1>
-            @endif
+            @endif --}}
           </div>
         </div>
+        <div class="container-square">
+          <div class="square">
+            <div class="title">Total pasien</div>
+            <div class="subtitle-container">
+                <div class="subtitle" style="font-size: 30px"><i class="bi bi-person-plus"></i></div>
+                <div class="item">
+                  <h5>2008</h5>
+                  <h5>jumlah seluruh pasien yang terdaftar dari klinik</h5>
+                </div>
+            </div>
+        </div>
+        <div class="square2">
+          <div class="title2">Total pasien</div>
+          <div class="subtitle-container2">
+              <div class="subtitle2" style="font-size: 30px"><i class="fas fa-user-md"></i></i></div>
+              <div class="item">
+                <h5>15</h5>
+                <h5>jumlah seluruh dokter yang sedang aktif dan tersedia dari klinik</h5>
+              </div>
+          </div>
+      </div> 
+      <div class="square3">
+        <div class="title3">Total pasien</div>
+        <div class="subtitle-container3">
+            <div class="subtitle3" style="font-size: 30px"><i class="fas fa-user-md"></i></i></div>
+            <div class="item">
+              <h5>15</h5>
+              <h5>chart lingkaran</h5>
+            </div>
+        </div>
+    </div>  
+        </div>  
+        <div class="square4">
+          <div class="title4">Total pasien</div>
+          <div class="subtitle-container4">
+              <div class="subtitle4" style="font-size: 30px"><i class="fas fa-user-md"></i></i></div>
+              <div class="item">
+                <h5>15</h5>
+                <h5>chart lingkaran</h5>
+              </div>
+          </div>
+      </div>     
       </div>
     </div>
   </div>
@@ -72,7 +120,7 @@
 
 <!-- Tambahkan Script untuk Chart -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
+{{-- <script>
   // Data untuk Chart
   const data = {
       labels: [
@@ -131,6 +179,6 @@
   // Render Chart
   const ctx = document.getElementById('statisticsChart').getContext('2d');
   const statisticsChart = new Chart(ctx, config);
-</script>
+</script> --}}
 
 @endsection
