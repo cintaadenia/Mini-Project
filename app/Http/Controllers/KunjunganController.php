@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kunjungan;
 use App\Models\Pasien;
 use App\Models\Dokter;
+use App\Notifications\DokterAssignedNotification;
 use Illuminate\Http\Request;
 
 class KunjunganController extends Controller
@@ -49,13 +50,25 @@ class KunjunganController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'pasien_id' => 'required|exists:pasiens,id',
-            'dokter_id' => 'required|exists:dokters,id',
-            'tanggal_kunjungan' => 'required|date',
-        ]);
+        if(auth()->user()->hasRole('admin')){
+            $request->validate([
+                'pasien_id' => 'required|exists:pasiens,id',
+                'keluhan' => 'required',
+                'dokter_id' => 'required|exists:dokters,id',
+                'tanggal_kunjungan' => 'required|date',
+            ]);
+        }else{
+            $request->validate([
+                'pasien_id' => 'required|exists:pasiens,id',
+                'keluhan' => 'required',
+                'tanggal_kunjungan' => 'required|date',
+            ]);
+        }
 
-        Kunjungan::create($request->all());
+        $data = $request->all();
+        $data['user_id'] = auth()->id();
+
+        Kunjungan::create($data);
         return redirect()->route('kunjungan.index')->with('success', 'Data kunjungan berhasil ditambahkan.');
     }
 
@@ -71,7 +84,7 @@ class KunjunganController extends Controller
         return view('kunjungan.edit', compact('kunjungan', 'pasiens', 'dokter'));
     }
 
-    public function update(Request $request, Kunjungan $kunjungan)
+    public function update(Request $request, $id)
     {
         $request->validate([
             'pasien_id' => 'required|exists:pasiens,id',
@@ -79,8 +92,15 @@ class KunjunganController extends Controller
             'tanggal_kunjungan' => 'required|date',
         ]);
 
-        $kunjungan->update($request->all());
-        return redirect()->route('kunjungan.index')->with('success', 'Data kunjungan berhasil diperbarui.');
+        $kunjungan = Kunjungan::findOrFail($id);
+        $kunjungan->load('dokter');
+        $kunjungan->load('pasien');
+        $kunjungan->dokter_id = $request->dokter_id;
+        $kunjungan->is_assigned = 1;
+        $kunjungan->save();
+
+        $kunjungan->pasien->user->notify(new DokterAssignedNotification($kunjungan));
+        return redirect()->route('kunjungan.index')->with('success', 'Dokter berhasil ditambahkan');
     }
 
     public function destroy(Kunjungan $kunjungan)

@@ -16,6 +16,12 @@
 </head>
 
 <body>
+    @if (auth()->user()->unreadNotifications->count())
+    <div class="alert alert-info">
+        Anda memiliki {{ auth()->user()->unreadNotifications->count() }} notifikasi baru!
+        <a href="{{ route('notifikasi.index') }}">Lihat Notifikasi</a>
+    </div>
+    @endif
     <div class="container mt-5">
         <h1>Kunjungan Pasien</h1>
         @if(session('success'))
@@ -68,6 +74,7 @@
                                     <p style="color: red">{{ $message }}</p>
                                 @enderror
                             </div>
+                            @if (auth()->user()->hasRole('admin'))
                             <div class="mb-3 row">
                                 <label for="dokter" class="col-sm-2 col-form-label">Dokter</label>
                                 <div class="col-sm-10">
@@ -82,12 +89,13 @@
                                     <p style="color: red">{{ $message }}</p>
                                 @enderror
                             </div>
+                            @endif
                             <div class="mb-3 row">
                                 <label for="keluhan" class="col-sm-2 col-form-label">Keluhan</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" id="keluhan" name="keluhan" value="{{ old('keluhan') }}">
                                 </div>
-                                @error('tanggal_kunjungan')
+                                @error('keluhan')
                                     <p style="color: red">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -110,55 +118,71 @@
             </div>
         </div>
 
-        <!-- Kunjungan Table -->
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Pasien</th>
-                    <th>Dokter</th>
-                    <th>Tanggal Kunjungan</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($kunjungans as $kunjungan)
-                <tr>
-                    <td>{{ $kunjungan->pasien->nama }}</td>
-                    <td>{{ $kunjungan->dokter->nama }}</td>
-                    <td>{{ $kunjungan->tanggal_kunjungan }}</td>
-                    <td>
-                        <form id="delete-form-{{ $kunjungan->id }}" action="{{ route('kunjungan.destroy', $kunjungan->id) }}" method="POST" style="display: none;">
-                            @csrf
-                            @method('DELETE')
-                        </form>
-                            <button type="submit" class="btn btn-danger btn-sm"
-                                onclick="confirmDelete({{ $kunjungan->id }})">Hapus</button>
-                                <script>
-                                    function confirmDelete(id) {
-                                        Swal.fire({
-                                            title: 'Apakah Anda yakin?',
-                                            text: "Data ini akan dihapus secara permanen!",
-                                            icon: 'warning',
-                                            showCancelButton: true,
-                                            confirmButtonColor: '#3085d6',
-                                            cancelButtonColor: '#d33',
-                                            confirmButtonText: 'Ya, hapus!',
-                                            cancelButtonText: 'Batal'
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                // Submit form hapus
-                                                document.getElementById('delete-form-' + id).submit();
-                                            }
-                                        });
-                                    }
-                                </script>
-                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $kunjungan->id }}">
-                            Edit
-                        </button>
-                    </td>
-                </tr>
+        @if (auth()->user()->hasRole('admin'))
+            <!-- Kunjungan Table untuk Admin -->
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Pasien</th>
+                        <th>Dokter</th>
+                        <th>Keluhan</th>
+                        <th>Tanggal Kunjungan</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($kunjungans as $kunjungan)
+                        <tr>
+                            <td>{{ $kunjungan->pasien->nama }}</td>
+                            <td>{{ $kunjungan->dokter->nama ?? '-'}}</td>
+                            <td>{{ $kunjungan->keluhan }}</td>
+                            <td>{{ $kunjungan->tanggal_kunjungan }}</td>
+                            <td>
+                                <form id="delete-form-{{ $kunjungan->id }}" action="{{ route('kunjungan.destroy', $kunjungan->id) }}" method="POST" style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $kunjungan->id }})">Hapus</button>
+                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $kunjungan->id }}">Add Dokter</button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <!-- Kunjungan Table untuk Non-Admin -->
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Pasien</th>
+                        <th>Keluhan</th>
+                        <th>Tanggal Kunjungan</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($kunjungans as $kunjungan)
+                        <tr>
+                            <td>{{ $kunjungan->pasien->nama }}</td>
+                            <td>{{ $kunjungan->keluhan }}</td>
+                            <td>{{ $kunjungan->tanggal_kunjungan }}</td>
+                            <td>
+                                <form id="delete-form-{{ $kunjungan->id }}" action="{{ route('kunjungan.destroy', $kunjungan->id) }}" method="POST" style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $kunjungan->id }})">Hapus</button>
+                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $kunjungan->id }}">Edit</button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+
 
                 <!-- Edit Modal -->
+                @foreach ($kunjungans as $kunjungan)
                 <div class="modal fade" id="editModal{{ $kunjungan->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $kunjungan->id }}" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -183,11 +207,12 @@
                                             </select>
                                         </div>
                                     </div>
+                                    @if (auth()->user()->hasRole('admin'))
                                     <div class="mb-3 row">
                                         <label for="dokter" class="col-sm-2 col-form-label">Dokter</label>
                                         <div class="col-sm-10">
                                             <select name="dokter_id" id="dokter_id" class="form-control">
-                                                <option value="{{$kunjungan->dokter_id}}" selected>{{$kunjungan->dokter->nama}}</option>
+                                                <option value="{{$kunjungan->dokter_id ?? ''}}" selected>{{$kunjungan->dokter->nama ?? ''}}</option>
                                                 @foreach ($dokters as $dok)
                                                     @if ($dok->id !== $kunjungan->dokter_id)
                                                     <option value="{{$dok->id}}" {{ $kunjungan->dokter_id == $dok->id ? 'selected' : '' }}>{{$dok->nama}}</option>
@@ -195,6 +220,16 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                    </div>
+                                    @endif
+                                    <div class="mb-3 row">
+                                        <label for="keluhan" class="col-sm-2 col-form-label">Keluhan</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="keluhan" name="keluhan" value="{{ $kunjungan->keluhan }}">
+                                        </div>
+                                        @error('keluhan')
+                                            <p style="color: red">{{ $message }}</p>
+                                        @enderror
                                     </div>
                                     <div class="mb-3 row">
                                         <label for="tanggal_kunjungan" class="col-sm-2 col-form-label">Tanggal Kunjungan</label>
@@ -212,12 +247,8 @@
                     </div>
                 </div>
                 @endforeach
-            </tbody>
-        </table>
         {{ $kunjungans->links() }}
     </div>
-
-
 </body>
 
 </html>
