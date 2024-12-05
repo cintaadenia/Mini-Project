@@ -67,9 +67,17 @@
             <li><a href="#">
                     Diagnosa
                 </a></li>
-            <li>
-                <a href="{{ route('logout') }}">Logout</a>
-            </li>
+                <li class="nav-item">
+                    <a href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                 document.getElementById('logout-form').submit();">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <p>Logout</p>
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </li>
         </ul>
         <div class="gap"></div>
     </nav>

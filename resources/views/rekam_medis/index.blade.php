@@ -1,5 +1,4 @@
 @extends($layout)
-
 @section($content)
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +9,25 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Rekam Medis</title>
+    <style>
+        /* Style for images in the table */
+        table img {
+            border: 2px solid #ddd; /* Adding border */
+            border-radius: 8px; /* Optional: rounded corners */
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1); /* Adding shadow */
+            margin: 5px; /* Adding space between images */
+        }
+
+        /* Style for images in the modal */
+        .modal-body img {
+            border: 2px solid #ddd; /* Adding border */
+            border-radius: 8px; /* Optional: rounded corners */
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1); /* Adding shadow */
+            margin: 5px; /* Adding space between images */
+        }
+    </style>
 </head>
+
 
 <body>
     <div class="container mt-5">
@@ -93,13 +110,14 @@
                             <!-- Image Input for Create Modal -->
                             <div id="image-container">
                                 <div class="mb-3 row">
-                                    <label for="image" class="col-sm-2 col-form-label">Image</label>
+                                    <label for="image" class="col-sm-2 col-form-label">Tambah Gambar</label>
                                     <div class="col-sm-10">
                                         <input type="file" class="form-control" id="image" name="images[]">
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-secondary" id="add-image-button">Tambah Gambar</button>
+                            <button type="button" class="btn btn-secondary" id="add-image-button-create">Tambah Gambar</button>                            
+                            
                             
                         </div>
                         <div class="modal-footer">
@@ -167,76 +185,126 @@
                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $rm->id }}">
                             Edit
                         </button>
+                    
+                            <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal{{ $rm->id }}">
+                                Detail
+                            </button>
                     </td>    
+                    <!-- Detail Modal -->
+<div class="modal fade" id="detailModal{{ $rm->id }}" tabindex="-1" aria-labelledby="detailModalLabel{{ $rm->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailModalLabel{{ $rm->id }}">Detail Rekam Medis</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Pasien:</strong> {{ $rm->kunjungan->pasien->nama }}</p>
+                <p><strong>Diagnosa:</strong> {{ $rm->diagnosa }}</p>
+                <p><strong>Tindakan:</strong> {{ $rm->tindakan }}</p>
+                <p><strong>Gambar:</strong></p>
+                @foreach ($rm->images as $image)
+                    <img src="{{ asset('storage/' . $image->image_path) }}" height="150" width="120" class="mb-2" alt="Gambar">
+                @endforeach
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
                     @endif             
                 </tr>
 
                 <!-- Edit Modal -->
-                <div class="modal fade" id="editModal{{ $rm->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $rm->id }}" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="editModalLabel{{ $rm->id }}">Edit Rekam Medis</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <form action="{{ route('rekam_medis.update', $rm->id) }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                @method('PUT')
-                                <div class="modal-body">
-                                    <div class="mb-3 row">
-                                        <label for="kunjungan" class="col-sm-2 col-form-label">pasien</label>
-                                        <div class="col-sm-10">
-                                            <select name="kunjungan_id" id="kunjungan_id" class="form-control">
-                                                <option value="{{ $rm->kunjungan_id }}" selected>{{ $rm->kunjungan->pasien->nama }}</option>
-                                                @foreach ($kunjungans as $kn)
-                                                @if ($kn->id !== $rm->kunjungan_id)
-                                                <option value="{{ $kn->id }}">{{ $kn->pasien->nama }}</option>
-                                                @endif
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        @error('kunjungan_id')
-                                            <p style="color: red">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                    <div class="mb-3 row">
-                                        <label for="diagnosa" class="col-sm-2 col-form-label">Diagnosa</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="diagnosa" name="diagnosa" value="{{ $rm->diagnosa }}">
-                                        </div>
-                                        @error('diagnosa')
-                                            <p style="color: red">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                    <div class="mb-3 row">
-                                        <label for="tindakan" class="col-sm-2 col-form-label">Tindakan</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="tindakan" name="tindakan" value="{{ $rm->tindakan }}">
-                                        </div>
-                                        @error('tindakan')
-                                            <p style="color: red">{{ $message }}</p>
-                                        @enderror
-                                    </div>
+<div class="modal fade" id="editModal{{ $rm->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $rm->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel{{ $rm->id }}">Edit Rekam Medis</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('rekam_medis.update', $rm->id) }}" method="POST" enctype="multipart/form-data">
 
-                                    <!-- Image Input for Edit Modal -->
-                                    <div class="mb-3 row">
-                                        <label for="image" class="col-sm-2 col-form-label">Image</label>
-                                        <div class="col-sm-10">
-                                            <input type="file" class="form-control" id="image" name="image">
-                                        </div>
-                                        @error('image')
-                                            <p style="color: red">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Simpan</button>
-                                </div>
-                            </form>
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <!-- Pasien and Other Fields (No Changes) -->
+                    <div class="mb-3 row">
+                        <label for="kunjungan" class="col-sm-2 col-form-label">Pasien</label>
+                        <div class="col-sm-10">
+                            <select name="kunjungan_id" id="kunjungan_id" class="form-control">
+                                <option value="{{ $rm->kunjungan_id }}" selected>{{ $rm->kunjungan->pasien->nama }}</option>
+                                @foreach ($kunjungans as $kn)
+                                    @if ($kn->id !== $rm->kunjungan_id)
+                                        <option value="{{ $kn->id }}">{{ $kn->pasien->nama }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
                         </div>
                     </div>
+                    @error('kunjungan_id')
+                        <p style="color: red">{{ $message }}</p>
+                    @enderror
+
+                    <div class="mb-3 row">
+                        <label for="diagnosa" class="col-sm-2 col-form-label">Diagnosa</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="diagnosa" name="diagnosa" value="{{ $rm->diagnosa }}">
+                        </div>
+                        @error('diagnosa')
+                            <p style="color: red">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="tindakan" class="col-sm-2 col-form-label">Tindakan</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="tindakan" name="tindakan" value="{{ $rm->tindakan }}">
+                        </div>
+                        @error('tindakan')
+                            <p style="color: red">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <!-- Images Section with Checkboxes -->
+                    <div class="mb-3">
+                        <label class="form-label">Gambar</label>
+                        <div>
+                            @foreach ($rm->images as $image)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="delete_images[]" value="{{ $image->id }}" id="deleteImage{{ $image->id }}">
+                                    <label class=" form-check-label" for="deleteImage{{ $image->id }}">
+                                        <img src="{{ asset('storage/' . $image->image_path) }}" height="100" width="80" alt="Gambar">
+                                        Hapus gambar ini
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- Option to Add New Images -->
+                    <div id="edit-image-container">
+                        <div class="mb-3 row">
+                            <label for="image" class="col-sm-2 col-form-label">Tambah Gambar Baru</label>
+                            <div class="col-sm-10">
+                                <input type="file" class="form-control" name="new_images[]">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" id="add-image-button-edit">Tambah Gambar</button>                    
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
                 @endforeach
             </tbody>
         </table>
@@ -246,21 +314,61 @@
     </div>
 
     <!-- Bootstrap JS -->
-</body>
-<script>
-    document.getElementById('add-image-button').addEventListener('click', function () {
-        const container = document.getElementById('image-container');
-        const inputGroup = `
-            <div class="mb-3 row">
-                <label for="image" class="col-sm-2 col-form-label">Image</label>
-                <div class="col-sm-10">
-                    <input type="file" class="form-control" name="images[]">
-                </div>
-            </div>`;
-        container.insertAdjacentHTML('beforeend', inputGroup);
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Script untuk menghapus gambar dari modal edit
+document.querySelectorAll('.remove-image').forEach(button => {
+    button.addEventListener('click', function () {
+        const imageId = this.dataset.imageId;
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'delete_images[]';
+        hiddenInput.value = imageId;
+        this.closest('form').appendChild(hiddenInput);
+        this.parentElement.remove(); // Hapus gambar dari tampilan
     });
-</script>
+});
 
+// Tambah gambar di modal create
+document.getElementById('add-image-button-create').addEventListener('click', function () {
+    const container = document.getElementById('image-container');
+    const newImageRow = document.createElement('div');
+    newImageRow.className = 'mb-3 row';
 
+    newImageRow.innerHTML = `
+        <label for="image" class="col-sm-2 col-form-label">Image</label>
+        <div class="col-sm-10">
+            <input type="file" class="form-control" name="images[]">
+        </div>
+    `;
+
+    container.appendChild(newImageRow);
+});
+
+// Tambah gambar baru di modal edit
+document.getElementById('add-image-button-edit').addEventListener('click', function () {
+    const container = document.getElementById('edit-image-container');
+    const newInput = document.createElement('div');
+    newInput.className = 'mb-3';
+    newInput.innerHTML = `
+        <input type="file" class="form-control" name="new_images[]">
+    `;
+    container.appendChild(newInput);
+});
+
+document.querySelectorAll('.modal-footer button').forEach(button => {
+    button.addEventListener('click', function(event) {
+        event.stopPropagation();
+    });
+});
+
+    </script>
+    
+
+    
+
+</body>
 </html>
+
 @endsection

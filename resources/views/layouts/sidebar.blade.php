@@ -32,7 +32,7 @@
         },
       });
     </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- CSS Files -->
@@ -141,6 +141,7 @@
 
       <!-- End Custom template -->
     </div>
+
     <!--   Core JS Files   -->
     <script src="sidebar/assets/js/core/jquery-3.7.1.min.js"></script>
     <script src="sidebar/assets/js/core/popper.min.js"></script>
