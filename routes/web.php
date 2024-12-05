@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DokterController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PasienController;
@@ -30,6 +31,9 @@ Route::get('/notifikasi', function () {
     $notifications = auth()->user()->notifications;
     return view('notifikasi.index', compact('notifications'));
 })->name('notifikasi.index');
+Route::get('/notifications/{id}', function() {
+    
+});
 
 // Routes accessible by both admin and dokter
 Route::middleware('auth')->group(function () {
