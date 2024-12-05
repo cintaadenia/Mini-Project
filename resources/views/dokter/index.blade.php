@@ -55,7 +55,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('dokter.store') }}" method="POST">
+                        <form action="{{ route('dokter.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3 row">
                                 <label for="inputNama" class="col-sm-2 col-form-label">Nama</label>
@@ -84,6 +84,14 @@
                                     <p style="color: red">{{ $message }}</p>
                                 @enderror
                             </div>
+
+                            <div class="mb-3 row">
+                                <label for="image" class="col-sm-2 col-form-label">Image</label>
+                                <div class="col-sm-10">
+                                    <input type="file" class="form-control" id="image" name="image">
+                                </div>
+                            </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -101,6 +109,7 @@
                     <th>Nama</th>
                     <th>Spesialis</th>
                     <th>Phone</th>
+                    <th>image</th>
                     @if (auth()->user()->hasRole('admin'))
                     <th>Aksi</th>
                     @endif
@@ -112,6 +121,7 @@
                         <td>{{ $dokter->nama }}</td>
                         <td>{{ $dokter->spesialis }}</td>
                         <td>{{ $dokter->no_hp }}</td>
+                        <td><img src="{{ asset('/storage/dokters/'.$dokter->image) }}" height="100px" width="80px" alt="gambar"></td>
                         @if (auth()->user()->hasRole('admin'))
                         <td>
                             <form id="delete-form-{{$dokter->id}}" action="{{ route('dokter.destroy', $dokter->id) }}" method="POST" style="display: inline;">
@@ -155,7 +165,7 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="{{route('dokter.update',$dokter->id)}}" id="editDokterForm" method="POST">
+                                    <form action="{{route('dokter.update',$dokter->id)}}" id="editDokterForm" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @method('PUT')
                                         <div class="mb-3">
@@ -169,6 +179,16 @@
                                         <div class="mb-3">
                                             <label for="editNo_hp" class="form-label">No HP</label>
                                             <input type="number" class="form-control" id="editNo_hp" name="no_hp" value="{{$dokter->no_hp}}">
+                                        </div>
+
+                                        <div class="mb-3 row">
+                                            <label for="image" class="col-sm-2 col-form-label">Image</label>
+                                            <div class="col-sm-10">
+                                                <input type="file" class="form-control" id="image" name="image">
+                                                @if ($dokter->image)
+                                                    <img src="{{ asset('storage/dokters/'.$dokter->image) }}" alt="Dokter Image" class="mt-2" width="100">
+                                                @endif
+                                            </div>
                                         </div>
                                         <button type="submit" class="btn btn-primary">Save Changes</button>
                                     </form>
@@ -194,14 +214,14 @@
             document.querySelectorAll('.editDokterBtn').forEach(button => {
                 button.addEventListener('click', function() {
                     var dokterId = this.getAttribute('data-id');
-                    fetch(/dokter/${dokterId}/edit)
+                    fetch(`/dokter/${dokterId}/edit`)
                         .then(response => response.json())
                         .then(data => {
                             // Fill the modal form with the dokter data
                             document.getElementById('editNama').value = data.nama;
                             document.getElementById('editSpesialis').value = data.spesialis;
                             document.getElementById('editNo_hp').value = data.no_hp;
-                            document.getElementById('editDokterForm').action = /dokter/${dokterId};
+                            document.getElementById('editDokterForm').action = `/dokter/${dokterId}`;
                         })
                         .catch(error => console.error('Error fetching dokter data:', error));
                 });

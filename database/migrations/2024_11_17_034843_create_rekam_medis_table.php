@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('kunjungan_id')->constrained('kunjungans')->onDelete('cascade'); // Relasi dengan tabel kunjungans
             $table->text('diagnosa'); // Kolom untuk diagnosa
             $table->text('tindakan'); // Kolom untuk tindakan
-            $table->string('image'); // Kolom untuk menyimpan path file image
+            $table->string('image')->nullable()->change();
             $table->timestamps();
         });
     }

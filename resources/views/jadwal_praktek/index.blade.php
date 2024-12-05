@@ -49,6 +49,54 @@
             + Tambah Jadwal
         </button>
 
+        <!-- Add Modal -->
+    <div class="modal fade" id="addJadwalModal" tabindex="-1" aria-labelledby="addJadwalModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="{{ route('jadwal_praktek.store') }}" method="POST">
+                @csrf
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addJadwalModalLabel">Tambah Jadwal Praktek</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label>Dokter</label> table
+                            <select name="dokter_id" class="form-control">
+                                @foreach($dokters as $dokter)
+                                <option value="{{ $dokter->id }}">{{ $dokter->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Hari</label>
+                            <select name="hari" class="form-control" required>
+                                <option value="">Pilih Hari</option>
+                                <option value="Senin">Senin</option>
+                                <option value="Selasa">Selasa</option>
+                                <option value="Rabu">Rabu</option>
+                                <option value="Kamis">Kamis</option>
+                                <option value="Jumat">Jumat</option>
+                                <option value="Sabtu">Sabtu</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Jam Mulai</label>
+                            <input type="time" name="jam_mulai" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label>Jam Selesai</label>
+                            <input type="time" name="jam_selesai" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
         <!-- Table -->
         <table class="table table-striped">
             <thead>
@@ -97,58 +145,14 @@
                                     </script>
                     </td>
                 </tr>
+<<<<<<< HEAD
+=======
+                
+>>>>>>> acfe71a9a84e68d771a0e308f663e60a2365a251
             </tbody>
         </table>
 
         {{ $jadwalPrakteks->links() }}
-    </div>
-
-    <!-- Add Modal -->
-    <div class="modal fade" id="addJadwalModal" tabindex="-1" aria-labelledby="addJadwalModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <form action="{{ route('jadwal_praktek.store') }}" method="POST">
-                @csrf
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addJadwalModalLabel">Tambah Jadwal Praktek</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label>Dokter</label> table
-                            <select name="dokter_id" class="form-control">
-                                @foreach($dokters as $dokter)
-                                <option value="{{ $dokter->id }}">{{ $dokter->nama }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label>Hari</label>
-                            <select name="hari" class="form-control" required>
-                                <option value="">Pilih Hari</option>
-                                <option value="Senin">Senin</option>
-                                <option value="Selasa">Selasa</option>
-                                <option value="Rabu">Rabu</option>
-                                <option value="Kamis">Kamis</option>
-                                <option value="Jumat">Jumat</option>
-                                <option value="Sabtu">Sabtu</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label>Jam Mulai</label>
-                            <input type="time" name="jam_mulai" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label>Jam Selesai</label>
-                            <input type="time" name="jam_selesai" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Simpan</button>
-                    </div>
-                </div>
-            </form>
-        </div>
     </div>
 
     <!-- Edit Modal -->
@@ -224,4 +228,5 @@
 </body>
 
 </html>
+@endforeach
 @endsection

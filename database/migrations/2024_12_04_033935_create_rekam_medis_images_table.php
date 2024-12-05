@@ -11,20 +11,20 @@ return new class extends Migration
      */
     public function up()
 {
-    Schema::create('dokters', function (Blueprint $table) {
+    Schema::create('rekam_medis_images', function (Blueprint $table) {
         $table->id();
-        $table->string('nama');
-        $table->string('spesialis');
-        $table->string('no_hp')->unique();
-        $table->string('image');
+        $table->foreignId('rekam_medis_id')->constrained()->onDelete('cascade');
+        $table->string('image_path');
         $table->timestamps();
     });
 }
-   /**
+
+
+    /**
      * Reverse the migrations.
-     */     
+     */
     public function down(): void
     {
-        Schema::dropIfExists('dokters');
+        Schema::dropIfExists('rekam_medis_images');
     }
 };

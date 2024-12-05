@@ -1,0 +1,157 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.header-admin{
+    height: 100px;
+}
+.card{
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-image: url('/asset/img/bg.png');
+
+}
+.header-admin{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+.header-admin h1,.header-admin h3{
+    color: white;
+
+}
+.header-admin img{
+    width: 150px;
+    height: 150px;
+}
+.container-square{
+    display: flex;
+}
+.square {
+    margin-right: 20px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 300px;
+    max-height: fit-content;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.subtitle-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.subtitle {
+    font-size: 18px;
+    color: #555;
+}
+
+.item {
+    background-color: #f4f4f4;
+    padding: 0px 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+}
+.square2 {
+    margin-right: 150px;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 300px;
+max-height: fit-content;}
+
+.title2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.subtitle-container2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.subtitle2 {
+    font-size: 18px;
+    color: #555;
+}
+
+.item2 {
+    background-color: #f4f4f4;
+    padding: 0px 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+}
+.square3 {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+}
+
+.title3 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.subtitle-container3 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.subtitle3 {
+    font-size: 18px;
+    color: #555;
+}
+
+.item3 {
+    background-color: #f4f4f4;
+    padding: 0px 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+}
+.square4 {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 750px;
+}
+
+.title4 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.subtitle-container4 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.subtitle4 {
+    font-size: 18px;
+    color: #555;
+}
+
+.item4 {
+    background-color: #f4f4f4;
+    padding: 0px 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+}

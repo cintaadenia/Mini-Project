@@ -83,6 +83,15 @@
                                 @enderror
                             </div>
                             <div class="mb-3 row">
+                                <label for="keluhan" class="col-sm-2 col-form-label">Keluhan</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="keluhan" name="keluhan" value="{{ old('keluhan') }}">
+                                </div>
+                                @error('tanggal_kunjungan')
+                                    <p style="color: red">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="mb-3 row">
                                 <label for="tanggal_kunjungan" class="col-sm-2 col-form-label">Tanggal Kunjungan</label>
                                 <div class="col-sm-10">
                                     <input type="date" class="form-control" id="tanggal_kunjungan" name="tanggal_kunjungan" value="{{ old('tanggal_kunjungan') }}">
