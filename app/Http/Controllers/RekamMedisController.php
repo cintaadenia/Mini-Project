@@ -9,6 +9,7 @@ use App\Models\RekamMedisImage;
 use Illuminate\Container\Attributes\DB;
 use Illuminate\Http\Request;
 use function Laravel\Prompts\select;
+use Illuminate\Support\Facades\Storage;
 
 class RekamMedisController extends Controller
 {
@@ -24,21 +25,13 @@ class RekamMedisController extends Controller
     $search = $request->input('search');
 
     // Query for searching by patient's name, diagnosis, and action
-    $rekamMedis = RekamMedis::when($search, function ($query, $search) {
-        return $query->where(function ($query) use ($search) {
-            // Search by patient's name
-            $query->whereHas('kunjungan.pasien', function ($query) use ($search) {
-                $query->where('nama', 'like', '%' . $search . '%');
-            })
-            // Search by diagnosis
-            ->orWhere('diagnosa', 'like', '%' . $search . '%')
-            // Search by action
-            ->orWhere('tindakan', 'like', '%' . $search . '%');
-        });
+    $rekamMedis = RekamMedis::whereHas('kunjungan.pasien', function($query) use ($search) {
+        $query->where('nama', 'like', "%$search%");
     })
-    ->with('kunjungan.pasien')
+    ->orWhere('diagnosa', 'like', "%$search%")
+    ->orWhere('tindakan', 'like', "%$search%")
     ->paginate(10);
-
+    
     // Get all kunjungan data
     $kunjungans = Kunjungan::with('pasien')->get();
 
@@ -53,31 +46,30 @@ class RekamMedisController extends Controller
 
     public function store(Request $request)
 {
-    $request->validate([
-        'kunjungan_id' => 'required|exists:kunjungans,id',
-        'diagnosa' => 'required|string',
-        'tindakan' => 'required|string',
-        'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+    $validated = $request->validate([
+        'kunjungan_id' => 'required',
+        'diagnosa' => 'required',
+        'tindakan' => 'required',
+        'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
     ]);
 
     $rekamMedis = RekamMedis::create([
-        'kunjungan_id' => $request->kunjungan_id,
-        'diagnosa' => $request->diagnosa,
-        'tindakan' => $request->tindakan,
+        'kunjungan_id' => $validated['kunjungan_id'],
+        'diagnosa' => $validated['diagnosa'],
+        'tindakan' => $validated['tindakan'],
     ]);
 
     if ($request->hasFile('images')) {
         foreach ($request->file('images') as $image) {
             $path = $image->store('rekam_medis', 'public');
-            RekamMedisImage::create([
-                'rekam_medis_id' => $rekamMedis->id,
-                'image_path' => $path,
-            ]);
+            $rekamMedis->images()->create(['image_path' => $path]);
         }
     }
 
-    return redirect()->back()->with('success', 'Rekam Medis berhasil ditambahkan!');
+    return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil ditambahkan!');
 }
+
+
 
     public function edit(RekamMedis $rekamMedis)
     {
@@ -88,44 +80,66 @@ class RekamMedisController extends Controller
     public function update(Request $request, $id)
 {
     $request->validate([
-        'kunjungan_id' => 'required',
-        'diagnosa' => 'required|string',
-        'tindakan' => 'required|string',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'diagnosa' => 'required|string|max:255',
+        'tindakan' => 'required|string|max:255',
+        'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
     ]);
 
     $rekamMedis = RekamMedis::findOrFail($id);
 
-    $data = $request->all();
-
-    // Handle the image upload if a new image is uploaded
-    if ($request->hasFile('image')) {
-        // Delete the old image if it exists
-        if ($rekamMedis->image && file_exists(public_path('storage/rekam_medis/'.$rekamMedis->image))) {
-            unlink(public_path('storage/rekam_medis/'.$rekamMedis->image));
+    // Handle deletion of selected images
+    if ($request->has('delete_images')) {
+        foreach ($request->delete_images as $imageId) {
+            $image = RekamMedisImage::find($imageId);
+            if ($image) {
+                // Delete image file from storage
+                Storage::delete('public/' . $image->image_path); // Corrected path
+                // Delete image record from the database
+                $image->delete();
+            }
         }
-
-        $imageName = time().'.'.$request->image->extension();
-        $request->image->move(public_path('storage/rekam_medis'), $imageName);
-        $data['image'] = $imageName;
     }
 
-    $rekamMedis->update($data);
-    return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil diperbarui.');
+    // Update other fields (diagnosa, tindakan, etc.)
+    $rekamMedis->update($request->only(['kunjungan_id', 'diagnosa', 'tindakan'])); // Ensure only relevant fields are updated
+
+    // Handle new image uploads
+    if ($request->hasFile('new_images')) {
+        foreach ($request->file('new_images') as $file) {
+            $path = $file->store('rekam_medis_images', 'public');
+            $rekamMedis->images()->create(['image_path' => $path]); // Use $rekamMedis instead of $rm
+        }
+    }    
+
+    return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil diupdate.');
 }
-
-
 
 public function destroy(RekamMedis $rekamMedis, $id)
 {
     $rekamMedis = RekamMedis::findOrFail($id);
 
-    // Delete the image if it exists
-    if ($rekamMedis->image && file_exists(public_path('storage/rekam_medis/'.$rekamMedis->image))) {
-        unlink(public_path('storage/rekam_medis/'.$rekamMedis->image));
+    // Delete associated images from storage
+    foreach ($rekamMedis->images as $image) {
+        Storage::delete('public/' . $image->image_path); // Use Storage facade
     }
 
+    // Delete RekamMedis record
     $rekamMedis->delete();
-    return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil dihapus.');
+
+    return redirect()->route('rekam_medis.index')->with('success', 'Rekam Medis berhasil dihapus.');
 }
+
+
+public function deleteImage($id)
+{
+    $image = RekamMedisImage::find($id);
+    if ($image) {
+        Storage::delete($image->image_path);
+        $image->delete();
+        return response()->json(['success' => true]);
+    }
+    return response()->json(['success' => false, 'message' => 'Gambar tidak ditemukan'], 404);
+}
+
+
 }
