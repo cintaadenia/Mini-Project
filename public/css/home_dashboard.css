@@ -51,7 +51,17 @@ body {
     color: #333;
     font-size: 1.8rem;
     font-weight: 600;
+    justify-content: center;
 }
+
+.navbar li:hover {
+    background-color: #ccc6c6;
+    border-radius: 10px;
+}
+
+.shadow-effect:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Bayangan muncul */
+  }
 
 .hero {
     display: flex;

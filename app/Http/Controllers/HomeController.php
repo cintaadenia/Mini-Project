@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dokter;
+use App\Models\Kunjungan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Pasien;
@@ -45,7 +47,10 @@ class HomeController extends Controller
         //     $pasien = Pasien::where('user_id', auth()->id()); // Non-admin hanya dapat melihat pasien mereka
         // }
 
+        $dokter = Dokter::all();
         $pasien = Pasien::where('user_id', auth()->id())->get();
-        return view('home', compact('jumlahPasien', 'diagnosaCount', 'pasien'));
+        $kunjungan = Kunjungan::where('user_id', auth()->id())->get();
+        $jumlah = Kunjungan::count();
+        return view('home', compact('jumlahPasien', 'diagnosaCount', 'pasien', 'kunjungan','jumlah', 'dokter'));
     }
 }

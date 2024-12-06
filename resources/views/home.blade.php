@@ -19,6 +19,7 @@
         rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="/css/home_dashboard.css">
 </head>
@@ -62,12 +63,26 @@
                     Pasien
                 </a></li>
             <li><a href="#hero">
-                    Kunjungan
+                    Buat Kunjungan
                 </a></li>
             <li><a href="#">
                     Diagnosa
                 </a></li>
-                <li class="nav-item">
+            <li><a href="#kunjungan-info">
+                    Data Kunjungan    
+            </a></li>
+        </ul>
+        <ul>
+            <li style="margin-top: 7px">
+                <a href="#">
+                    <i class="fa-solid fa-inbox"></i>
+                    @if (auth()->user()->unreadNotifications->count())
+                    <span class="notification-badge" style="color: red">{{ auth()->user()->unreadNotifications->count() }}</span>
+                    @endif
+                    <p>Inbox</p>
+                </a>
+            </li>
+                <li class="nav-item" style="margin-left: 20px; margin-top: 15px">
                     <a href="{{ route('logout') }}"
                        onclick="event.preventDefault();
                                  document.getElementById('logout-form').submit();">
@@ -113,62 +128,22 @@
         </div>
         <div id="doctors" class="doctors">
             <div class="doctor-group">
+                @foreach ($dokter as $dok)
                 <div class="doctor-card">
-                    <img alt="Dr. Andi Wijaya, Sp.PD" height="200"
-                        src="https://storage.googleapis.com/a1aa/image/k7Q1hnfWuKVtIi5aWNptzoqk3CHxmZU28e1NbYwdqDkCwD3TA.jpg"
+                    <img alt="{{ $dok->nama }}" height="200"
+                        src="{{ asset('/storage/dokters/'.$dok->image) }}"
                         width="200" />
                     <h4>
-                        Dr. Andi Wijaya, Sp.PD
+                        {{ $dok->nama }}
                     </h4>
                     <p>
-                        Dokter Spesialis Penyakit Dalam
+                       {{ $dok->spesialis }}
                     </p>
                     <p>
-                        Senin - Jumat, 08:00 - 16:00
+                        {{ $dok->no_hp }}
                     </p>
                 </div>
-                <div class="doctor-card">
-                    <img alt="Dr. Siti Nurhaliza, Sp.A" height="200"
-                        src="https://storage.googleapis.com/a1aa/image/M52TCe3fgnltnk06sAx7t5HXQAKScCmf7o0lBNdBt7UIgHunA.jpg"
-                        width="200" />
-                    <h4>
-                        Dr. Siti Nurhaliza, Sp.A
-                    </h4>
-                    <p>
-                        Dokter Spesialis Anak
-                    </p>
-                    <p>
-                        Senin - Sabtu, 09:00 - 17:00
-                    </p>
-                </div>
-                <div class="doctor-card">
-                    <img alt="Dr. Bagus Pratama, Sp.OG" height="200"
-                        src="https://storage.googleapis.com/a1aa/image/J2ieJP8BF9U9OidzseW75RhTS3qjCsdYSvkxlSjKNsVGwD3TA.jpg"
-                        width="200" />
-                    <h4>
-                        Dr. Bagus Pratama, Sp.OG
-                    </h4>
-                    <p>
-                        Dokter Spesialis Kandungan
-                    </p>
-                    <p>
-                        Senin - Jumat, 10:00 - 14:00
-                    </p>
-                </div>
-                <div class="doctor-card">
-                    <img alt="Dr. Rina Suhartini, Sp.KK" height="200"
-                        src="https://storage.googleapis.com/a1aa/image/CQRA6lv8TC7AOx37XgsYcuF0oDdz486bRjCpYfgl8DRE4h7JA.jpg"
-                        width="200" />
-                    <h4>
-                        Dr. Rina Suhartini, Sp.KK
-                    </h4>
-                    <p>
-                        Dokter Spesialis Kulit dan Kelamin
-                    </p>
-                    <p>
-                        Selasa, Kamis, Sabtu, 13:00 - 19:00
-                    </p>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
@@ -241,6 +216,41 @@
                 </div>
             @endforeach
         </div>
+    </section>
+    <section id="kunjungan-info" class="patient-info">
+        @if ($jumlah > 0)
+        <h3>Informasi Kunjungan</h3>
+        <p>Daftar kunjungan yang anda buat <br> jangan lupa untuk ke klinik</p>
+        <div class="container">
+            @foreach ($kunjungan as $kun)
+                <div class="patient-card">
+                    <b>Kunjungan : {{$loop->iteration}}</b>
+                    <p>
+                        <i class="fas fa-user"></i>
+                        <span class="label">Nama        :</span>
+                        <span class="value">{{ $kun->pasien->nama }}</span>
+                    </p>
+                    <p>
+                        <i class="fa-solid fa-user-doctor"></i>
+                        <span class="label">Dokter      :</span>
+                        <span class="value">{{ $kun->dokter->nama ?? '--menunggu keputusan admin' }}</span>
+                    </p>
+                    <p>
+                        <i class="fas fa-frown"></i>
+                        <span class="label">keluhan     :</span>
+                        <span class="value">{{ $kun->keluhan }}</span>
+                    </p>
+                    <p>
+                        <i class="fa-solid fa-calendar"></i>
+                        <span class="label">Tgl Kunjungan   :</span>
+                        <span class="value">{{ $kun->tanggal_kunjungan }}</span>
+                    </p>
+                </div>
+            @endforeach
+        </div>
+        @else
+            <b style="font-size: 1.3rem">Tidak ada data kunjungan yang tersimpan</b>
+        @endif
     </section>
 </body>
 <script>
