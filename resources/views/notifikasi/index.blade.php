@@ -15,6 +15,11 @@
                     {{ $notification->data['message'] }} untuk kunjungan ID: {{ $notification->data['kunjungan_id'] }}
                     <br>Dokter: {{ $notification->data['dokter_id'] }}
                     <small class="text-muted">Diterima: {{ $notification->created_at->diffForHumans() }}</small>
+                    @if(is_null($notification->read_at))
+                        <a href="{{ route('notifications.markAsRead', $notification->id) }}" class="btn btn-primary btn-sm">Tandai sebagai dibaca</a>
+                    @else
+                        <span class="text-muted">Dibaca</span>
+                    @endif
                 </li>
             @endforeach
         </ul>
