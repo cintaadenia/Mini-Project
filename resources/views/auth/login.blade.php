@@ -12,6 +12,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
         rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
     <style>
         body {
             
@@ -278,7 +280,7 @@
         .form-inner form .field {
             height: 50px;
             width: 100%;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         .form-inner form .field input {
@@ -333,6 +335,10 @@
             border-radius: 20px;
             position: relative;
             overflow: hidden;
+        }
+        .slide-btn{
+            margin-left: 70px;
+            
         }
 
         form .btn .btn-layer {
@@ -422,6 +428,16 @@
             left: 900px;
             z-index: 1;
         }
+        .btn-no-color {
+      background-color: transparent !important;
+      border-color: transparent !important;
+      color: inherit !important;
+      transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+
+        }
+        #btn1, #btn2 {
+    display: none;
+}
     </style>
     <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 </head>
@@ -508,7 +524,13 @@
                     <label for="login" class="slide login">Login</label>
                     <label for="signup" class="slide signup">Register</label>
                     <div class="slider-tab"></div>
+                    
                 </div>
+                <div class="slide-btn">
+                    <a id="btn1" class="btn btn-primary" style="margin-right: 150px" href="#" role="button">pasien</a>
+                    <a id="btn2" class="btn btn-primary" href="#" role="button">dokter</a>
+                </div>
+
                 <div class="form-inner">
                     <form action="{{route('login')}}" class="login" method="POST">
                       @csrf
@@ -536,6 +558,9 @@
                     </div>
                         <div class="field">
                             <input type="text" placeholder="Email Address" name="email" required>
+                        </div>
+                        <div class="field">
+                            <input type="text" id="specialty" placeholder="specialty" name="specialty" required>
                         </div>
                         <div class="field">
                             <input type="password" placeholder="Password" name="password" required>
@@ -623,6 +648,49 @@
             return false;
         });
     </script>
+        <script>
+            // Ambil elemen tombol
+            const btn1 = document.getElementById('btn1');
+            const btn2 = document.getElementById('btn2');
+            const specialtyField = document.getElementById('specialty');
+            const loginRadio = document.getElementById('login');
+            const signupRadio = document.getElementById('signup');
+        
+            // Tambahkan event listener untuk tombol pertama
+            btn1.addEventListener('click', () => {
+                setTimeout(() => {
+                    
+                    specialtyField.style.display = 'none';  // Sembunyikan input specialty
+            btn2.classList.add('btn-no-color'); // Hilangkan warna tombol kedua
+            btn1.classList.remove('btn-no-color'); // Pastikan tombol 1 tetap berwarna
+            }, 500);
+            });
+        
+            // Tambahkan event listener untuk tombol kedua
+            btn2.addEventListener('click', () => {
+                setTimeout(() => {
+                    specialtyField.style.display = 'inline-block';  // Tampilkan input specialty
+
+            btn1.classList.add('btn-no-color'); // Hilangkan warna tombol pertama
+            btn2.classList.remove('btn-no-color'); // Pastikan tombol 2 tetap berwarna
+            }, 500);
+            });
+
+            loginRadio.addEventListener('change', () => {
+    if (loginRadio.checked) {
+        btn1.style.display = 'none';
+        btn2.style.display = 'none';
+    }
+});
+
+// Tampilkan tombol pasien dan dokter ketika register dipilih
+signupRadio.addEventListener('change', () => {
+    if (signupRadio.checked) {
+        btn1.style.display = 'inline-block';
+        btn2.style.display = 'inline-block';
+    }
+});
+        </script>
 </body>
 
 </html>
