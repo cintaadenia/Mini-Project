@@ -560,6 +560,17 @@
         <div class="content-bottom">
             <div class="content-table">
                 <div class="content-table-text">
+                    <li class="nav-item" style="margin-left: 20px; margin-top: 15px">
+                        <a href="{{ route('logout') }}"
+                           onclick="event.preventDefault();
+                                     document.getElementById('logout-form').submit();">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <p>Logout</p>
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </li>
                     <h2>Data Kunjungan Pasien</h2>
                     <p>Berikut adalah daftar pasien beserta keluhan yang terdaftar.</p>
                 </div>
@@ -616,6 +627,8 @@
             </div>
         </div>
     </div>
+
+    
     <script>
         const ctx = document.getElementById('myChart').getContext('2d');
         const myChart = new Chart(ctx, {

@@ -551,28 +551,31 @@
                             Not a member? <a href="">Signup now</a>
                         </div>
                     </form>
-                    <form action="{{route('register')}}" class="signup" method="POST">
-                      @csrf
-                      <div class="field">
-                        <input type="text"  placeholder="name" name="name" required>
-                    </div>
+                    <form action="{{ route('register') }}" method="POST">
+                        @csrf
                         <div class="field">
-                            <input type="text" placeholder="Email Address" name="email" required>
+                            <input type="text" placeholder="Name" name="name" required>
                         </div>
                         <div class="field">
-                            <input type="text" id="specialty" placeholder="specialty" name="specialty" required>
+                            <input type="email" placeholder="Email Address" name="email" required>
+                        </div>
+                        <div class="field">
+                            <input type="text" placeholder="Specialty" name="specialty" required>
+                        </div>
+                        <div class="field">
+                            <input type="text" placeholder="Phone Number" name="phone" required>
                         </div>
                         <div class="field">
                             <input type="password" placeholder="Password" name="password" required>
                         </div>
                         <div class="field">
-                            <input type="password" placeholder="Confirm password" name="password_confirmation" required>
+                            <input type="password" placeholder="Confirm Password" name="password_confirmation" required>
                         </div>
                         <div class="field btn">
-                            <div class="btn-layer"></div>
-                            <input type="submit" value="Signup">
+                            <input type="submit" value="Register as Dokter">
                         </div>
                     </form>
+                                          
                 </div>
             </div>
         </div>

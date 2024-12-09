@@ -28,7 +28,9 @@ Route::get('/admin', function () {
     $visits = [120, 150, 180, 130, 170, 200, 220, 210, 190, 230, 240, 250];
 
     return view('admin-home', compact('months', 'visits'));
-})->middleware(['auth', 'role:admin|dokter']);
+})->middleware(['auth', 'role:admin']);
+
+
 
 Route::get('/notifikasi', function () {
     $notifications = auth()->user()->notifications;
@@ -37,6 +39,10 @@ Route::get('/notifikasi', function () {
 Route::get('/notifications/{id}', function() {
     
 });
+
+Route::get('/home-dokter', function () {
+    return view('dokterdashboard');
+})->middleware(['auth', 'role:dokter']);
 
 // Routes accessible by both admin and dokter
 Route::middleware('auth')->group(function () {
