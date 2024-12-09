@@ -574,8 +574,7 @@
                         <div class="field btn">
                             <input type="submit" value="Register as Dokter">
                         </div>
-                    </form>
-                                          
+                    </form>                    
                 </div>
             </div>
         </div>
