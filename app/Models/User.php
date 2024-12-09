@@ -22,6 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'spesialisasi',
+        'image',
         'role',
     ];
 
@@ -46,6 +48,12 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Di dalam model User.php
+    public function dokter()
+    {
+    return $this->hasOne(Dokter::class); // Menyatakan bahwa user memiliki satu dokter
     }
 
     

@@ -73,34 +73,53 @@ class DokterController extends Controller
         return response()->json($dokter);
     }
 
-    public function update(Request $request, $id)
+    // ProfileController.php
+public function update(Request $request)
 {
-    $dokter = Dokter::findOrFail($id);
+    // Mengambil data pengguna yang sedang login
+    $user = Auth::user();
 
+    // Validasi input data
     $request->validate([
-        'nama' => 'required',
-        'spesialis' => 'required',
-        'no_hp' => 'required',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Add image validation
+        'name' => 'required|string|max:255',
+        'spesialisasi' => 'required|string|max:255',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ]);
 
-    $data = $request->all();
+    // Memperbarui nama dan spesialisasi pada tabel users
+    $user->name = $request->name;
+    $user->spesialisasi = $request->spesialisasi;
 
-    // Handle image upload if a new image is uploaded
+    // Menangani upload foto profil
     if ($request->hasFile('image')) {
-        // Delete the old image if it exists
-        if ($dokter->image && file_exists(public_path('storage/dokters/'.$dokter->image))) {
-            unlink(public_path('storage/dokters/'.$dokter->image));
+        // Menghapus foto lama jika ada
+        if ($user->image && Storage::exists('public/' . $user->image)) {
+            Storage::delete('public/' . $user->image);
         }
 
-        $imageName = time().'.'.$request->image->extension();
-        $request->image->move(public_path('storage/dokters'), $imageName);
-        $data['image'] = $imageName;
+        // Menyimpan foto baru
+        $path = $request->file('image')->store('profile_images', 'public');
+        $user->image = $path;
     }
 
-    $dokter->update($data);
-    return redirect()->route('dokter.index')->with('success', 'Data dokter berhasil diperbarui.');
+    // Menyimpan perubahan ke tabel users
+    $user->save();
+
+    // Menyimpan perubahan ke tabel dokter jika diperlukan
+    $dokter = $user->dokter; // Asumsi ada relasi antara user dan dokter
+    if ($dokter) {
+        $dokter->spesialis = $request->spesialisasi; // Mengupdate spesialisasi pada tabel dokter
+        if ($request->hasFile('image')) {
+            // Update the doctor's image if a new one is uploaded
+            $dokter->image = $user->image;  // Set the new image path from user
+        }
+        $dokter->save();
+    }
+
+    // Mengarahkan kembali dengan pesan sukses
+    return redirect()->route('home-dokter')->with('success', 'Profil berhasil diperbarui!');
 }
+
 
     public function destroy($id)
     {

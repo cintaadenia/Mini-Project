@@ -15,26 +15,29 @@ class Kunjungan extends Model
         'is_assigned' => 'boolean',
     ];
 
-    public function pasien(){
-        return $this->belongsTo(Pasien::class, 'pasien_id', 'id');
-    }
+    public function pasien()
+{
+    return $this->belongsTo(Pasien::class, 'pasien_id', 'id');
+}   
 
-    public function dokter()
-    {
-        return $this->belongsTo(Dokter::class);
-    }
+public function dokter()
+{
+    return $this->belongsTo(Dokter::class);
+}
 
     public function rekamMedis()
     {
         return $this->hasOne(RekamMedis::class);
     }
 
-    public function resep(){
-        return $this->hasMany(Resep::class);
-    }
+    public function resep()
+{
+    return $this->hasOne(Resep::class);  // Assuming each Kunjungan has one Resep
+}
+    public function user()
+{
+    return $this->belongsTo(User::class);  // Menambahkan 'return' untuk relasi ini
+}
 
-    public function user(){
-        $this->belongsTo(User::class);
-    }
 }
 

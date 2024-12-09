@@ -42,18 +42,20 @@ class ResepController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'kunjungan_id' => 'required',
-            'deskripsi' => 'required',
-        ]);
+{
+    $request->validate([
+        'kunjungan_id' => 'required',
+        'deskripsi' => 'required',
+    ]);
 
-        Resep::create([
-            'kunjungan_id' => $request->kunjungan_id,
-            'deskripsi' => $request->deskripsi
-        ]);
-        return redirect()->route('resep.index')->with('success', 'Resep berhasil ditambahkan.');
-    }
+    Resep::create([
+        'kunjungan_id' => $request->kunjungan_id,
+        'deskripsi' => $request->deskripsi
+    ]);
+
+    return redirect()->route('resep.index')->with('success', 'Resep berhasil ditambahkan.');
+}
+
 
     public function show(Resep $resep)
     {
@@ -67,16 +69,27 @@ class ResepController extends Controller
     }
 
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'kunjungan_id' => 'required',
-            'deskripsi' => 'required',
-        ]);
+{
+    // Validasi untuk deskripsi
+    $request->validate([
+        'deskripsi' => 'required|string', // Validasi deskripsi
+    ]);
 
-        $resep = Resep::findOrFail($id);
-        $resep->update($request->all());
-        return redirect()->route('resep.index')->with('success', 'Resep berhasil diperbarui.');
-    }
+    // Temukan resep berdasarkan ID
+    $resep = Resep::findOrFail($id);
+
+    // Perbarui hanya deskripsi
+    $resep->update([
+        'deskripsi' => $request->deskripsi,
+    ]);
+
+    // Redirect ke halaman index dengan pesan sukses
+    if (auth()->user()->hasRole('dokter')) {
+    return redirect()->route('home-dokter')->with('success', 'Diagnosa berhasil diperbarui.');
+    }else
+    return redirect()->route('resep.index')->with('success', 'Diagnosa berhasil diperbarui.');
+}
+
 
     public function destroy($id)
     {

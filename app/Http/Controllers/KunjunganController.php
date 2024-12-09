@@ -108,4 +108,37 @@ class KunjunganController extends Controller
         $kunjungan->delete();
         return redirect()->route('kunjungan.index')->with('success', 'Data kunjungan berhasil dihapus.');
     }
+
+    public function dashboard()
+{
+    $doctor = auth()->user(); // Get the logged-in doctor
+
+    // Get the visits related to the logged-in doctor
+    $kunjungan = Kunjungan::where('dokter_id', $doctor->dokter->id) // Filter by the doctor's ID
+                          ->with('pasien') // Eager load the patient data
+                          ->get();
+
+    // Return the data to the doctor dashboard view
+    return view('home-dokter', compact('kunjungan'));
+}
+
+public function updateDiagnosa(Request $request)
+{
+    // Validate the request
+    $request->validate([
+        'kunjungan_id' => 'required|exists:kunjungans,id',
+        'diagnosa' => 'required|string',
+    ]);
+
+    // Find the Kunjungan by ID
+    $kunjungan = Kunjungan::findOrFail($request->kunjungan_id);
+
+    // Update the diagnosis
+    $kunjungan->diagnosa = $request->diagnosa;
+    $kunjungan->save();
+
+    // Redirect back with a success message
+    return redirect()->route('home-dokter')->with('success', 'Diagnosa berhasil diperbarui');
+}
+
 }

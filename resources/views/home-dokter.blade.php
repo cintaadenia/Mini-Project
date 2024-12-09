@@ -522,6 +522,26 @@
                 height: 8px;
                 /* Tinggi indikator legend lebih kecil */
             }
+            #editModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#editModal form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 500px;
+    width: 100%;
+}
+
         }
     </style>
 </head>
@@ -536,7 +556,7 @@
                 </div>
                 <div class="welcome">
                     <div class="welcome-text">
-                        <h2>Selamat Datang, Dr. [Nama Dokter]!</h2>
+                        <h2>Selamat Datang, Dr. {{ Auth::user()->name }}!</h2>
                         <p>Semoga Harimu Menyenangkan</p>
                     </div>
                     <img src="{{ asset('asset/img/dokter.png') }}" alt="">
@@ -547,22 +567,29 @@
                     <h1>Profile Saya</h1>
                     <i class="fa-solid fa-pen"></i>
                 </div>
-                <div class="profile-info">
-                    <img src="{{ asset('asset/img/dokter.png') }}" width="auto" alt="">
-                    <div class="profile-info-text">
-                        <h2>Dr. Andi Wijaya</h2>
-                        <p>Spesialisasi: Dokter Umum</p>
-                        <a href="#">Ubah Foto</a>
+                @if (Auth::check())
+                    <div class="profile-info">
+                        <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('asset/img/dokter.png') }}"
+                            width="auto" alt="Foto Profil">
+                        <div class="profile-info-text">
+                            <h2>{{ Auth::user()->name }}</h2>
+                            <p>Spesialisasi: {{ Auth::user()->spesialisasi }}</p>
+                            <!-- Link untuk mengarahkan ke halaman edit profil -->
+                            <a href="{{ route('profile') }}" class="btn btn-primary">Ubah Profil</a>
+                        </div>
                     </div>
-                </div>
+                @else
+                    <p>Anda harus login untuk melihat profil.</p>
+                @endif
             </div>
+
         </div>
         <div class="content-bottom">
             <div class="content-table">
                 <div class="content-table-text">
                     <li class="nav-item" style="margin-left: 20px; margin-top: 15px">
                         <a href="{{ route('logout') }}"
-                           onclick="event.preventDefault();
+                            onclick="event.preventDefault();
                                      document.getElementById('logout-form').submit();">
                             <i class="fas fa-sign-out-alt"></i>
                             <p>Logout</p>
@@ -579,29 +606,47 @@
                         <table>
                             <tr>
                                 <th>Nama Pasien</th>
+                                <th>Tanggal Kunjungan</th>
                                 <th>Keluhan</th>
+                                <th>Diagnosa</th>
+                                <th>Aksi</th>
                             </tr>
-                            <tr>
-                                <td>Ani Rahmawati</td>
-                                <td>Demam tinggi dan sakit kepala</td>
-                            </tr>
-                            <tr>
-                                <td>Ani Rahmawati</td>
-                                <td>Demam tinggi dan sakit kepala</td>
-                            </tr>
-                            <tr>
-                                <td>Ani Rahmawati</td>
-                                <td>Demam tinggi dan sakit kepala</td>
-                            </tr>
-                            <tr>
-                                <td>Ani Rahmawati</td>
-                                <td>Demam tinggi dan sakit kepala</td>
-                            </tr>
-                            <tr>
-                                <td>Ani Rahmawati</td>
-                                <td>Demam tinggi dan sakit kepala</td>
-                            </tr>
-                        </table>
+                            @foreach ($kunjungan as $kunjunganItem)
+                                <tr>
+                                    <td>{{ $kunjunganItem->pasien->nama }}</td>
+                                    <td>{{ $kunjunganItem->tanggal_kunjungan }}</td>
+                                    <td>{{ $kunjunganItem->keluhan }}</td>
+                                    <td>
+                                        @if($kunjunganItem->resep)
+                                            {{ $kunjunganItem->resep->deskripsi }}
+                                        @else
+                                            Belum ada diagnosa
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <!-- Form for editing diagnosa -->
+                                        @if($kunjunganItem->resep)
+                                            <!-- If resep exists, show edit form -->
+                                            <form action="{{ route('resep.update', $kunjunganItem->resep->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <input type="text" name="deskripsi" value="{{ $kunjunganItem->resep->deskripsi }}" required>
+                                                <button type="submit">Perbarui Diagnosa</button>
+                                            </form>
+                                        @else
+                                            <!-- If resep does not exist, show create form -->
+                                            <form action="{{ route('resep.store') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="kunjungan_id" value="{{ $kunjunganItem->id }}">
+                                                <input type="text" name="deskripsi" placeholder="Masukkan Diagnosa" required>
+                                                <button type="submit">Tambah Diagnosa</button>
+                                            </form>
+                                        @endif
+                                    </td>                                    
+                                </tr>
+                            @endforeach
+                        </table>                                                                      
+                                     
                     </div>
                 </div>
             </div>
@@ -628,7 +673,7 @@
         </div>
     </div>
 
-    
+
     <script>
         const ctx = document.getElementById('myChart').getContext('2d');
         const myChart = new Chart(ctx, {
