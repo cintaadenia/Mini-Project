@@ -20,5 +20,9 @@ class Resep extends Model
     {
         return $this->hasMany(Obat::class);
     }
+    public function rekamMedis()
+{
+    return $this->belongsTo(RekamMedis::class);
+}
 }
 

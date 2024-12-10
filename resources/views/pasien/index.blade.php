@@ -54,19 +54,19 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="nama" class="form-label">Nama</label>
-                                <input type="text" class="form-control" id="nama" name="nama" required>
+                                <input type="text" class="form-control" id="nama" name="nama" >
                             </div>
                             <div class="mb-3">
                                 <label for="alamat" class="form-label">Alamat</label>
-                                <input type="text" class="form-control" id="alamat" name="alamat" required>
+                                <input type="text" class="form-control" id="alamat" name="alamat" >
                             </div>
                             <div class="mb-3">
                                 <label for="no_hp" class="form-label">No HP</label>
-                                <input type="text" class="form-control" id="no_hp" name="no_hp" required>
+                                <input type="text" class="form-control" id="no_hp" name="no_hp" >
                             </div>
                             <div class="mb-3">
                                 <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                                <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required>
+                                <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" >
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -96,18 +96,17 @@
                 @foreach ($pasiens as $pasien)
                 <tr>
                     <td>{{ $pasien->nama }}</td>
-                    <td>{{ $pasien->alamat }}</td>
-                    <td>{{ $pasien->no_hp }}</td>
-                    <td>{{ $pasien->tanggal_lahir }}</td>
+                    <td>{{ $pasien->alamat ?: 'kosong' }}</td> <!-- Menampilkan 'kosong' jika alamat kosong -->
+                    <td>{{ $pasien->no_hp ?: 'kosong' }}</td> <!-- Menampilkan 'kosong' jika no_hp kosong -->
+                    <td>{{ $pasien->tanggal_lahir ?: 'kosong' }}</td> <!-- Menampilkan 'kosong' jika tanggal_lahir kosong -->
                     @if (auth()->user()->hasRole('admin'))
                     <td>
                         <form id="delete-form-{{ $pasien->id }}" action="{{ route('pasien.destroy', $pasien->id) }}" method="POST" style="display: none;">
                             @csrf
                             @method('DELETE')
                         </form>
-                            <button type="submit" class="btn btn-danger btn-sm"
-                                onclick="confirmDelete({{ $pasien->id }})">Hapus</button>
-
+                        <button type="submit" class="btn btn-danger btn-sm"
+                            onclick="confirmDelete({{ $pasien->id }})">Hapus</button>
                                 <script>
                                     function confirmDelete(id) {
                                         Swal.fire({
@@ -149,19 +148,19 @@
                                 <div class="modal-body">
                                     <div class="mb-3">
                                         <label for="nama" class="form-label">Nama</label>
-                                        <input type="text" class="form-control" id="nama" name="nama" value="{{ $pasien->nama }}" required>
+                                        <input type="text" class="form-control" id="nama" name="nama" value="{{ $pasien->nama }}" >
                                     </div>
                                     <div class="mb-3">
                                         <label for="alamat" class="form-label">Alamat</label>
-                                        <input type="text" class="form-control" id="alamat" name="alamat" value="{{ $pasien->alamat }}" required>
+                                        <input type="text" class="form-control" id="alamat" name="alamat" value="{{ $pasien->alamat }}" >
                                     </div>
                                     <div class="mb-3">
                                         <label for="no_hp" class="form-label">No HP</label>
-                                        <input type="text" class="form-control" id="no_hp" name="no_hp" value="{{ $pasien->no_hp }}" required>
+                                        <input type="text" class="form-control" id="no_hp" name="no_hp" value="{{ $pasien->no_hp }}" >
                                     </div>
                                     <div class="mb-3">
                                         <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                                        <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" value="{{ $pasien->tanggal_lahir }}" required>
+                                        <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" value="{{ $pasien->tanggal_lahir }}" >
                                     </div>
                                 </div>
                                 <div class="modal-footer">

@@ -21,6 +21,11 @@ class RekamMedis extends Model
     return $this->hasMany(RekamMedisImage::class);
 }
 
+public function resep()
+{
+    return $this->hasMany(Resep::class);
+}
+
 
 }
 
