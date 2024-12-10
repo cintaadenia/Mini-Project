@@ -9,6 +9,7 @@ use App\Http\Controllers\ResepController;
 use App\Http\Controllers\KunjunganController;
 use App\Http\Controllers\JadwalPraktekController;
 use App\Http\Controllers\RekamMedisController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 
 // Home Route
@@ -28,7 +29,9 @@ Route::get('/admin', function () {
     $visits = [120, 150, 180, 130, 170, 200, 220, 210, 190, 230, 240, 250];
 
     return view('admin-home', compact('months', 'visits'));
-})->middleware(['auth', 'role:admin|dokter']);
+})->middleware(['auth', 'role:admin']);
+
+
 
 Route::get('/notifikasi', function () {
     $notifications = auth()->user()->notifications;
@@ -37,6 +40,9 @@ Route::get('/notifikasi', function () {
 Route::get('/notifications/{id}', function() {
     
 });
+
+Route::get('/home-dokter', [KunjunganController::class, 'dashboard'])->middleware(['auth', 'role:dokter'])->name('home-dokter');
+
 
 // Routes accessible by both admin and dokter
 Route::middleware('auth')->group(function () {
@@ -56,9 +62,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 // Admin-only routes
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('dokter', DokterController::class);
-    Route::resource('resep', ResepController::class);
     Route::resource('jadwal_praktek', JadwalPraktekController::class);
-
+    
 });
 
 // Dokter-only routes (accessible only by users with the 'dokter' role)
@@ -67,4 +72,15 @@ Route::middleware(['auth', 'role:dokter|admin'])->group(function () {
     // Route::resource('kunjungan', KunjunganController::class);
     Route::resource('jadwal_praktek', JadwalPraktekController::class);
     Route::resource('obat', ObatController::class);
+    Route::resource('resep', ResepController::class);
+    
 });
+
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+

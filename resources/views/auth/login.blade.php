@@ -159,7 +159,8 @@
     .info-item .btn:hover {
       opacity: 0.7;
       transform: scale(1.05); /* Slight scaling effect */
-        /* } */
+
+      /* } */
 
         .wrapper {
             overflow: hidden;
@@ -280,7 +281,7 @@
         .form-inner form .field {
             height: 50px;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .form-inner form .field input {
@@ -438,6 +439,21 @@
         #btn1, #btn2 {
     display: none;
 }
+#specialty-field.hidden {
+    height: 0;
+    margin: 0;
+    overflow: hidden;
+    opacity: 0;
+}
+#nohp-field.hidden {
+    height: 0;
+    margin: 0;
+    overflow: hidden;
+    opacity: 0;
+}
+.field-btn{
+    color: blue;
+}
     </style>
     <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 </head>
@@ -551,28 +567,30 @@
                             Not a member? <a href="">Signup now</a>
                         </div>
                     </form>
-                    <form action="{{route('register')}}" class="signup" method="POST">
-                      @csrf
-                      <div class="field">
-                        <input type="text"  placeholder="name" name="name" required>
-                    </div>
+                    <form action="{{ route('register') }}" method="POST">
+                        @csrf
                         <div class="field">
-                            <input type="text" placeholder="Email Address" name="email" required>
+                            <input type="text" placeholder="Name" name="name" required>
                         </div>
                         <div class="field">
-                            <input type="text" id="specialty" placeholder="specialty" name="specialty" required>
+                            <input type="email" placeholder="Email Address" name="email" required>
+                        </div>
+                        <div class="field" id="specialty-field">
+                            <input type="text" id="specialty" placeholder="Specialty" name="specialty" required>
+                        </div>
+                        <div class="field" id="nohp-field">
+                            <input type="text" id="nohp" placeholder="Phone Number" name="phone" required>
                         </div>
                         <div class="field">
                             <input type="password" placeholder="Password" name="password" required>
                         </div>
                         <div class="field">
-                            <input type="password" placeholder="Confirm password" name="password_confirmation" required>
+                            <input type="password" placeholder="Confirm Password" name="password_confirmation" required>
                         </div>
-                        <div class="field btn">
-                            <div class="btn-layer"></div>
-                            <input type="submit" value="Signup">
+                        <div class="field-btn">
+                            <input class="btn btn-primary" type="submit" value="login">
                         </div>
-                    </form>
+                    </form>                    
                 </div>
             </div>
         </div>
@@ -653,6 +671,7 @@
             const btn1 = document.getElementById('btn1');
             const btn2 = document.getElementById('btn2');
             const specialtyField = document.getElementById('specialty');
+            const nohpField = document.getElementById('nohp');
             const loginRadio = document.getElementById('login');
             const signupRadio = document.getElementById('signup');
         
@@ -660,7 +679,6 @@
             btn1.addEventListener('click', () => {
                 setTimeout(() => {
                     
-                    specialtyField.style.display = 'none';  // Sembunyikan input specialty
             btn2.classList.add('btn-no-color'); // Hilangkan warna tombol kedua
             btn1.classList.remove('btn-no-color'); // Pastikan tombol 1 tetap berwarna
             }, 500);
@@ -669,8 +687,6 @@
             // Tambahkan event listener untuk tombol kedua
             btn2.addEventListener('click', () => {
                 setTimeout(() => {
-                    specialtyField.style.display = 'inline-block';  // Tampilkan input specialty
-
             btn1.classList.add('btn-no-color'); // Hilangkan warna tombol pertama
             btn2.classList.remove('btn-no-color'); // Pastikan tombol 2 tetap berwarna
             }, 500);
@@ -690,6 +706,23 @@ signupRadio.addEventListener('change', () => {
         btn2.style.display = 'inline-block';
     }
 });
+document.getElementById('btn1').addEventListener('click', function () {
+    const specialtyField = document.getElementById('specialty-field');
+    specialtyField.classList.add('hidden');
+});
+document.getElementById('btn2').addEventListener('click', function () {
+    const specialtyField = document.getElementById('specialty-field');
+    specialtyField.classList.remove('hidden');
+});
+document.getElementById('btn1').addEventListener('click', function () {
+    const nohpField = document.getElementById('nohp-field');
+    nohpField.classList.add('hidden');
+});
+document.getElementById('btn2').addEventListener('click', function () {
+    const nohpField = document.getElementById('nohp-field');
+    nohpField.classList.remove('hidden');
+});
+
         </script>
 </body>
 

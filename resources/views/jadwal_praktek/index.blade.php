@@ -145,10 +145,6 @@
                                     </script>
                     </td>
                 </tr>
-<<<<<<< HEAD
-=======
-                
->>>>>>> acfe71a9a84e68d771a0e308f663e60a2365a251
             </tbody>
         </table>
 
@@ -228,5 +224,5 @@
 </body>
 
 </html>
-@endforeach
+
 @endsection

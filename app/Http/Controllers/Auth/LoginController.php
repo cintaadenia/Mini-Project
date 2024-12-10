@@ -38,6 +38,7 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+    
 
     /**
      * Handle redirection after user is authenticated.
@@ -53,7 +54,7 @@ class LoginController extends Controller
         }
 
         if ($user->hasRole('dokter')) {
-            return redirect('/admin'); // Redirect to admin dashboard as requested
+            return redirect('/home-dokter');
         }
 
         return redirect('/home');

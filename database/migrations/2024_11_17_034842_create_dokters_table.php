@@ -9,17 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    // Update the dokter migration file to include user_id
+public function up()
 {
     Schema::create('dokters', function (Blueprint $table) {
         $table->id();
         $table->string('nama');
         $table->string('spesialis');
         $table->string('no_hp')->unique();
-        $table->string('image');
+        $table->string('image')->nullable();
+        $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Add user_id column with foreign key
         $table->timestamps();
     });
 }
+
    /**
      * Reverse the migrations.
      */     
