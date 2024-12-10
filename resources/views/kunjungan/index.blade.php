@@ -16,12 +16,12 @@
 </head>
 
 <body>
-    @if (auth()->user()->unreadNotifications->count())
+    {{-- @if (auth()->user()->unreadNotifications->count())
     <div class="alert alert-info">
         Anda memiliki {{ auth()->user()->unreadNotifications->count() }} notifikasi baru!
         <a href="{{ route('notifikasi.index') }}">Lihat Notifikasi</a>
     </div>
-    @endif
+    @endif --}}
     <div class="container mt-5">
         <h1>Kunjungan Pasien</h1>
         @if(session('success'))

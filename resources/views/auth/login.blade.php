@@ -159,7 +159,8 @@
     .info-item .btn:hover {
       opacity: 0.7;
       transform: scale(1.05); /* Slight scaling effect */
-        /* } */
+
+      /* } */
 
         .wrapper {
             overflow: hidden;
@@ -280,7 +281,7 @@
         .form-inner form .field {
             height: 50px;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .form-inner form .field input {
@@ -438,6 +439,15 @@
         #btn1, #btn2 {
     display: none;
 }
+#specialty-field.hidden {
+    height: 0;
+    margin: 0;
+    overflow: hidden;
+    opacity: 0;
+}
+.field-btn{
+    color: blue;
+}
     </style>
     <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 </head>
@@ -559,8 +569,8 @@
                         <div class="field">
                             <input type="email" placeholder="Email Address" name="email" required>
                         </div>
-                        <div class="field">
-                            <input type="text" placeholder="Specialty" name="specialty" required>
+                        <div class="field" id="specialty-field">
+                            <input type="text" id="specialty" placeholder="Specialty" name="specialty" required>
                         </div>
                         <div class="field">
                             <input type="text" placeholder="Phone Number" name="phone" required>
@@ -571,8 +581,8 @@
                         <div class="field">
                             <input type="password" placeholder="Confirm Password" name="password_confirmation" required>
                         </div>
-                        <div class="field btn">
-                            <input type="submit" value="Register as Dokter">
+                        <div class="field-btn">
+                            <input class="btn btn-primary" type="submit" value="login">
                         </div>
                     </form>                    
                 </div>
@@ -662,7 +672,6 @@
             btn1.addEventListener('click', () => {
                 setTimeout(() => {
                     
-                    specialtyField.style.display = 'none';  // Sembunyikan input specialty
             btn2.classList.add('btn-no-color'); // Hilangkan warna tombol kedua
             btn1.classList.remove('btn-no-color'); // Pastikan tombol 1 tetap berwarna
             }, 500);
@@ -692,6 +701,15 @@ signupRadio.addEventListener('change', () => {
         btn2.style.display = 'inline-block';
     }
 });
+document.getElementById('btn1').addEventListener('click', function () {
+    const specialtyField = document.getElementById('specialty-field');
+    specialtyField.classList.add('hidden');
+});
+document.getElementById('btn2').addEventListener('click', function () {
+    const specialtyField = document.getElementById('specialty-field');
+    specialtyField.classList.remove('hidden');
+});
+
         </script>
 </body>
 
