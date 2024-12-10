@@ -1,4 +1,5 @@
 <!-- profile.blade.php -->
+
 <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
