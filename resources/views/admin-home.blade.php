@@ -93,7 +93,7 @@
           </div>
       </div>
       <div class="square3">
-        <div class="title3">Data kunjungan per bulan</div>
+        <div class="title3">presentasi dokter menangani pasien</div>
         <div class="subtitle-container3">
             <div>
                 <canvas id="pieChart"></canvas>
@@ -102,7 +102,7 @@
     </div>
         </div>
         <div class="square4">
-          <div class="title4">data kunjungan  bulan</div>
+          <div class="title4">data kunjungan per bulan</div>
           <div class="subtitle-container4">
             <div style="width: 70%; margin: auto; padding-top: 10px;">
                 <canvas id="barChart"></canvas>
@@ -143,9 +143,9 @@
     const pieChart = new Chart(pieCtx, {
         type: 'pie',
         data: {
-            labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni'],
+            labels: ['dr.asep', 'dr.raza', 'dr.kika', 'dr.mike', 'dr.putra', 'dr.fany'],
             datasets: [{
-                label: 'Jumlah Kunjungan',
+                label: 'Jumlah pasien',
                 data: [120, 150, 180, 130, 170, 200],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
