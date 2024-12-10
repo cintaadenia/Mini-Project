@@ -445,6 +445,12 @@
     overflow: hidden;
     opacity: 0;
 }
+#nohp-field.hidden {
+    height: 0;
+    margin: 0;
+    overflow: hidden;
+    opacity: 0;
+}
 .field-btn{
     color: blue;
 }
@@ -572,8 +578,8 @@
                         <div class="field" id="specialty-field">
                             <input type="text" id="specialty" placeholder="Specialty" name="specialty" required>
                         </div>
-                        <div class="field">
-                            <input type="text" placeholder="Phone Number" name="phone" required>
+                        <div class="field" id="nohp-field">
+                            <input type="text" id="nohp" placeholder="Phone Number" name="phone" required>
                         </div>
                         <div class="field">
                             <input type="password" placeholder="Password" name="password" required>
@@ -665,6 +671,7 @@
             const btn1 = document.getElementById('btn1');
             const btn2 = document.getElementById('btn2');
             const specialtyField = document.getElementById('specialty');
+            const nohpField = document.getElementById('nohp');
             const loginRadio = document.getElementById('login');
             const signupRadio = document.getElementById('signup');
         
@@ -680,8 +687,6 @@
             // Tambahkan event listener untuk tombol kedua
             btn2.addEventListener('click', () => {
                 setTimeout(() => {
-                    specialtyField.style.display = 'inline-block';  // Tampilkan input specialty
-
             btn1.classList.add('btn-no-color'); // Hilangkan warna tombol pertama
             btn2.classList.remove('btn-no-color'); // Pastikan tombol 2 tetap berwarna
             }, 500);
@@ -708,6 +713,14 @@ document.getElementById('btn1').addEventListener('click', function () {
 document.getElementById('btn2').addEventListener('click', function () {
     const specialtyField = document.getElementById('specialty-field');
     specialtyField.classList.remove('hidden');
+});
+document.getElementById('btn1').addEventListener('click', function () {
+    const nohpField = document.getElementById('nohp-field');
+    nohpField.classList.add('hidden');
+});
+document.getElementById('btn2').addEventListener('click', function () {
+    const nohpField = document.getElementById('nohp-field');
+    nohpField.classList.remove('hidden');
 });
 
         </script>
