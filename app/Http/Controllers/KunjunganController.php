@@ -114,12 +114,12 @@ class KunjunganController extends Controller
     $doctor = auth()->user(); // Get the logged-in doctor
 
     // Get the visits related to the logged-in doctor
-    $kunjungan = Kunjungan::where('dokter_id', $doctor->dokter->id) // Filter by the doctor's ID
-                          ->with('pasien') // Eager load the patient data
-                          ->get();
+    // $kunjungan = Kunjungan::where('dokter_id', $doctor->dokter->id) // Filter by the doctor's ID
+    //                       ->with('pasien') // Eager load the patient data
+    //                       ->get();
 
     // Return the data to the doctor dashboard view
-    return view('home-dokter', compact('kunjungan'));
+    return view('home-dokter');
 }
 
 public function updateDiagnosa(Request $request)

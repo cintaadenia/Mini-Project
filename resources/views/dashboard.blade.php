@@ -79,7 +79,7 @@
         <div class="carousel-item active">
           <img src="medicio/assets/img/hero-carousel/hero-carousel-1.jpg" alt="">
           <div class="container">
-            <h2>selemat datang di AllCare</h2>
+            <h2>Selamat datang di AllCare</h2>
             <p>Kami hadir untuk memberikan pelayanan kesehatan terbaik bagi Anda dan keluarga. Dengan tenaga medis yang profesional, fasilitas yang modern, serta komitmen terhadap kenyamanan pasien, kami siap menjadi mitra terpercaya dalam menjaga kesehatan Anda.</p>
             <a href="#about" class="btn-get-started">lanjut -></a>
           </div>

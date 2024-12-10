@@ -25,7 +25,7 @@
             background-image: url('/asset/img/vector_bg.png');
             background-repeat: no-repeat;
             background-position: right top;
-            background-size: 400px;
+            background-size: 500px;
             
             /* Dark blue background for body */
         }
@@ -453,6 +453,7 @@
 }
 .field-btn{
     color: blue;
+    z-index: 1;
 }
     </style>
     <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
@@ -542,10 +543,6 @@
                     <div class="slider-tab"></div>
                     
                 </div>
-                <div class="slide-btn">
-                    <a id="btn1" class="btn btn-primary" style="margin-right: 150px" href="#" role="button">pasien</a>
-                    <a id="btn2" class="btn btn-primary" href="#" role="button">dokter</a>
-                </div>
 
                 <div class="form-inner">
                     <form action="{{route('login')}}" class="login" method="POST">
@@ -555,9 +552,6 @@
                         </div>
                         <div class="field">
                             <input type="password" placeholder="Password" name="password" required>
-                        </div>
-                        <div class="pass-link">
-                            <a href="#">Forgot password?</a>
                         </div>
                         <div class="field btn">
                             <div class="btn-layer"></div>
@@ -569,6 +563,13 @@
                     </form>
                     <form action="{{ route('register') }}" method="POST">
                         @csrf
+                        <div class="field">
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>role kamu</option>
+                                <option value="1">pasien</option>
+                                <option value="2">dokter</option>
+                              </select>
+                          </div>
                         <div class="field">
                             <input type="text" placeholder="Name" name="name" required>
                         </div>
@@ -587,8 +588,9 @@
                         <div class="field">
                             <input type="password" placeholder="Confirm Password" name="password_confirmation" required>
                         </div>
-                        <div class="field-btn">
-                            <input class="btn btn-primary" type="submit" value="login">
+                        <div class="field btn">
+                            <div class="btn-layer"></div>
+                            <input type="submit" value="simpan">
                         </div>
                     </form>                    
                 </div>
@@ -666,64 +668,6 @@
             return false;
         });
     </script>
-        <script>
-            // Ambil elemen tombol
-            const btn1 = document.getElementById('btn1');
-            const btn2 = document.getElementById('btn2');
-            const specialtyField = document.getElementById('specialty');
-            const nohpField = document.getElementById('nohp');
-            const loginRadio = document.getElementById('login');
-            const signupRadio = document.getElementById('signup');
-        
-            // Tambahkan event listener untuk tombol pertama
-            btn1.addEventListener('click', () => {
-                setTimeout(() => {
-                    
-            btn2.classList.add('btn-no-color'); // Hilangkan warna tombol kedua
-            btn1.classList.remove('btn-no-color'); // Pastikan tombol 1 tetap berwarna
-            }, 500);
-            });
-        
-            // Tambahkan event listener untuk tombol kedua
-            btn2.addEventListener('click', () => {
-                setTimeout(() => {
-            btn1.classList.add('btn-no-color'); // Hilangkan warna tombol pertama
-            btn2.classList.remove('btn-no-color'); // Pastikan tombol 2 tetap berwarna
-            }, 500);
-            });
-
-            loginRadio.addEventListener('change', () => {
-    if (loginRadio.checked) {
-        btn1.style.display = 'none';
-        btn2.style.display = 'none';
-    }
-});
-
-// Tampilkan tombol pasien dan dokter ketika register dipilih
-signupRadio.addEventListener('change', () => {
-    if (signupRadio.checked) {
-        btn1.style.display = 'inline-block';
-        btn2.style.display = 'inline-block';
-    }
-});
-document.getElementById('btn1').addEventListener('click', function () {
-    const specialtyField = document.getElementById('specialty-field');
-    specialtyField.classList.add('hidden');
-});
-document.getElementById('btn2').addEventListener('click', function () {
-    const specialtyField = document.getElementById('specialty-field');
-    specialtyField.classList.remove('hidden');
-});
-document.getElementById('btn1').addEventListener('click', function () {
-    const nohpField = document.getElementById('nohp-field');
-    nohpField.classList.add('hidden');
-});
-document.getElementById('btn2').addEventListener('click', function () {
-    const nohpField = document.getElementById('nohp-field');
-    nohpField.classList.remove('hidden');
-});
-
-        </script>
 </body>
 
 </html>
