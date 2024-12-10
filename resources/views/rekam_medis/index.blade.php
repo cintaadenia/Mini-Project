@@ -106,6 +106,15 @@
                                     <p style="color: red">{{ $message }}</p>
                                 @enderror
                             </div>
+                            <div class="mb-3 row">
+                                <label for="deskripsi" class="col-sm-2 col-form-label">Resep</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" id="deskripsi" name="deskripsi">{{ old('deskripsi') }}</textarea>
+                                </div>
+                                @error('deskripsi')
+                                    <p style="color: red">{{ $message }}</p>
+                                @enderror
+                            </div>
 
                             <!-- Image Input for Create Modal -->
                             <div id="image-container">

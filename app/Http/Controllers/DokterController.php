@@ -42,23 +42,44 @@ class DokterController extends Controller
 
     public function store(Request $request)
 {
+    // Validate input
     $request->validate([
         'nama' => 'required|string|max:255',
         'spesialis' => 'required|string|max:255',
         'no_hp' => 'required|unique:dokters,no_hp',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Add image validation
+        'email' => 'required|email|unique:users,email',
+        'password' => 'required|string|min:6',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate the image
     ]);
 
-    $data = $request->all();
+    // Handle user creation for the doctor
+    $user = User::create([
+        'name' => $request->nama,
+        'email' => $request->email,  // Menggunakan email dari input pengguna
+        'password' => bcrypt($request->password), // Menggunakan password dari input pengguna
+    ]);
 
     // Handle the image upload if provided
+    $data = $request->all();
     if ($request->hasFile('image')) {
-        $imageName = time().'.'.$request->image->extension();
+        $imageName = time() . '.' . $request->image->extension();
         $request->image->move(public_path('storage/dokters'), $imageName);
         $data['image'] = $imageName;
     }
 
-    Dokter::create($data);
+    // Create the doctor entry and associate with the created user
+    $dokter = Dokter::create([
+        'nama' => $request->nama,
+        'spesialis' => $request->spesialis,
+        'no_hp' => $request->no_hp,
+        'image' => $data['image'] ?? null,
+        'user_id' => $user->id,  // Associate with the newly created user
+    ]);
+
+    // Set the role for the doctor (assuming roles are managed via a package like Spatie)
+    $user->assignRole('dokter'); // Sesuaikan dengan sistem manajemen role Anda
+
+    // Redirect with success message
     return redirect()->route('dokter.index')->with('success', 'Data dokter berhasil ditambahkan.');
 }
 
@@ -68,65 +89,61 @@ class DokterController extends Controller
     }
 
     public function edit($id)
-    {
-        $dokter = Dokter::findOrFail($id);
-        return response()->json($dokter);
-    }
-
-    // ProfileController.php
-public function update(Request $request)
 {
-    // Mengambil data pengguna yang sedang login
-    $user = Auth::user();
-
-    // Validasi input data
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'spesialisasi' => 'required|string|max:255',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-    ]);
-
-    // Memperbarui nama dan spesialisasi pada tabel users
-    $user->name = $request->name;
-    $user->spesialisasi = $request->spesialisasi;
-
-    // Menangani upload foto profil
-    if ($request->hasFile('image')) {
-        // Menghapus foto lama jika ada
-        if ($user->image && Storage::exists('public/' . $user->image)) {
-            Storage::delete('public/' . $user->image);
-        }
-
-        // Menyimpan foto baru
-        $path = $request->file('image')->store('dokters', 'public');
-        $user->image = $path;
-    }
-
-    // Menyimpan perubahan ke tabel users
-    $user->save();
-
-    // Menyimpan perubahan ke tabel dokter jika diperlukan
-    $dokter = $user->dokter; // Asumsi ada relasi antara user dan dokter
-    if ($dokter) {
-        $dokter->spesialis = $request->spesialisasi; // Mengupdate spesialisasi pada tabel dokter
-        if ($request->hasFile('image')) {
-            // Update the doctor's image if a new one is uploaded
-            $dokter->image = $user->image;  // Set the new image path from user
-        }
-        $dokter->save();
-    }
-
-    // Mengarahkan kembali dengan pesan sukses
-    return redirect()->route('home-dokter')->with('success', 'Profil berhasil diperbarui!');
+    $dokter = Dokter::findOrFail($id);
+    return response()->json($dokter);
 }
 
 
-    public function destroy($id)
-    {
-        $dokter = Dokter::findOrFail($id);
-        $dokter->delete();
+    // ProfileController.php
+    public function update(Request $request, $id)
+{
+    // Validasi input
+    $request->validate([
+        'nama' => 'required|string|max:255',
+        'spesialis' => 'required|string|max:255',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
 
-        return redirect()->route('dokter.index')->with('success', 'Data dokter berhasil dihapus.');
+    // Cari dokter berdasarkan ID
+    $dokter = Dokter::findOrFail($id);
+
+    // Update data dokter
+    $dokter->nama = $request->nama;
+    $dokter->spesialis = $request->spesialis;
+
+    // Jika ada file gambar yang diunggah, perbarui gambar
+    if ($request->hasFile('image')) {
+        // Hapus gambar lama jika ada
+        if ($dokter->image && file_exists(public_path('storage/dokters/' . $dokter->image))) {
+            unlink(public_path('storage/dokters/' . $dokter->image));
+        }
+
+        // Simpan gambar baru
+        $imageName = time() . '.' . $request->image->extension();
+        $request->image->move(public_path('storage/dokters'), $imageName);
+        $dokter->image = $imageName;
     }
+
+    // Simpan perubahan
+    $dokter->save();
+
+    return redirect()->route('dokter.index')->with('success', 'Data dokter berhasil diperbarui.');
+}
+
+public function destroy($id)
+{
+    $dokter = Dokter::findOrFail($id);
+
+    // Hapus gambar dari storage
+    if ($dokter->image && file_exists(public_path('storage/dokters/' . $dokter->image))) {
+        unlink(public_path('storage/dokters/' . $dokter->image));
+    }
+
+    $dokter->delete();
+
+    return redirect()->route('dokter.index')->with('success', 'Data dokter berhasil dihapus.');
+}
+
 
 }
