@@ -545,7 +545,10 @@
             <div class="profile">
                 <div class="profile-header">
                     <h1>Profile Saya</h1>
-                    <i class="fa-solid fa-pen"></i>
+                    <a href="{{ route('profile')}}">
+                        <i class="fa-solid fa-pen"></i>
+
+                    </a>
                 </div>
                 <div class="profile-info">
                     <img src="{{ asset('asset/img/dokter.png') }}" width="auto" alt="">
