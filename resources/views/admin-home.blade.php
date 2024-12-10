@@ -11,46 +11,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-
-        .search input {
-            width: 100%;
-            height: 60px;
-            margin: 1.5rem 0;
-            border-radius: 1.2rem;
-        }
-
-        .search-container {
-            display: flex;
-            align-items: center;
-            width: auto;
-            height: 70px;
-            border: 2px solid #ccc;
-            border-radius: 1.5rem;
-            padding: 5px 10px;
-            background-color: #fff;
-        }
-
-        .search-container .fa-magnifying-glass {
-            color: #888;
-            margin-right: 10px;
-        }
-
-        .search-container input {
-            border: none;
-            outline: none;
-            flex: 1;
-            font-size: 1.5rem;
-        }
-
-        .search-container input::placeholder {
-            color: #aaa;
-        }
-
-        .search-container .fa-magnifying-glass {
-            color: #888;
-            margin-left: 10px;
-        }
-
         .welcome {
             display: flex;
             justify-content: space-between;
@@ -120,7 +80,7 @@
         }
 
         .content-bottom-card h2 {
-            font-weight: 800;
+            font-weight: 700;
         }
 
         .content-bottom-card p {
@@ -141,7 +101,7 @@
 
         .content-tree-chart {
             text-align: center;
-            width: 1100px;
+            width: 1070px;
             border: 1px solid #c9cbcf;
             border-radius: 10px;
             background: #fff;
@@ -354,7 +314,7 @@
             }
 
             .content-tree-chart {
-                width: 800px;
+                width: 770px;
             }
 
             .content-chart {
