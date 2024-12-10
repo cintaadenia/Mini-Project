@@ -28,9 +28,10 @@ class RegisterController extends Controller
         'email' => 'required|string|email|max:255|unique:users',
         'password' => 'required|string|min:8|confirmed',
         'specialty' => 'required|string|max:255',  // Spesialisasi harus valid
-        'phone' => 'required|string|max:15',
+        'phone' => 'required|string|regex:/^[0-9]+$/|max:15', // Hanya angka
     ]);
 }
+
 protected function create(array $data)
 {
     // Create the user

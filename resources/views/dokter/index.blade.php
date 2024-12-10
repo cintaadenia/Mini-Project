@@ -121,7 +121,7 @@
                         <td>{{ $dokter->nama }}</td>
                         <td>{{ $dokter->spesialis }}</td>
                         <td>{{ $dokter->no_hp }}</td>
-                        <td><img src="{{ asset('/storage/dokters/'.$dokter->image) }}" height="100px" width="80px" alt="gambar"></td>
+                        <td><img src="{{ asset('storage/'.$dokter->image) }}" height="100px" width="80px" alt="gambar"></td>
                         @if (auth()->user()->hasRole('admin'))
                         <td>
                             <form id="delete-form-{{$dokter->id}}" action="{{ route('dokter.destroy', $dokter->id) }}" method="POST" style="display: inline;">

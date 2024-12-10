@@ -543,6 +543,46 @@
 }
 
         }
+
+        /* Modal backdrop */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+/* Modal content box */
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto; /* Vertically and horizontally centered */
+    padding: 20px;
+    border-radius: 8px;
+    width: 50%; /* Adjust the width as needed */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
     </style>
 </head>
 
@@ -565,7 +605,7 @@
             <div class="profile">
                 <div class="profile-header">
                     <h1>Profile Saya</h1>
-                    <i class="fa-solid fa-pen"></i>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background: transparent; outline: none; border: none;" id="openModal"><i class="fa-solid fa-pen"></i></button>
                 </div>
                 @if (Auth::check())
                     <div class="profile-info">
@@ -575,12 +615,29 @@
                             <h2>{{ Auth::user()->name }}</h2>
                             <p>Spesialisasi: {{ Auth::user()->spesialisasi }}</p>
                             <!-- Link untuk mengarahkan ke halaman edit profil -->
-                            <a href="{{ route('profile') }}" class="btn btn-primary">Ubah Profil</a>
+                            <a href="{{ route('profile.update') }}" class="btn btn-primary">Ubah Profil</a>
                         </div>
                     </div>
                 @else
                     <p>Anda harus login untuk melihat profil.</p>
                 @endif
+            </div>
+            <div id="modal" class="modal">
+                <div class="modal-content">
+                    <span id="closeModal" class="close">&times;</span>
+                    <h2>Edit Profile</h2>
+                    <form >
+                        <label for="name">Nama:</label>
+                        <input type="text" id="name" name="name" required>
+                        <br><br>
+                        <label for="image">Foto:</label>
+                        <input type="file" id="image" name="image" required>
+                        <br><br>
+                        <label for="spesialis">Spesialis</label>
+                        <input type="text" id="spesialis" name="spesialis">
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
             </div>
 
         </div>
@@ -716,6 +773,30 @@
                 }
             }
         });
+    </script>
+    <script>
+        // Dapatkan elemen
+        const modal = document.getElementById('modal');
+        const openModalBtn = document.getElementById('openModal');
+        const closeModalBtn = document.getElementById('closeModal');
+
+        // Fungsi untuk membuka modal
+        openModalBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+        });
+
+        // Fungsi untuk menutup modal
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Tutup modal jika pengguna klik di luar area modal
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
     </script>
 </body>
 

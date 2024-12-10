@@ -118,6 +118,7 @@ class KunjunganController extends Controller
                           ->with('pasien') // Eager load the patient data
                           ->get();
 
+
     // Return the data to the doctor dashboard view
     return view('home-dokter', compact('kunjungan'));
 }

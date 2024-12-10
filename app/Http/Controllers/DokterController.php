@@ -98,7 +98,7 @@ public function update(Request $request)
         }
 
         // Menyimpan foto baru
-        $path = $request->file('image')->store('profile_images', 'public');
+        $path = $request->file('image')->store('dokters', 'public');
         $user->image = $path;
     }
 
