@@ -13,7 +13,7 @@ class Pasien extends Model
 
     public function kunjungan()
     {
-        return $this->hasMany(Kunjungan::class, 'pasien_id', 'id');
+        return $this->hasMany(Kunjungan::class);
     }
     public function user()
     {
