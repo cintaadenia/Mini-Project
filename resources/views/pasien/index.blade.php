@@ -54,19 +54,39 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="nama" class="form-label">Nama</label>
-                                <input type="text" class="form-control" id="nama" name="nama" required>
+                                <input type="text" class="form-control" id="nama" name="nama">
+                                @error('nama')
+                                <script>
+                                    Swal.fire('Error', '{{ $message }}', 'error');
+                                </script>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="alamat" class="form-label">Alamat</label>
-                                <input type="text" class="form-control" id="alamat" name="alamat" required>
+                                <input type="text" class="form-control" id="alamat" name="alamat">
+                                @error('alamat')
+                                <script>
+                                    Swal.fire('Error', '{{ $message }}', 'error');
+                                </script>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="no_hp" class="form-label">No HP</label>
-                                <input type="text" class="form-control" id="no_hp" name="no_hp" required>
+                                <input type="text" class="form-control" id="no_hp" name="no_hp">
+                                @error('no_hp')
+                                <script>
+                                    Swal.fire('Error', '{{ $message }}', 'error');
+                                </script>
+                                @enderror
                             </div>
                             <div class="mb-3">
                                 <label for="tanggal_lahir" class="form-label">Tanggal Lahir</label>
-                                <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required>
+                                <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir">
+                                @error('tanggal_lahir')
+                                <script>
+                                    Swal.fire('Error', '{{ $message }}', 'error');
+                                </script>
+                                @enderror
                             </div>
                         </div>
                         <div class="modal-footer">

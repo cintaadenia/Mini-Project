@@ -25,7 +25,7 @@
             background-image: url('/asset/img/vector_bg.png');
             background-repeat: no-repeat;
             background-position: right top;
-            background-size: 500px;
+            background-size: 400px;
             
             /* Dark blue background for body */
         }
@@ -44,8 +44,8 @@
             border-radius: 10px;
             position: absolute;
             display: flex;
-            top: 150px;
-            left: 150px;
+            top: 75px;
+            left: 250px;
         }
 
         /* .form-container.active {
@@ -112,7 +112,7 @@
     .form-item form .btn:hover {
       
       background-color: #3A5D75; /* Darker blue on hover */
-        transform: scale(1.05);
+        /* transform: scale(1.05); */
         /* Slight scaling effect */
         /* }
 
@@ -270,6 +270,7 @@
         .form-container .form-inner {
             display: flex;
             width: 200%;
+            height: 100%;
         }
 
         .form-container .form-inner form {

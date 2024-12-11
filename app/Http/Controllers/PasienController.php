@@ -42,26 +42,38 @@ class PasienController extends Controller
 
     public function store(Request $request)
 {
-    try {
+    if(auth()->user()->hasRole('user')){
+        try {
+            $request->validate([
+                'nama' => 'required|string|max:255',
+                'alamat' => 'required|string',
+                'no_hp' => 'required|unique:pasiens,no_hp|numeric',
+                'tanggal_lahir' => 'required|date',
+            ]);
+        
+            // Tambahkan `user_id` ke data yang disimpan
+            $data = $request->all();
+            $data['user_id'] = auth()->id();
+        
+            Pasien::create($data);
+        
+            return redirect()->route('home')->with('success', 'Data pasien berhasil ditambahkan.');
+        }catch (ValidationException $e) {
+            // Jika validasi gagal, arahkan ke /home#form-pasien
+            return redirect('/home#form-pasien') // false mencegah base URL diubah
+                ->withInput()
+                ->withErrors($e->errors());
+        }
+    }else{
         $request->validate([
             'nama' => 'required|string|max:255',
             'alamat' => 'required|string',
-            'no_hp' => 'required|unique:pasiens,no_hp',
+            'no_hp' => 'required|unique:pasiens,no_hp|numeric',
             'tanggal_lahir' => 'required|date',
         ]);
-    
-        // Tambahkan `user_id` ke data yang disimpan
-        $data = $request->all();
-        $data['user_id'] = auth()->id();
-    
-        Pasien::create($data);
-    
-        return redirect()->route('home')->with('success', 'Data pasien berhasil ditambahkan.');
-    }catch (ValidationException $e) {
-        // Jika validasi gagal, arahkan ke /home#form-pasien
-        return redirect('/home#form-pasien') // false mencegah base URL diubah
-            ->withInput()
-            ->withErrors($e->errors());
+
+        Pasien::create($request->all());
+        return redirect()->route('pasien.index')->with('success','Data pasien berhasil ditambahkan');
     }
 }
 

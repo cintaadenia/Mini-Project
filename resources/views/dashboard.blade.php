@@ -79,7 +79,7 @@
         <div class="carousel-item active">
           <img src="medicio/assets/img/hero-carousel/hero-carousel-1.jpg" alt="">
           <div class="container">
-            <h2>Selamat datang di AllCare</h2>
+            <h2>Selamat Datang di AllCare</h2>
             <p>Kami hadir untuk memberikan pelayanan kesehatan terbaik bagi Anda dan keluarga. Dengan tenaga medis yang profesional, fasilitas yang modern, serta komitmen terhadap kenyamanan pasien, kami siap menjadi mitra terpercaya dalam menjaga kesehatan Anda.</p>
             <a href="#about" class="btn-get-started">lanjut -></a>
           </div>
@@ -106,7 +106,7 @@
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>tentang <br></h2>
+        <h2>Tentang <br></h2>
         <p>Klinik bukan hanya tentang pengobatan, tapi juga tentang memberikan harapan kepada mereka yang membutuhkan.</p>
       </div><!-- End Section Title -->
 
@@ -199,7 +199,7 @@
 
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
-        <h2>layanan</h2>
+        <h2>Layanan</h2>
         <p>Kami memberikan layanan medis umum yang menyeluruh, dari pemeriksaan kesehatan rutin hingga diagnosis penyakit. Dengan tim medis yang profesional dan berpengalaman, kami berkomitmen untuk menjaga kesehatan Anda dengan perhatian penuh dan pelayanan yang ramah</p>
       </div><!-- End Section Title -->
 
@@ -299,7 +299,7 @@
       <div class="row gy-4">
         <div class="col-lg-4 col-md-6 footer-about">
           <a href="index.html" class="logo d-flex align-items-center">
-            <span class="sitename">Medicio</span>
+            <span class="sitename">AllCare</span>
           </a>
           <div class="footer-contact pt-3">
             <p>A108 Adam Street</p>

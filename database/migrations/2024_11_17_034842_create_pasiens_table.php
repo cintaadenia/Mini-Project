@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pasiens', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id'); // Tidak perlu `after()`
+            $table->unsignedBigInteger('user_id')->nullable(); // Tidak perlu `after()`
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('nama');
             $table->string('alamat');

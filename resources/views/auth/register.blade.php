@@ -21,9 +21,9 @@
             font-family: 'Roboto', sans-serif;
             background-color: white;
             background-image: url('/asset/img/vector_bg.png');
-            background-repeat: no-repeat;
+            background-repeat: no-repSeat;
             background-position: right top;
-            background-size: 400px;
+            background-size: 10px;
             
             /* Dark blue background for body */
         }
