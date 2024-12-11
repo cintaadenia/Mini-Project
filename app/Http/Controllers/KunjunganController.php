@@ -113,8 +113,15 @@ class KunjunganController extends Controller
 {
     $doctor = auth()->user(); // Get the logged-in doctor
 
+
     // Ambil nilai pencarian dari request (jika ada)
     $search = $request->get('search');
+
+    // Get the visits related to the logged-in doctor
+    // $kunjungan = Kunjungan::where('dokter_id', $doctor->dokter->id) // Filter by the doctor's ID
+    //                       ->with('pasien') // Eager load the patient data
+    //                       ->get();
+
 
     // Get the visits related to the logged-in doctor
     $kunjungans = Kunjungan::when($search, function ($query, $search) {
@@ -128,7 +135,9 @@ class KunjunganController extends Controller
     ->paginate(10);
 
     // Return the data to the doctor dashboard view
+
     return view('home-dokter', compact('kunjungans'));
+
 }
 
 public function updateDiagnosa(Request $request)

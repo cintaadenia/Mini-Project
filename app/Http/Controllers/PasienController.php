@@ -42,28 +42,41 @@ class PasienController extends Controller
 
     public function store(Request $request)
 {
-    try {
+    if(auth()->user()->hasRole('user')){
+        try {
+            $request->validate([
+                'nama' => 'required|string|max:255',
+                'alamat' => 'required|string',
+                'no_hp' => 'required|unique:pasiens,no_hp|numeric',
+                'tanggal_lahir' => 'required|date',
+            ]);
+        
+            // Tambahkan `user_id` ke data yang disimpan
+            $data = $request->all();
+            $data['user_id'] = auth()->id();
+        
+            Pasien::create($data);
+        
+            return redirect()->route('home')->with('success', 'Data pasien berhasil ditambahkan.');
+        }catch (ValidationException $e) {
+            // Jika validasi gagal, arahkan ke /home#form-pasien
+            return redirect('/home#form-pasien') // false mencegah base URL diubah
+                ->withInput()
+                ->withErrors($e->errors());
+        }
+    }else{
         $request->validate([
             'nama' => 'required|string|max:255',
-            'alamat' => 'nullable|string',
-            'no_hp' => 'nullable|unique:pasiens,no_hp',
-            'tanggal_lahir' => 'nullable|date',
+            'alamat' => 'required|string',
+            'no_hp' => 'required|unique:pasiens,no_hp|numeric',
+            'tanggal_lahir' => 'required|date',
         ]);
 
         $data = $request->all();
         $data['user_id'] = auth()->id();
 
         Pasien::create($data);
-        
-        if (auth()->user()->hasRole('admin')) {
-        return redirect()->route('pasien.index')->with('success', 'Data pasien berhasil ditambahkan.');
-        }else
-        return redirect()->route('home')->with('success', 'Data pasien berhasil ditambahkan.');
-    } catch (ValidationException $e) {
-        return redirect('/home#form-pasien')
-            ->withInput()
-            ->withErrors($e->errors());
-    }
+        return redirect()->route('pasien.index')->with('success', 'Data pasien berhasil ditambahkan');
 }
     public function show(Pasien $pasien)
     {

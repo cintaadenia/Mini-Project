@@ -242,19 +242,19 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{route('dokter.index')}}">
                         <i class="fa fa-user-md"></i>
                         <span>Dokter</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{route('obat.index')}}">
                         <i class="fa fa-pills"></i>
                         <span>Obat</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{route('pasien.index')}}">
                         <i class="fa fa-users"></i>
                         <span>Pasien</span>
                     </a>
@@ -266,7 +266,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{route('kunjungan.index')}}">
                         <i class="fa fa-calendar-check"></i>
                         <span>Kunjungan</span>
                     </a>
@@ -284,10 +284,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href="#">
-                        <i class="fa fa-sign-out-alt"></i>
-                        <span>Keluar</span>
-                    </a>
+                    <form action="{{route('logout')}}" method="POST">
+                        @csrf
+                        <button>
+                            <i class="fa fa-sign-out-alt"></i>
+                            <span>Keluar</span>
+                        </button>
+                    </form>
                 </li>
             </ul>
         </div>
