@@ -77,6 +77,7 @@ class PasienController extends Controller
 
         Pasien::create($data);
         return redirect()->route('pasien.index')->with('success', 'Data pasien berhasil ditambahkan');
+    }
 }
     public function show(Pasien $pasien)
     {
