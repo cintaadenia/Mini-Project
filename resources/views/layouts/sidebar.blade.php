@@ -236,57 +236,64 @@
         <div class="sidebar">
             <ul>
                 <li>
-                    <a href="/admin">
-                        <i class="fas fa-home"></i>
-                        <span>Dashboard</span>
-                    </a>
+                    @if(auth()->user()->hasRole('admin'))
+                        <a href="{{ route('admin-home') }}">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard Admin</span>
+                        </a>
+                    @else
+                        <a href="{{ route('home-dokter') }}">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    @endif
                 </li>
                 <li>
-                    <a href="{{route('dokter.index')}}">
+                    <a href="{{ route('dokter.index') }}">
                         <i class="fa fa-user-md"></i>
                         <span>Dokter</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('obat.index')}}">
+                    <a href="{{ route('obat.index') }}">
                         <i class="fa fa-pills"></i>
                         <span>Obat</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('pasien.index')}}">
+                    <a href="{{ route('pasien.index') }}">
                         <i class="fa fa-users"></i>
                         <span>Pasien</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{ route('resep.index') }}">
                         <i class="fa fa-notes-medical"></i>
                         <span>Diagnosis</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{route('kunjungan.index')}}">
+                    <a href="{{ route('kunjungan.index') }}">
                         <i class="fa fa-calendar-check"></i>
                         <span>Kunjungan</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{ route('jadwal_praktek.index') }}">
                         <i class="fa fa-calendar-day"></i>
                         <span>Jadwal Praktek</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="{{ route('rekam_medis.index') }}">
                         <i class="fa fa-file-medical-alt"></i>
                         <span>Rekam Medis</span>
                     </a>
                 </li>
                 <li>
-                    <form action="{{route('logout')}}" method="POST">
+                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                         @csrf
-                        <button>
+                        <button style="border: none; background: none; color: inherit; cursor: pointer;">
                             <i class="fa fa-sign-out-alt"></i>
                             <span>Keluar</span>
                         </button>
@@ -294,14 +301,15 @@
                 </li>
             </ul>
         </div>
-
+    
         <div class="content">
             @yield('side')
         </div>
-        <!-- End Sidebar -->
-
-        <!-- End Custom template -->
     </div>
+    
+            <!-- End Sidebar -->
+
+            <!-- End Custom template -->
 
     <!--   Core JS Files   -->
     <script src="sidebar/assets/js/core/jquery-3.7.1.min.js"></script>

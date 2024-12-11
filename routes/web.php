@@ -29,7 +29,7 @@ Route::get('/admin', function () {
     $visits = [120, 150, 180, 130, 170, 200, 220, 210, 190, 230, 240, 250];
 
     return view('admin-home', compact('months', 'visits'));
-})->middleware(['auth', 'role:admin']);
+})->middleware(['auth', 'role:admin'])->name('admin-home');
 
 
 

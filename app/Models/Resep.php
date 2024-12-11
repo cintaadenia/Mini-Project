@@ -9,7 +9,7 @@ class Resep extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['kunjungan_id', 'deskripsi'];
+    protected $fillable = ['kunjungan_id','rekam_medis_id','deskripsi'];
 
     public function kunjungan()
     {
