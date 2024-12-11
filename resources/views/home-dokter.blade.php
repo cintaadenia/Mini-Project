@@ -1,11 +1,77 @@
 <head>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
         .content-header {
             display: inline;
             justify-content: center;
             align-items: center;
-            max-width: 1070px;
+            width: 1200px;
+        }
+
+        .search-button:hover {
+            background-color: #0d6e7a;
+            /* Darker shade on hover */
+        }
+
+
+        .search-button {
+            background-color: var(--main-color);
+            color: white;
+            border: none;
+            border-radius: 0 1.5rem 1.5rem 0;
+            /* Rounded corners on the right */
+            padding: 10px 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .search-input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 1.5rem;
+            padding: 10px;
+            border-radius: 1.5rem 0 0 1.5rem;
+            /* Rounded corners on the left */
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 70px;
+            border: 2px solid #ccc;
+            border-radius: 1.5rem;
+            padding: 5px;
+            background-color: #fff;
+        }
+
+        .fa-magnifying-glass {
+            color: #888;
+            margin-left: 10px;
+        }
+
+        .search-container .fa-magnifying-glass {
+            color: #888;
+            margin-right: 10px;
+        }
+
+        .search-container input {
+            border: none;
+            outline: none;
+            flex: 1;
+            font-size: 1.5rem;
+        }
+
+        .search-container input::placeholder {
+            color: #aaa;
+        }
+
+        .search-container .fa-magnifying-glass {
+            color: #888;
+            margin-left: 10px;
         }
 
         .welcome {
@@ -19,6 +85,10 @@
             border-radius: 1.2rem;
             color: rgb(255, 255, 255);
             text-align: left;
+        }
+
+        .search-input::placeholder {
+            color: #aaa;
         }
 
         .welcome-text {
@@ -391,48 +461,73 @@
             .legend div span {
                 width: 8px;
                 height: 8px;
+                /* Tinggi indikator legend lebih kecil */
             }
+
+            #editModal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                display: none;
+                justify-content: center;
+                align-items: center;
+            }
+
+            #editModal form {
+                background-color: white;
+                padding: 20px;
+                border-radius: 5px;
+                max-width: 500px;
+                width: 100%;
+            }
+
         }
 
         /* Modal backdrop */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-}
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            /* Semi-transparent background */
+        }
 
-/* Modal content box */
-.modal-content {
-    background-color: #fff;
-    margin: 10% auto; /* Vertically and horizontally centered */
-    padding: 20px;
-    border-radius: 8px;
-    width: 50%; /* Adjust the width as needed */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
+        /* Modal content box */
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            /* Vertically and horizontally centered */
+            padding: 20px;
+            border-radius: 8px;
+            width: 50%;
+            /* Adjust the width as needed */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
 
-/* Close button */
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 24px;
-    font-weight: bold;
-    cursor: pointer;
-}
+        /* Close button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -441,10 +536,15 @@
     <div class="wrapper-container">
         <div class="header">
             <div class="content-header">
+                
                 <div class="welcome">
                     <div class="welcome-text">
-                        <h2 class="h2-title-bold">Selamat Datang, Dr. [Nama Dokter]!</h2>
-                        <p>Semoga Harimu Menyenangkan</p>
+                        @if (Auth::check())
+                            <h2>Selamat Datang, Dr. {{ Auth::user()->name }}!</h2>
+                        @else
+                            <h2>Selamat Datang, Tamu!</h2>
+                        @endif
+
                     </div>
                     <img src="{{ asset('asset/img/dokter.png') }}" alt="">
                 </div>
@@ -453,7 +553,9 @@
                 <div class="profile-header">
 
                     <h1>Profile Saya</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background: transparent; outline: none; border: none;" id="openModal"><i class="fa-solid fa-pen"></i></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        style="background: transparent; outline: none; border: none;" id="openModal"><i
+                            class="fa-solid fa-pen"></i></button>
                 </div>
                 @if (Auth::check())
                     <div class="profile-info">
@@ -474,7 +576,7 @@
                 <div class="modal-content">
                     <span id="closeModal" class="close">&times;</span>
                     <h2>Edit Profile</h2>
-                    <form >
+                    <form>
                         <label for="name">Nama:</label>
                         <input type="text" id="name" name="name" required>
                         <br><br>
@@ -495,12 +597,19 @@
                     <h2>Data Kunjungan Pasien</h2>
                     <p>Berikut adalah daftar pasien beserta keluhan yang terdaftar.</p>
                 </div>
+
                 <div class="search-container">
-                    <input type="text" placeholder="Search here...">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <form method="GET" action="{{ route('home-dokter') }}"
+                        style="display: flex; align-items: center; width: 100%;">
+                        <input type="text" name="search" placeholder="Search here..."
+                            value="{{ request('search') }}" class="search-input">
+                        <button type="submit" class="search-button">Search</button>
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </form>
                 </div>
                 <div class="outer-table">
                     <div class="content-table-table">
+                        
                         <table>
                             <tr>
                                 <th>Nama Pasien</th>
@@ -522,11 +631,40 @@
                                 <td>Ani Rahmawati</td>
                                 <td>Demam tinggi dan sakit kepala</td>
                             </tr>
-                            <tr>
-                                <td>Ani Rahmawati</td>
-                                <td>Demam tinggi dan sakit kepala</td>
-                            </tr>
+                            @foreach ($kunjungans as $kunjunganItem)
+                                <tr>
+                                    <td>{{ $kunjunganItem->pasien ? $kunjunganItem->pasien->nama : 'Pasien tidak ditemukan' }}
+                                    </td>
+                                    <td>{{ $kunjunganItem->tanggal_kunjungan }}</td>
+                                    <td>{{ $kunjunganItem->keluhan }}</td>
+                                    <td>
+                                        @if ($kunjunganItem->resep)
+                                            {{ $kunjunganItem->resep->deskripsi }}
+                                        @else
+                                            Belum ada diagnosa
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <button class="open-modal" data-kunjungan-id="{{ $kunjunganItem->id }}">Tambah Diagnosa</button>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </table>
+                        <!-- Modal for Adding Diagnosis -->
+<div id="diagnosisModal" class="modal">
+    <div class="modal-content">
+        <span id="closeDiagnosisModal" class="close">&times;</span>
+        <h2>Tambah Diagnosa</h2>
+        <form id="diagnosisForm" method="POST" action="{{ route('resep.store') }}">
+            @csrf
+            <input type="hidden" name="kunjungan_id" id="kunjungan_id">
+            <label for="deskripsi">Diagnosa:</label>
+            <input type="text" id="deskripsi" name="deskripsi" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
                     </div>
                 </div>
             </div>
@@ -618,7 +756,32 @@
                 modal.style.display = 'none';
             }
         });
-
+    </script>
+    <script>
+        // Get modal elements
+        const diagnosisModal = document.getElementById('diagnosisModal');
+        const closeDiagnosisModalBtn = document.getElementById('closeDiagnosisModal');
+    
+        // Open modal when "Tambah Diagnosa" button is clicked
+        document.querySelectorAll('.open-modal').forEach(button => {
+            button.addEventListener('click', function() {
+                const kunjunganId = this.getAttribute('data-kunjungan-id');
+                document.getElementById('kunjungan_id').value = kunjunganId; // Set the kunjungan_id in the form
+                diagnosisModal.style.display = 'block'; // Show the modal
+            });
+        });
+    
+        // Close modal when close button is clicked
+        closeDiagnosisModalBtn.addEventListener('click', () => {
+            diagnosisModal.style.display = 'none';
+        });
+    
+        // Close modal when clicking outside of the modal
+        window.addEventListener('click', (event) => {
+            if (event.target === diagnosisModal) {
+                diagnosisModal.style.display = 'none';
+            }
+        });
     </script>
 </body>
 
