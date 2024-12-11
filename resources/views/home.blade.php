@@ -130,7 +130,7 @@
             <div class="doctor-group">
                 @foreach ($dokter as $dok)
                 <div class="doctor-card">
-                    <img src="{{ asset('storage/'.$dokter->image) }}" height="100px" width="80px" alt="gambar">
+                    <img src="{{ asset('storage/dokters/'.$dok->image) }}" height="100px" width="80px" alt="gambar">
 
                     <h4>
                         {{ $dok->nama }}

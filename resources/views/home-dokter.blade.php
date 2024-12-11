@@ -557,7 +557,7 @@
                         style="background: transparent; outline: none; border: none;" id="openModal"><i
                             class="fa-solid fa-pen"></i></button>
                 </div>
-                @if (Auth::check())
+                {{-- @if (Auth::check()) --}}
                     <div class="profile-info">
                         <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('asset/img/dokter.png') }}"
                             width="auto" alt="Foto Profil">
@@ -567,7 +567,6 @@
                             <!-- Link untuk mengarahkan ke halaman edit profil -->
                             <a href="{{ route('profile.update') }}" class="btn btn-primary">Ubah Profil</a>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -788,4 +787,3 @@
 </html>
 
 @endsection
-
