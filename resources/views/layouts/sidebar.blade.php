@@ -3,11 +3,10 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Kaiadmin - Bootstrap 5 Admin Dashboard</title>
+    <title></title>
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
-    <link rel="icon" href="sidebar/assets/img/kaiadmin/favicon.ico" type="image/x-icon" />
 
-    <!-- Fonts and icons -->
+    {{-- <!-- Fonts and icons -->
     <script src="sidebar/assets/js/plugin/webfont/webfont.min.js"></script>
     <script>
         WebFont.load({
@@ -27,20 +26,19 @@
                 sessionStorage.fonts = true;
             },
         });
-    </script>
+    </script> --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
+{{-- 
     <!-- CSS Files -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="sidebar/assets/css/bootstrap.min.css" />
     <link rel="stylesheet" href="sidebar/assets/css/plugins.min.css" />
-    <link rel="stylesheet" href="sidebar/assets/css/kaiadmin.min.css" />
     <link rel="stylesheet" href="/css/home_admin.css">
 
     <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="sidebar/assets/css/demo.css" />
+    <link rel="stylesheet" href="sidebar/assets/css/demo.css" /> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -110,7 +108,7 @@
 
         .sidebar ul li a i {
             margin-bottom: 0.5rem;
-            font-size: 2.5rem;
+            font-size: 2rem;
         }
 
         .sidebar ul li a:hover {
@@ -137,7 +135,7 @@
             display: inline;
             justify-content: center;
             align-items: center;
-            width: 1750px;
+            width: 1700px;
         }
 
         .search input {
@@ -156,6 +154,7 @@
             border-radius: 1.5rem;
             padding: 5px 10px;
             background-color: #fff;
+            margin-top: 1rem;
         }
 
         .search-container .fa-magnifying-glass {
@@ -335,7 +334,6 @@
     <script src="sidebar/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
 
     <!-- Kaiadmin JS -->
-    <script src="sidebar/assets/js/kaiadmin.min.js"></script>
 
     <!-- Kaiadmin DEMO methods, don't include it in your project! -->
     {{-- <script src="sidebar/assets/js/setting-demo.js"></script> --}}
