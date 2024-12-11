@@ -393,6 +393,46 @@
                 height: 8px;
             }
         }
+
+        /* Modal backdrop */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+}
+
+/* Modal content box */
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto; /* Vertically and horizontally centered */
+    padding: 20px;
+    border-radius: 8px;
+    width: 50%; /* Adjust the width as needed */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Close button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
     </style>
 </head>
 
@@ -411,18 +451,43 @@
             </div>
             <div class="profile">
                 <div class="profile-header">
-                    <h2 class="h2-title-bold">Profile Saya</h2>
-                    <i class="fa-solid fa-pen"></i>
+
+                    <h1>Profile Saya</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="background: transparent; outline: none; border: none;" id="openModal"><i class="fa-solid fa-pen"></i></button>
                 </div>
-                <div class="profile-info">
-                    <img src="{{ asset('asset/img/dokter.png') }}" width="auto" alt="">
-                    <div class="profile-info-text">
-                        <h2 class="h2-title-bold">Dr. Andi Wijaya</h2>
-                        <p>Spesialisasi: Dokter Umum</p>
-                        <a href="#">Ubah Foto</a>
+                @if (Auth::check())
+                    <div class="profile-info">
+                        <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('asset/img/dokter.png') }}"
+                            width="auto" alt="Foto Profil">
+                        <div class="profile-info-text">
+                            <h2>{{ Auth::user()->name }}</h2>
+                            <p>Spesialisasi: {{ Auth::user()->spesialisasi }}</p>
+                            <!-- Link untuk mengarahkan ke halaman edit profil -->
+                            <a href="{{ route('profile.update') }}" class="btn btn-primary">Ubah Profil</a>
+                        </div>
+
                     </div>
                 </div>
             </div>
+
+            <div id="modal" class="modal">
+                <div class="modal-content">
+                    <span id="closeModal" class="close">&times;</span>
+                    <h2>Edit Profile</h2>
+                    <form >
+                        <label for="name">Nama:</label>
+                        <input type="text" id="name" name="name" required>
+                        <br><br>
+                        <label for="image">Foto:</label>
+                        <input type="file" id="image" name="image" required>
+                        <br><br>
+                        <label for="spesialis">Spesialis</label>
+                        <input type="text" id="spesialis" name="spesialis">
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+            </div>
+
         </div>
         <div class="content-bottom">
             <div class="content-table">
@@ -530,4 +595,34 @@
             }
         });
     </script>
+
+    <script>
+        // Dapatkan elemen
+        const modal = document.getElementById('modal');
+        const openModalBtn = document.getElementById('openModal');
+        const closeModalBtn = document.getElementById('closeModal');
+
+        // Fungsi untuk membuka modal
+        openModalBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+        });
+
+        // Fungsi untuk menutup modal
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Tutup modal jika pengguna klik di luar area modal
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+    </script>
+</body>
+
+</html>
+
 @endsection
+

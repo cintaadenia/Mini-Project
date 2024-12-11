@@ -61,7 +61,7 @@
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
 
-        <a class="cta-btn" href="{{ route('login') }}">join us</a>
+        <a class="cta-btn" href="{{ route('login') }}">JOIN US</a>
 
       </div>
 
@@ -79,7 +79,9 @@
         <div class="carousel-item active">
           <img src="medicio/assets/img/hero-carousel/hero-carousel-1.jpg" alt="">
           <div class="container">
+
             <h2>Selamat Datang di AllCare</h2>
+
             <p>Kami hadir untuk memberikan pelayanan kesehatan terbaik bagi Anda dan keluarga. Dengan tenaga medis yang profesional, fasilitas yang modern, serta komitmen terhadap kenyamanan pasien, kami siap menjadi mitra terpercaya dalam menjaga kesehatan Anda.</p>
             <a href="#about" class="btn-get-started">lanjut -></a>
           </div>

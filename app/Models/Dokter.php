@@ -22,9 +22,8 @@ class Dokter extends Model
 
     // Di dalam model Dokter.php
     public function user()
-    {
-    return $this->belongsTo(User::class); // Menyatakan bahwa dokter milik user
-    }
-
+{
+    return $this->belongsTo(User::class);
+}
 }
 

@@ -16,9 +16,9 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable(); // Tidak perlu `after()`
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('nama');
-            $table->string('alamat');
-            $table->string('no_hp')->unique();
-            $table->date('tanggal_lahir');
+            $table->string('alamat')->nullable();
+            $table->string('no_hp')->nullable();
+            $table->date('tanggal_lahir')->nullable();
             $table->timestamps();
         });
     }

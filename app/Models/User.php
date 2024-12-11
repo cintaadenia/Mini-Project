@@ -52,9 +52,8 @@ class User extends Authenticatable
 
     // Di dalam model User.php
     public function dokter()
-    {
-    return $this->hasOne(Dokter::class); // Menyatakan bahwa user memiliki satu dokter
-    }
-
+{
+    return $this->hasOne(Dokter::class);
+}
     
 }

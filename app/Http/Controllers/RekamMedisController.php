@@ -46,19 +46,23 @@ class RekamMedisController extends Controller
 
     public function store(Request $request)
 {
+    // Validasi untuk rekam medis
     $validated = $request->validate([
         'kunjungan_id' => 'required',
         'diagnosa' => 'required',
         'tindakan' => 'required',
         'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
+        'deskripsi' => 'required|string', // Validasi untuk resep
     ]);
 
+    // Membuat rekam medis baru
     $rekamMedis = RekamMedis::create([
         'kunjungan_id' => $validated['kunjungan_id'],
         'diagnosa' => $validated['diagnosa'],
         'tindakan' => $validated['tindakan'],
     ]);
 
+    // Menambahkan gambar jika ada
     if ($request->hasFile('images')) {
         foreach ($request->file('images') as $image) {
             $path = $image->store('rekam_medis', 'public');
@@ -66,11 +70,15 @@ class RekamMedisController extends Controller
         }
     }
 
-    return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil ditambahkan!');
+    // Menambahkan resep
+    Resep::create([
+        'kunjungan_id' => $validated['kunjungan_id'],
+        'deskripsi' => $validated['deskripsi'],
+    ]);
+
+    // Redirect ke halaman index dengan pesan sukses
+    return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis dan resep berhasil ditambahkan!');
 }
-
-
-
     public function edit(RekamMedis $rekamMedis)
     {
         $kunjungans = Kunjungan::all();

@@ -60,7 +60,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 });
 
 // Admin-only routes
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware(['auth', 'role:dokter|admin'])->group(function () {
     Route::resource('dokter', DokterController::class);
     Route::resource('jadwal_praktek', JadwalPraktekController::class);
     
