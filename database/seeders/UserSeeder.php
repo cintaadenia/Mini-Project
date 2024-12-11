@@ -3,7 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Pasien;
+use App\Models\Dokter;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -13,20 +14,44 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
+        // Create admin user
+        $admin = User::create([
             'name' => 'admin',
             'email' => 'admin@gmail.com',
-            'password' => '12345678'    
+            'password' => bcrypt('12345678') // Encrypt password
         ])->assignRole('admin');
-        User::create([
+
+        // Create user (evan)
+        $evan = User::create([
             'name' => 'evan',
             'email' => 'evan@gmail.com',
-            'password' => '12345678'
+            'password' => bcrypt('12345678') // Encrypt password
         ])->assignRole('user');
-        User::create([
+
+        // Create doctor user (dokter)
+        $dokterUser = User::create([
             'name' => 'dokter',
             'email' => 'dokter@gmail.com',
-            'password' => '12345678'
+            'password' => bcrypt('12345678'),
+            'spesialis' => 'ahlibedah'
         ])->assignRole('dokter');
+
+        // Create pasien for evan
+        Pasien::create([
+            'user_id' => $evan->id,
+            'nama' => 'Evan Pasien',
+            'alamat' => 'Alamat Evan',
+            'no_hp' => '08123456789',
+            'tanggal_lahir' => '1990-01-01',
+        ]);
+
+        // Create dokter for dokterUser
+        Dokter::create([
+            'user_id' => $dokterUser->id,
+            'nama' => 'Dr. Dokter',
+            'spesialis' => 'Ahli Bedah',
+            'no_hp' => '08987654321',
+            'image' => null, // Or provide a default image path if needed
+        ]);
     }
 }
