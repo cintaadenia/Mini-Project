@@ -16,7 +16,7 @@
 
     <style>
         body {
-            
+
             overflow: hidden;
             margin: 0;
             padding: 0;
@@ -26,7 +26,7 @@
             background-repeat: no-repeat;
             background-position: right top;
             background-size: 400px;
-            
+
             /* Dark blue background for body */
         }
 
@@ -44,7 +44,7 @@
             border-radius: 10px;
             position: absolute;
             display: flex;
-            top: 75px;
+            top: 150px;
             left: 250px;
         }
 
@@ -92,7 +92,7 @@
       border: 1px solid #83a3be;
       border-radius: 20px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    
+
     }
 
     .form-item form .btn {
@@ -110,7 +110,7 @@
     }
 
     .form-item form .btn:hover {
-      
+
       background-color: #3A5D75; /* Darker blue on hover */
         /* transform: scale(1.05); */
         /* Slight scaling effect */
@@ -121,7 +121,7 @@
       display: flex;
       justify-content: space-around;
       position: relative;
-      
+
     }
     .login:hover {
       text-decoration: underline;
@@ -190,9 +190,10 @@
             height: 50px;
             width: 100%;
             overflow: hidden;
-            margin: 30px 0 10px 0;
+            margin: 15px 0 10px 0;
             justify-content: space-between;
             border-radius: 5px;
+            right: 50px;
         }
 
         .slide-controls .slide {
@@ -200,7 +201,6 @@
             width: 100%;
             color: #000000;
             font-size: 18px;
-            font-weight: 500;
             text-align: center;
             line-height: 48px;
             cursor: pointer;
@@ -210,7 +210,7 @@
         }
 
         .slide-controls label.signup {
-          
+
             color: #000;
         }
 
@@ -221,7 +221,7 @@
             left: 0;
             z-index: 0;
             border-radius: 5px;
-            
+
         }
 
         input[type="radio"] {
@@ -239,7 +239,7 @@
 
         #signup:checked~label.login {
             color: #000;
-            
+
         }
 
         #login:checked~label.signup {
@@ -275,14 +275,14 @@
 
         .form-container .form-inner form {
             width: 50%;
-            
+
             transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
         .form-inner form .field {
-            height: 50px;
-            width: 100%;
-            margin-top: 5px;
+            height: 40px;
+            width: 75%;
+            margin-top: 10px;
         }
 
         .form-inner form .field input {
@@ -290,7 +290,7 @@
             width: 100%;
             outline: none;
             padding-left: 15px;
-            border-radius: 20px;
+            border-radius: 15px;
             border: 1px solid lightgrey;
             border-bottom-width: 2px;
             font-size: 17px;
@@ -303,12 +303,12 @@
         }
 
         .form-inner form .field input::placeholder {
-            color: #999;
+            color: #000000;
             transition: all 0.3s ease;
         }
 
         form .field input:focus::placeholder {
-            color: #b3b3b3;
+            color: #000000;
         }
 
         .form-inner form .pass-link {
@@ -340,7 +340,7 @@
         }
         .slide-btn{
             margin-left: 70px;
-            
+
         }
 
         form .btn .btn-layer {
@@ -398,38 +398,7 @@
             z-index: 4;
         }
 
-        .half-circle1 {
-            width: 400px;
-            height: 630px;
-            background-color: rgb(85, 85, 196);
-            border-top-left-radius: 350px;
-            border-bottom-left-radius: 350px;
-            position: absolute;
-            left: 960px;
-            z-index: 3;
-        }
 
-        .half-circle2 {
-            width: 430px;
-            height: 630px;
-            background-color: rgb(160, 160, 229);
-            border-top-left-radius: 350px;
-            border-bottom-left-radius: 350px;
-            position: absolute;
-            left: 930px;
-            z-index: 2;
-        }
-
-        .half-circle3 {
-            width: 460px;
-            height: 630px;
-            background-color: rgb(206, 206, 248);
-            border-top-left-radius: 350px;
-            border-bottom-left-radius: 350px;
-            position: absolute;
-            left: 900px;
-            z-index: 1;
-        }
         .btn-no-color {
       background-color: transparent !important;
       border-color: transparent !important;
@@ -479,13 +448,13 @@
             <div class="btn" style="color: black; font-size: 20px; font-weight: bold; font-family: open sans">Register</div>
           </div>
         </div>
-        
+
       </div>
             <div class="form-container">
         <div class="form-item">
           <form class="form-log-in" method="POST" action="{{ route('login') }}">
             @csrf
-            
+
               <input name="email" placeholder="Email Address" type="email" required />
             <input name="password" placeholder="Password" type="password" required />
             <button type="submit" class="btn btn-primary">
@@ -530,7 +499,7 @@
         </div>
       </div>
 
-            
+
         </div>
     </div> --}}
     <div class="container">
@@ -539,10 +508,10 @@
                 <div class="slide-controls">
                     <input type="radio" name="slide" id="login" checked>
                     <input type="radio" name="slide" id="signup">
-                    <label for="login" class="slide login">Login</label>
-                    <label for="signup" class="slide signup">Register</label>
+                    <label style="font-family: open sans; font-weight: bold" for="login" class="slide login">Login</label>
+                    <label style="font-family: open sans; font-weight: bold" for="signup" class="slide signup">Register</label>
                     <div class="slider-tab"></div>
-                    
+
                 </div>
 
                 <div class="form-inner">
@@ -589,11 +558,14 @@
                         <div class="field">
                             <input type="password" placeholder="Confirm Password" name="password_confirmation" required>
                         </div>
+                        <div class="signup-link">
+                            Not a member? <a href="">Signup now</a>
+                        </div>
                         <div class="field btn">
                             <div class="btn-layer"></div>
                             <input type="submit" value="simpan">
                         </div>
-                    </form>                    
+                    </form>
                 </div>
             </div>
         </div>
@@ -602,7 +574,7 @@
       <dotlottie-player src="https://lottie.host/621f36a4-85ad-48cc-aa5f-acbae0c13265/iO2nGuesOg.lottie"
           background="transparent" speed="1" style="width: 300px; height: 300px" loop
           autoplay></dotlottie-player>
-  </div>  
+  </div>
 
 
 
