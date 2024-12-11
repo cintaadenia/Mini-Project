@@ -238,7 +238,6 @@
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -274,4 +273,5 @@
     </body>
 
     </html>
+    @endforeach
 @endsection

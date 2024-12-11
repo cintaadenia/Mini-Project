@@ -109,9 +109,13 @@ class KunjunganController extends Controller
         return redirect()->route('kunjungan.index')->with('success', 'Data kunjungan berhasil dihapus.');
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
 {
     $doctor = auth()->user(); // Get the logged-in doctor
+
+
+    // Ambil nilai pencarian dari request (jika ada)
+    $search = $request->get('search');
 
     // Get the visits related to the logged-in doctor
     // $kunjungan = Kunjungan::where('dokter_id', $doctor->dokter->id) // Filter by the doctor's ID
@@ -119,8 +123,21 @@ class KunjunganController extends Controller
     //                       ->get();
 
 
+    // Get the visits related to the logged-in doctor
+    $kunjungans = Kunjungan::when($search, function ($query, $search) {
+        return $query->whereHas('pasien', function ($query) use ($search) {
+            $query->where('nama', 'like', '%' . $search . '%');
+        })->orWhereHas('dokter', function ($query) use ($search) {
+            $query->where('nama', 'like', '%' . $search . '%');
+        });
+    })
+    ->with(['pasien', 'dokter', 'resep']) // Pastikan semua relasi dimuat
+    ->paginate(10);
+
     // Return the data to the doctor dashboard view
-    return view('home-dokter');
+
+    return view('home-dokter', compact('kunjungans'));
+
 }
 
 public function updateDiagnosa(Request $request)

@@ -236,7 +236,7 @@
         <div class="sidebar">
             <ul>
                 <li>
-                    <a href="#">
+                    <a href="/admin">
                         <i class="fas fa-home"></i>
                         <span>Dashboard</span>
                     </a>
