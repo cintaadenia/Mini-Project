@@ -218,7 +218,7 @@
             border: 1px solid #ccc;
             border-radius: 10px;
             width: 1170px;
-            height: 900px;
+            height: 400px;
             margin-top: 1rem;
         }
 
@@ -616,6 +616,49 @@
                     <button type="submit" class="search-button">Search</button>
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </form>
+            </div>
+            <div class="outer-table drop-shadow">
+                <div class="content-table-table ">
+                    <table>
+                        <tr>
+                            <th>Nama Pasien</th>
+                            <th>Keluhan</th>
+                        </tr>
+                        @foreach ($kunjungans as $kunjunganItem)
+                            <tr>
+                                <td>{{ $kunjunganItem->pasien ? $kunjunganItem->pasien->nama : 'Pasien tidak ditemukan' }}
+                                </td>
+                                {{-- <td>{{ $kunjunganItem->tanggal_kunjungan }}</td> --}}
+                                <td>{{ $kunjunganItem->keluhan }}</td>
+                                {{-- <td>
+                                    @if ($kunjunganItem->resep)
+                                        {{ $kunjunganItem->resep->deskripsi }}
+                                    @else
+                                        Belum ada diagnosa
+                                    @endif
+                                </td>
+                                <td>
+                                    <button class="open-modal" data-kunjungan-id="{{ $kunjunganItem->id }}">Tambah
+                                        Diagnosa</button>
+                                </td> --}}
+                            </tr>
+                        @endforeach
+                    </table>
+                    <!-- Modal for Adding Diagnosis -->
+                    <div id="diagnosisModal" class="modal">
+                        <div class="modal-content">
+                            <span id="closeDiagnosisModal" class="close">&times;</span>
+                            <h2>Tambah Diagnosa</h2>
+                            <form id="diagnosisForm" method="POST" action="{{ route('resep.store') }}">
+                                @csrf
+                                <input type="hidden" name="kunjungan_id" id="kunjungan_id">
+                                <label for="deskripsi">Diagnosa:</label>
+                                <input type="text" id="deskripsi" name="deskripsi" required>
+                                <button type="submit">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="outer-table drop-shadow">
                 <div class="content-table-table ">
