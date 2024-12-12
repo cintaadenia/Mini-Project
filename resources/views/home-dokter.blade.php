@@ -628,9 +628,9 @@
                             <tr>
                                 <td>{{ $kunjunganItem->pasien ? $kunjunganItem->pasien->nama : 'Pasien tidak ditemukan' }}
                                 </td>
-                                <td>{{ $kunjunganItem->tanggal_kunjungan }}</td>
+                                {{-- <td>{{ $kunjunganItem->tanggal_kunjungan }}</td> --}}
                                 <td>{{ $kunjunganItem->keluhan }}</td>
-                                <td>
+                                {{-- <td>
                                     @if ($kunjunganItem->resep)
                                         {{ $kunjunganItem->resep->deskripsi }}
                                     @else
@@ -640,7 +640,7 @@
                                 <td>
                                     <button class="open-modal" data-kunjungan-id="{{ $kunjunganItem->id }}">Tambah
                                         Diagnosa</button>
-                                </td>
+                                </td> --}}
                             </tr>
                         @endforeach
                     </table>
