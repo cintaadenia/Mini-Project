@@ -145,7 +145,7 @@
             padding: 20px;
             text-align: center;
             width: 600px;
-            height: 700px;
+            height: 720px;
         }
 
         .content-chart h1 {

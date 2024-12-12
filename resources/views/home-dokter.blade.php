@@ -6,7 +6,8 @@
             display: inline;
             justify-content: center;
             align-items: center;
-            width: 1200px;
+            max-width: 1170px;
+            margin-right: 1rem;
         }
 
         .search-button:hover {
@@ -20,7 +21,6 @@
             color: white;
             border: none;
             border-radius: 0 1.5rem 1.5rem 0;
-            /* Rounded corners on the right */
             padding: 10px 20px;
             font-size: 1.5rem;
             cursor: pointer;
@@ -34,7 +34,6 @@
             font-size: 1.5rem;
             padding: 10px;
             border-radius: 1.5rem 0 0 1.5rem;
-            /* Rounded corners on the left */
         }
 
         .search-container {
@@ -204,7 +203,7 @@
             background-color: white;
             border: 1px solid #ccc;
             border-radius: 10px;
-            width: 1070px;
+            width: 1170px;
             height: 900px;
             margin-top: 1rem;
         }
@@ -215,6 +214,7 @@
             font-weight: 600;
             position: relative;
             top: -60px;
+            margin-right: 1rem;
         }
 
         .content-table h2 {
@@ -267,7 +267,7 @@
             padding: 20px;
             text-align: center;
             width: 600px;
-            height: 700px;
+            max-height: 750px;
         }
 
         .content-chart h1 {
@@ -384,7 +384,7 @@
                 font-size: 0.7rem;
             }
 
-            .profile-header h2{
+            .profile-header h2 {
                 font-size: 1.4rem;
             }
 
@@ -533,161 +533,160 @@
 
 @extends('layouts.sidebar')
 @section('side')
-    <div class="wrapper-container">
-        <div class="header">
-            <div class="content-header">
-                
-                <div class="welcome">
-                    <div class="welcome-text">
-                        @if (Auth::check())
-                            <h2>Selamat Datang, Dr. {{ Auth::user()->name }}!</h2>
-                        @else
-                            <h2>Selamat Datang, Tamu!</h2>
-                        @endif
+    <div class="header">
+        <div class="content-header">
 
-                    </div>
-                    <img src="{{ asset('asset/img/dokter.png') }}" alt="">
+            <div class="welcome">
+                <div class="welcome-text">
+                    @if (Auth::check())
+                        <h2>Selamat Datang, Dr. {{ Auth::user()->name }}!</h2>
+                    @else
+                        <h2>Selamat Datang, Tamu!</h2>
+                    @endif
+
+                </div>
+                <img src="{{ asset('asset/img/dokter.png') }}" alt="">
+            </div>
+        </div>
+        <div class="profile">
+            <div class="profile-header">
+
+                <h1>Profile Saya</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    style="background: transparent; outline: none; border: none;" id="openModal"><i
+                        class="fa-solid fa-pen"></i></button>
+            </div>
+            {{-- @if (Auth::check()) --}}
+            <div class="profile-info">
+                <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('asset/img/dokter.png') }}"
+                    width="auto" alt="Foto Profil">
+                <div class="profile-info-text">
+                    <h2>{{ Auth::user()->name }}</h2>
+                    <p>Spesialisasi: {{ Auth::user()->spesialisasi }}</p>
+                    <!-- Link untuk mengarahkan ke halaman edit profil -->
+                    <a href="{{ route('profile.update') }}" class="btn btn-primary">Ubah Profil</a>
                 </div>
             </div>
-            <div class="profile">
-                <div class="profile-header">
+        </div>
+    </div>
 
-                    <h1>Profile Saya</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        style="background: transparent; outline: none; border: none;" id="openModal"><i
-                            class="fa-solid fa-pen"></i></button>
-                </div>
-                {{-- @if (Auth::check()) --}}
-                    <div class="profile-info">
-                        <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('asset/img/dokter.png') }}"
-                            width="auto" alt="Foto Profil">
-                        <div class="profile-info-text">
-                            <h2>{{ Auth::user()->name }}</h2>
-                            <p>Spesialisasi: {{ Auth::user()->spesialisasi }}</p>
-                            <!-- Link untuk mengarahkan ke halaman edit profil -->
-                            <a href="{{ route('profile.update') }}" class="btn btn-primary">Ubah Profil</a>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <h2>Edit Profile</h2>
+            <form>
+                <label for="name">Nama:</label>
+                <input type="text" id="name" name="name" required>
+                <br><br>
+                <label for="image">Foto:</label>
+                <input type="file" id="image" name="image" required>
+                <br><br>
+                <label for="spesialis">Spesialis</label>
+                <input type="text" id="spesialis" name="spesialis">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="content-bottom">
+        <div class="content-table">
+            <div class="content-table-text">
+                <h2>Data Kunjungan Pasien</h2>
+                <p>Berikut adalah daftar pasien beserta keluhan yang terdaftar.</p>
+            </div>
+
+            <div class="search-container">
+                <form method="GET" action="{{ route('home-dokter') }}"
+                    style="display: flex; align-items: center; width: 100%;">
+                    <input type="text" name="search" placeholder="Search here..." value="{{ request('search') }}"
+                        class="search-input">
+                    <button type="submit" class="search-button">Search</button>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </form>
+            </div>
+            <div class="outer-table">
+                <div class="content-table-table">
+
+                    <table>
+                        <tr>
+                            <th>Nama Pasien</th>
+                            <th>Keluhan</th>
+                        </tr>
+                        <tr>
+                            <td>Ani Rahmawati</td>
+                            <td>Demam tinggi dan sakit kepala</td>
+                        </tr>
+                        <tr>
+                            <td>Ani Rahmawati</td>
+                            <td>Demam tinggi dan sakit kepala</td>
+                        </tr>
+                        <tr>
+                            <td>Ani Rahmawati</td>
+                            <td>Demam tinggi dan sakit kepala</td>
+                        </tr>
+                        <tr>
+                            <td>Ani Rahmawati</td>
+                            <td>Demam tinggi dan sakit kepala</td>
+                        </tr>
+                        @foreach ($kunjungans as $kunjunganItem)
+                            <tr>
+                                <td>{{ $kunjunganItem->pasien ? $kunjunganItem->pasien->nama : 'Pasien tidak ditemukan' }}
+                                </td>
+                                <td>{{ $kunjunganItem->tanggal_kunjungan }}</td>
+                                <td>{{ $kunjunganItem->keluhan }}</td>
+                                <td>
+                                    @if ($kunjunganItem->resep)
+                                        {{ $kunjunganItem->resep->deskripsi }}
+                                    @else
+                                        Belum ada diagnosa
+                                    @endif
+                                </td>
+                                <td>
+                                    <button class="open-modal" data-kunjungan-id="{{ $kunjunganItem->id }}">Tambah
+                                        Diagnosa</button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                    <!-- Modal for Adding Diagnosis -->
+                    <div id="diagnosisModal" class="modal">
+                        <div class="modal-content">
+                            <span id="closeDiagnosisModal" class="close">&times;</span>
+                            <h2>Tambah Diagnosa</h2>
+                            <form id="diagnosisForm" method="POST" action="{{ route('resep.store') }}">
+                                @csrf
+                                <input type="hidden" name="kunjungan_id" id="kunjungan_id">
+                                <label for="deskripsi">Diagnosa:</label>
+                                <input type="text" id="deskripsi" name="deskripsi" required>
+                                <button type="submit">Submit</button>
+                            </form>
                         </div>
                     </div>
+
                 </div>
             </div>
-
-            <div id="modal" class="modal">
-                <div class="modal-content">
-                    <span id="closeModal" class="close">&times;</span>
-                    <h2>Edit Profile</h2>
-                    <form>
-                        <label for="name">Nama:</label>
-                        <input type="text" id="name" name="name" required>
-                        <br><br>
-                        <label for="image">Foto:</label>
-                        <input type="file" id="image" name="image" required>
-                        <br><br>
-                        <label for="spesialis">Spesialis</label>
-                        <input type="text" id="spesialis" name="spesialis">
-                        <button type="submit">Submit</button>
-                    </form>
-                </div>
-            </div>
-
         </div>
-        <div class="content-bottom">
-            <div class="content-table">
-                <div class="content-table-text">
-                    <h2>Data Kunjungan Pasien</h2>
-                    <p>Berikut adalah daftar pasien beserta keluhan yang terdaftar.</p>
+        <div class="content-chart">
+            <h2 class="h2-title-bold h2-left">Data Kunjungan</h2>
+            <div class="chart-container">
+                <canvas id="myChart"></canvas>
+            </div>
+            <div class="legend">
+                <div class="legend-left">
+                    <div class="mei"><span></span>Mei: 20 (9.62%)</div>
+                    <div class="juni"><span></span>Juni: 25 (12.02%)</div>
+                    <div class="juli"><span></span>Juli: 10 (4.81%)</div>
+                    <div class="agustus"><span></span>Agustus: 35 (16.83%)</div>
                 </div>
-
-                <div class="search-container">
-                    <form method="GET" action="{{ route('home-dokter') }}"
-                        style="display: flex; align-items: center; width: 100%;">
-                        <input type="text" name="search" placeholder="Search here..."
-                            value="{{ request('search') }}" class="search-input">
-                        <button type="submit" class="search-button">Search</button>
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </form>
+                <div class="legend-right">
+                    <div class="september"><span></span>September: 18 (8.65%)</div>
+                    <div class="oktober"><span></span>Oktober: 28 (13.46%)</div>
+                    <div class="november"><span></span>November: 32 (15.38%)</div>
+                    <div class="desember"><span></span>Desember: 40 (19.23%)</div>
                 </div>
-                <div class="outer-table">
-                    <div class="content-table-table">
-                        
-                        <table>
-                            <tr>
-                                <th>Nama Pasien</th>
-                                <th>Keluhan</th>
-                            </tr>
-                            <tr>
-                                <td>Ani Rahmawati</td>
-                                <td>Demam tinggi dan sakit kepala</td>
-                            </tr>
-                            <tr>
-                                <td>Ani Rahmawati</td>
-                                <td>Demam tinggi dan sakit kepala</td>
-                            </tr>
-                            <tr>
-                                <td>Ani Rahmawati</td>
-                                <td>Demam tinggi dan sakit kepala</td>
-                            </tr>
-                            <tr>
-                                <td>Ani Rahmawati</td>
-                                <td>Demam tinggi dan sakit kepala</td>
-                            </tr>
-                            @foreach ($kunjungans as $kunjunganItem)
-                                <tr>
-                                    <td>{{ $kunjunganItem->pasien ? $kunjunganItem->pasien->nama : 'Pasien tidak ditemukan' }}
-                                    </td>
-                                    <td>{{ $kunjunganItem->tanggal_kunjungan }}</td>
-                                    <td>{{ $kunjunganItem->keluhan }}</td>
-                                    <td>
-                                        @if ($kunjunganItem->resep)
-                                            {{ $kunjunganItem->resep->deskripsi }}
-                                        @else
-                                            Belum ada diagnosa
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <button class="open-modal" data-kunjungan-id="{{ $kunjunganItem->id }}">Tambah Diagnosa</button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </table>
-                        <!-- Modal for Adding Diagnosis -->
-<div id="diagnosisModal" class="modal">
-    <div class="modal-content">
-        <span id="closeDiagnosisModal" class="close">&times;</span>
-        <h2>Tambah Diagnosa</h2>
-        <form id="diagnosisForm" method="POST" action="{{ route('resep.store') }}">
-            @csrf
-            <input type="hidden" name="kunjungan_id" id="kunjungan_id">
-            <label for="deskripsi">Diagnosa:</label>
-            <input type="text" id="deskripsi" name="deskripsi" required>
-            <button type="submit">Submit</button>
-        </form>
+            </div>
+        </div>
     </div>
-</div>
-
-                    </div>
-                </div>
-            </div>
-            <div class="content-chart">
-                <h2 class="h2-title-bold h2-left">Data Kunjungan</h2>
-                <div class="chart-container">
-                    <canvas id="myChart"></canvas>
-                </div>
-                <div class="legend">
-                    <div class="legend-left">
-                        <div class="mei"><span></span>Mei: 20 (9.62%)</div>
-                        <div class="juni"><span></span>Juni: 25 (12.02%)</div>
-                        <div class="juli"><span></span>Juli: 10 (4.81%)</div>
-                        <div class="agustus"><span></span>Agustus: 35 (16.83%)</div>
-                    </div>
-                    <div class="legend-right">
-                        <div class="september"><span></span>September: 18 (8.65%)</div>
-                        <div class="oktober"><span></span>Oktober: 28 (13.46%)</div>
-                        <div class="november"><span></span>November: 32 (15.38%)</div>
-                        <div class="desember"><span></span>Desember: 40 (19.23%)</div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
     <script>
         const ctx = document.getElementById('myChart').getContext('2d');
@@ -760,21 +759,22 @@
         // Get modal elements
         const diagnosisModal = document.getElementById('diagnosisModal');
         const closeDiagnosisModalBtn = document.getElementById('closeDiagnosisModal');
-    
+
         // Open modal when "Tambah Diagnosa" button is clicked
         document.querySelectorAll('.open-modal').forEach(button => {
             button.addEventListener('click', function() {
                 const kunjunganId = this.getAttribute('data-kunjungan-id');
-                document.getElementById('kunjungan_id').value = kunjunganId; // Set the kunjungan_id in the form
+                document.getElementById('kunjungan_id').value =
+                    kunjunganId; // Set the kunjungan_id in the form
                 diagnosisModal.style.display = 'block'; // Show the modal
             });
         });
-    
+
         // Close modal when close button is clicked
         closeDiagnosisModalBtn.addEventListener('click', () => {
             diagnosisModal.style.display = 'none';
         });
-    
+
         // Close modal when clicking outside of the modal
         window.addEventListener('click', (event) => {
             if (event.target === diagnosisModal) {
@@ -782,8 +782,7 @@
             }
         });
     </script>
-</body>
+    </body>
 
-</html>
-
+    </html>
 @endsection

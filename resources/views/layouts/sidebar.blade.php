@@ -85,6 +85,7 @@
             border-radius: 0 15px 15px 0;
             padding-top: 20px;
             transition: width 0.3s ease;
+            z-index: 999;
         }
 
         .sidebar:hover {
