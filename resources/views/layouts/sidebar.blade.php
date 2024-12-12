@@ -121,6 +121,12 @@
             font-weight: 800;
         }
 
+        .quit-btn {
+            outline: none;
+            border: none;
+            background: var(--main-color);
+        }
+
         .wrapper-container {
             margin-left: 10rem;
         }
