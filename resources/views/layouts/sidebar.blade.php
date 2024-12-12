@@ -29,7 +29,7 @@
     </script> --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-{{-- 
+    {{-- 
     <!-- CSS Files -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -75,7 +75,7 @@
 
         .sidebar {
             text-align: center;
-            width: 150px;
+            width: 120px;
             height: 100vh;
             background-color: #0F8CA9;
             color: white;
@@ -84,6 +84,11 @@
             top: 0;
             border-radius: 0 15px 15px 0;
             padding-top: 20px;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar:hover {
+            width: 200px;
         }
 
         .sidebar ul {
@@ -93,10 +98,12 @@
         }
 
         .sidebar ul li {
-            margin: 20px 0;
+            margin: 10px 0;
+            position: relative;
         }
 
         .sidebar ul li a {
+            all: unset;
             color: white;
             text-decoration: none;
             display: flex;
@@ -104,6 +111,7 @@
             align-items: center;
             padding: 10px 20px;
             font-size: 16px;
+            cursor: pointer;
         }
 
         .sidebar ul li a i {
@@ -121,14 +129,16 @@
             font-weight: 800;
         }
 
-        .quit-btn {
-            outline: none;
-            border: none;
-            background: var(--main-color);
+        .sidebar ul li a.active i {
+            color: var(--main-color);
+            background: white;
+            padding: 0.5rem;
+            border-radius: 1rem;
         }
 
         .wrapper-container {
-            margin-left: 10rem;
+            margin-left: 7rem;
+            flex: 1;
         }
 
         .header {
@@ -141,7 +151,7 @@
             display: inline;
             justify-content: center;
             align-items: center;
-            width: 1700px;
+            width: 1750px;
         }
 
         .search input {
@@ -242,80 +252,90 @@
         <div class="sidebar">
             <ul>
                 <li>
-                    @if(auth()->user()->hasRole('admin'))
-                        <a href="{{ route('admin-home') }}">
+                    @if (auth()->user()->hasRole('admin'))
+                        <a href="{{ route('admin-home') }}"
+                            class="{{ request()->routeIs('admin-home') ? 'active' : '' }}">
                             <i class="fas fa-home"></i>
                             <span>Dashboard Admin</span>
                         </a>
                     @else
-                        <a href="{{ route('home-dokter') }}">
+                        <a href="{{ route('home-dokter') }}"
+                            class="{{ request()->routeIs('home-dokter') ? 'active' : '' }}">
                             <i class="fas fa-home"></i>
                             <span>Dashboard</span>
                         </a>
                     @endif
                 </li>
                 <li>
-                    <a href="{{ route('dokter.index') }}">
+                    <a href="{{ route('dokter.index') }}"
+                        class="{{ request()->routeIs('dokter.index') ? 'active' : '' }}">
                         <i class="fa fa-user-md"></i>
                         <span>Dokter</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('obat.index') }}">
+                    <a href="{{ route('obat.index') }}" class="{{ request()->routeIs('obat.index') ? 'active' : '' }}">
                         <i class="fa fa-pills"></i>
                         <span>Obat</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('pasien.index') }}">
+                    <a href="{{ route('pasien.index') }}"
+                        class="{{ request()->routeIs('pasien.index') ? 'active' : '' }}">
                         <i class="fa fa-users"></i>
                         <span>Pasien</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('resep.index') }}">
+                    <a href="{{ route('resep.index') }}"
+                        class="{{ request()->routeIs('resep.index') ? 'active' : '' }}">
                         <i class="fa fa-notes-medical"></i>
                         <span>Diagnosis</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('kunjungan.index') }}">
+                    <a href="{{ route('kunjungan.index') }}"
+                        class="{{ request()->routeIs('kunjungan.index') ? 'active' : '' }}">
                         <i class="fa fa-calendar-check"></i>
                         <span>Kunjungan</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('jadwal_praktek.index') }}">
+                    <a href="{{ route('jadwal_praktek.index') }}"
+                        class="{{ request()->routeIs('jadwal_praktek.index') ? 'active' : '' }}">
                         <i class="fa fa-calendar-day"></i>
                         <span>Jadwal Praktek</span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('rekam_medis.index') }}">
+                    <a href="{{ route('rekam_medis.index') }}"
+                        class="{{ request()->routeIs('rekam_medis.index') ? 'active' : '' }}">
                         <i class="fa fa-file-medical-alt"></i>
                         <span>Rekam Medis</span>
                     </a>
                 </li>
                 <li>
-                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                    <a href="#" class="q-btn" style="color: inherit; cursor: pointer;"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="fa fa-sign-out-alt"></i>
+                        <span>Keluar</span>
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
-                        <button style="border: none; background: none; color: inherit; cursor: pointer;">
-                            <i class="fa fa-sign-out-alt"></i>
-                            <span>Keluar</span>
-                        </button>
                     </form>
                 </li>
             </ul>
         </div>
-    
-        <div class="content">
+
+
+        <div class="wrapper-container">
             @yield('side')
         </div>
     </div>
-    
-            <!-- End Sidebar -->
 
-            <!-- End Custom template -->
+    <!-- End Sidebar -->
+
+    <!-- End Custom template -->
 
     <!--   Core JS Files   -->
     <script src="sidebar/assets/js/core/jquery-3.7.1.min.js"></script>
@@ -382,6 +402,12 @@
             lineColor: "#ffa534",
             fillColor: "rgba(255, 165, 52, .14)",
         });
+    </script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('expanded');
+        }
     </script>
 </body>
 
