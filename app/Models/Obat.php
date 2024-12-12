@@ -9,11 +9,8 @@ class Obat extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['resep_id', 'nama_obat', 'jumlah', 'dosis'];
+    protected $guarded = ['id'];
 
-    public function resep()
-    {
-        return $this->belongsTo(Resep::class);
-    }
+
 }
 
