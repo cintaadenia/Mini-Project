@@ -13,10 +13,9 @@ return new class extends Migration
 {
     Schema::create('obats', function (Blueprint $table) {
         $table->id();
-        $table->foreignId('resep_id')->constrained('reseps')->onDelete('cascade');
-        $table->string('nama_obat');
+        $table->string('obat');
         $table->integer('jumlah');
-        $table->string('dosis');
+        $table->integer('harga');
         $table->timestamps();
     });
 }

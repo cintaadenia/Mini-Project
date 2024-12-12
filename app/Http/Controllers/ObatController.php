@@ -17,24 +17,22 @@ class ObatController extends Controller
             $layout = 'layouts.app';
             $content = 'content';
         }
-        $obats = Obat::with('resep')->paginate(10);
+        $obats = Obat::paginate(10);
         $resep = Resep::all();
         return view('obat.index', compact('obats','resep','layout','content'));
     }
 
     public function create()
     {
-        $reseps = Resep::all();
-        return view('obat.create', compact('reseps'));
+        return view('obat.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'resep_id' => 'required',
-            'nama_obat' => 'required',
+            'obat' => 'required',
             'jumlah' => 'required',
-            'dosis' => 'required',
+            'harga' => 'required',
         ]);
 
         Obat::create($request->all());
@@ -55,10 +53,9 @@ class ObatController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'resep_id' => 'required',
-            'nama_obat' => 'required',
+            'obat' => 'required',
             'jumlah' => 'required',
-            'dosis' => 'required',
+            'harga' => 'required',
         ]);
 
         $obat = Obat::findOrFail($id);
