@@ -39,11 +39,11 @@
                 margin-left: -30px
             }
             .header button {
-                background-color: #d9534f;
+                background-color: #ff0000;
                 color: white;
                 border: none;
                 padding: 10px 20px;
-                border-radius: 3px;
+                border-radius: 20px;
                 cursor: pointer;
             }
             .header button i {
@@ -54,7 +54,7 @@
                 margin-bottom: 20px;
             }
             .add-button {
-                background-color: #5bc0de;
+                background-color: #0275d8;
                 color: white;
                 border: none;
                 padding: 10px 20px;
@@ -90,6 +90,14 @@
             .action-icons .delete {
                 color: #d9534f;
             }
+
+            .judul {
+                display: flex;
+            }
+
+            .judul button{
+                margin-left: 50px;
+            }
         </style>
     </head>
 
@@ -105,10 +113,12 @@
                 <input type="text" placeholder="Search"><i class="fa-solid fa-magnifying-glass" style="margin-left: -100px"></i>
                 <button><i class="fas fa-sign-out-alt"></i> Keluar</button>
             </div>
-            <div class="title">Data Obat</div>
-            <button type="button" class="add-button" data-bs-toggle="modal" data-bs-target="#addModal">
+            <div class="judul">
+                <div class="title">Data Obat</div>
+                <button type="button" class="add-button" data-bs-toggle="modal" data-bs-target="#addModal">
                 + Tambah Obat
-            </button>
+                </button>
+            </div>
             {{-- <button class="add-button">Tambah Obat</button> --}}
             <table>
                 <thead>

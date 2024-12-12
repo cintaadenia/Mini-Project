@@ -360,8 +360,8 @@
                 </div>
                 <div class="welcome">
                     <div class="welcome-text">
-                        <h2>Selamat Datang, Dr. [Nama Dokter]!</h2>
-                        <p>Semoga Harimu Menyenangkan</p>
+                        <h2>Selamat Datang, Admin!</h2>
+                        <p>Kelola data klinik dengam mudah.</p>
                     </div>
                     <img src="{{ asset('asset/img/dokter.png') }}" alt="">
                 </div>
