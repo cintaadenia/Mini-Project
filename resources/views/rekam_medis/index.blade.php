@@ -7,6 +7,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Rekam Medis</title>
     <style>
@@ -31,7 +34,7 @@
 
 <body>
     <div class="container mt-5">
-        <h1>Daftar Rekam Medis</h1>
+        <h1>Daftar Rekam Medis</h1> 
         @if(session('success'))
         <script>
             Swal.fire('Success', '{{ session('success') }}', 'success');
@@ -75,12 +78,13 @@
                         @csrf
                         <div class="modal-body">
                             <div class="mb-3 row">
-                                <label for="kunjungan" class="col-sm-2 col-form-label">pasien</label>
+                                <label for="kunjungan" class="col-sm-2 col-form-label">Pasien</label>
                                 <div class="col-sm-10">
-                                    <select name="kunjungan_id" id="kunjungan_id" class="form-control">
-                                        <option>--- Pilih Pasien ---</option>
+                                    <!-- Patient Dropdown with Select2 for search functionality -->
+                                    <select name="kunjungan_id" id="kunjungan_id" class="form-control select2">
+                                        <option value="">--- Pilih Pasien ---</option>
                                         @foreach ($kunjungans as $kn)
-                                        <option value="{{$kn->id}}">{{$kn->pasien->nama}}</option>
+                                            <option value="{{ $kn->id }}">{{ $kn->pasien->nama }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -330,6 +334,30 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize Select2 for the patient dropdown in the modal
+            $('#kunjungan_id').select2({
+                placeholder: "--- Pilih Pasien ---",
+                allowClear: true, // Optional: Add an option to clear the selection
+            });
+    
+            // Initialize Select2 for any other select fields that might require search functionality
+            $('#search').select2({
+                placeholder: "Cari Rekam Medis..."
+            });
+        });
+        $(document).ready(function() {
+    // Initialize Select2 for the patient dropdown in the modal with search enabled
+    $('#kunjungan_id').select2({
+        placeholder: "--- Pilih Pasien ---",
+        allowClear: true
+    });
+});
+
+    </script>
+    
+
 
     <script>
         // Script untuk menghapus gambar dari modal edit
@@ -377,7 +405,6 @@ document.querySelectorAll('.modal-footer button').forEach(button => {
         event.stopPropagation();
     });
 });
-
     </script>
     
 
