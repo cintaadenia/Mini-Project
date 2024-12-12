@@ -56,7 +56,7 @@ class PasienController extends Controller
                 'tanggal_lahir' => 'required|date',
             ]);
         
-            // Tambahkan `user_id` ke data yang disimpan
+
             $data = $request->all();
             $data['user_id'] = auth()->id();
         
@@ -64,8 +64,7 @@ class PasienController extends Controller
         
             return redirect()->route('home')->with('success', 'Data pasien berhasil ditambahkan.');
         }catch (ValidationException $e) {
-            // Jika validasi gagal, arahkan ke /home#form-pasien
-            return redirect('/home#form-pasien') // false mencegah base URL diubah
+            return redirect('/home#form-pasien')
                 ->withInput()
                 ->withErrors($e->errors());
         }
