@@ -121,6 +121,12 @@
             font-weight: 800;
         }
 
+        .quit-btn {
+            outline: none;
+            border: none;
+            background: var(--main-color);
+        }
+
         .wrapper-container {
             margin-left: 10rem;
         }
@@ -286,7 +292,7 @@
                 <li>
                     <form action="{{route('logout')}}" method="POST">
                         @csrf
-                        <button>
+                        <button class="quit-btn">
                             <i class="fa fa-sign-out-alt"></i>
                             <span>Keluar</span>
                         </button>
