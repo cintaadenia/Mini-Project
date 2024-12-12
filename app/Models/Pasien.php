@@ -12,9 +12,9 @@ class Pasien extends Model
     protected $fillable = ['nama', 'alamat', 'no_hp', 'tanggal_lahir', 'user_id'];
 
     public function kunjungan()
-    {
-        return $this->hasMany(Kunjungan::class);
-    }
+{
+    return $this->hasMany(Kunjungan::class);
+}
     public function user()
     {
         return $this->belongsTo(User::class);

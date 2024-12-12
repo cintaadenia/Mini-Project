@@ -10,9 +10,91 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <title>Pasien</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f5f5f5;
+            }
+            .container {
+                width: 90%;
+                margin: 20px auto;
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+            .header input[type="text"] {
+                width: 90%;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 15px;
+                margin-left: -30px;
+            }
+            .header button {
+                background-color: #d9534f;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+            .header button i {
+                margin-right: 5px;
+            }
+            .title {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            .add-button {
+                background-color: #5bc0de;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 3px;
+                cursor: pointer;
+                margin-bottom: 20px;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            table, th, td {
+                border: 1px solid #ccc;
+            }
+            th, td {
+                padding: 10px;
+                text-align: left;
+            }
+            th {
+                background-color: #0275d8;
+                color: white;
+            }
+            tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+            .action-icons i {
+                margin: 0 5px;
+                cursor: pointer;
+            }
+            .action-icons .edit {
+                color: #0275d8;
+            }
+            .action-icons .delete {
+                color: #d9534f;
+            }
+        </style>
     </head>
 
     <body>
+        
         <div class="container mt-5">
             <h1>Daftar Pasien</h1>
             @if (session('success'))
@@ -94,43 +176,57 @@
             </div>
 
             <!-- Table -->
-            <table class="table table-striped table-responsive">
+            <table>
                 <thead>
                     <tr>
                         <th>Nama</th>
-                        <th>Alamat</th>
-                        <th>No HP</th>
                         <th>Tanggal Lahir</th>
-                        @if (auth()->user()->hasRole('admin'))
-                            <th>Aksi</th>
-                        @endif
+                        <th>Alamat</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($pasiens as $pasien)
-                        <tr>
-                            <td>{{ $pasien->nama }}</td>
-                            <td>{{ $pasien->alamat ?: 'kosong' }}</td>
-                            <td>{{ $pasien->no_hp ?: 'kosong' }}</td>
-                            <td>{{ $pasien->tanggal_lahir ?: 'kosong' }}</td>
-                            @if (auth()->user()->hasRole('admin'))
-                                <td>    
-                                    <form id="delete-form-{{ $pasien->id }}"
-                                        action="{{ route('pasien.destroy', $pasien->id) }}" method="POST"
-                                        style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                    <button type="button" class="btn btn-danger btn-sm"
-                                        onclick="confirmDelete({{ $pasien->id }})">Hapus</button>
-                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#editModal{{ $pasien->id }}">Perbarui</button>
-                                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#detailModal{{ $pasien->id }}">Detail</button>
-                                </td>
-                            @endif
-                        </tr>
-
+                    <tr>
+                        <td>{{ $pasien->nama }}</td>
+                        <td>{{ $pasien->tanggal_lahir }}</td>
+                        <td>{{ $pasien->alamat }}</td>
+                        <td class="action-icons">
+                            <a data-bs-toggle="modal" data-bs-target="#detailModal{{ $pasien->id }}">
+                                <i class="fas fa-info-circle detail"></i>
+                            </a>
+                            <button type="button" style="border: none; outline: none; background: transparent;" data-bs-toggle="modal"
+                            data-bs-target="#editModal{{ $pasien->id }}">
+                                <i class="fas fa-edit edit"></i>
+                            </button>
+                            <form id="delete-form-{{ $pasien->id }}" action="{{ route('pasien.destroy', $pasien->id) }}" method="POST" style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                            </form>
+                            <button type="submit" style="background: transparent; outline: none; border: none" onclick="confirmDelete({{ $pasien->id }})">
+                                <i class="fas fa-trash delete"></i>
+                            </button>
+                            <script>
+                                function confirmDelete(id) {
+                                    Swal.fire({
+                                        title: 'Apakah Anda yakin?',
+                                        text: "Data ini akan dihapus secara permanen!",
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: '#3085d6',
+                                        cancelButtonColor: '#d33',
+                                        confirmButtonText: 'Ya, hapus!',
+                                        cancelButtonText: 'Batal'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            // Submit form hapus
+                                            document.getElementById('delete-form-' + id).submit();
+                                        }
+                                    });
+                                }
+                            </script>
+                        </td>
+                    </tr>
                         <!-- Edit Modal -->
                         <div class="modal fade" id="editModal{{ $pasien->id }}" tabindex="-1"
                             aria-labelledby="editModalLabel{{ $pasien->id }}" aria-hidden="true">
@@ -177,6 +273,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
+                                            
                                             <div class="mb-3">
                                                 <label for="keluhan" class="form-label">Keluhan</label>
                                                 <textarea class="form-control" id="keluhan" name="keluhan" rows="3" required></textarea>
