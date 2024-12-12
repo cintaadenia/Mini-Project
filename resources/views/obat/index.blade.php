@@ -123,20 +123,18 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Nama Pasien</th>
-                        <th>Nama Obat</th>
+                        <th>Obat</th>
                         <th>Jumlah</th>
-                        <th>Dosis</th>
+                        <th>harga</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($obats as $obt)
                     <tr>
-                        <td>{{ $obt->resep->kunjungan->pasien->nama }}</td>
-                        <td>{{ $obt->nama_obat }}</td>
+                        <td>{{ $obt->obat }}</td>
                         <td>{{ $obt->jumlah }}</td>
-                        <td>{{ $obt->dosis }}</td>
+                        <td>Rp.{{ $obt->harga }}</td>
                         <td class="action-icons">
                             <button type="button" style="border: none; outline: none; background: transparent;" data-bs-toggle="modal"
                             data-bs-target="#editModal{{ $obt->id }}">
@@ -186,30 +184,12 @@
                                     @method('put')
                                     <div class="modal-body">
                                         <div class="mb-3 row">
-                                            <label for="resep" class="col-sm-2 col-form-label">Resep</label>
+                                            <label for="obat" class="col-sm-2 col-form-label">Obat</label>
                                             <div class="col-sm-10">
-                                                <select name="resep_id" id="resep_id" class="form-control">
-                                                    <option value="{{ $obt->resep_id }}">
-                                                        {{ $obt->resep->kunjungan->pasien->nama }}</option>
-                                                    @foreach ($resep as $res)
-                                                        @if ($res->id !== $obt->resep_id)
-                                                        <option value="{{ $res->id }}">
-                                                            {{ $res->kunjungan->pasien->nama }}</option>
-                                                        @endif
-                                                    @endforeach
-                                                </select>
+                                                <input type="text" class="form-control" id="obat"
+                                                    name="obat" value="{{ $obt->obat }}">
                                             </div>
-                                            @error('resep_id')
-                                                <p style="color: red">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <div class="mb-3 row">
-                                            <label for="obat" class="col-sm-2 col-form-label">Nama Obat</label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="nama_obat"
-                                                    name="nama_obat" value="{{ $obt->nama_obat }}">
-                                            </div>
-                                            @error('nama_obat')
+                                            @error('obat')
                                                 <script>
                                                     Swal.fire('Error', '{{ $message }}', 'error');
                                                 </script>
@@ -228,12 +208,12 @@
                                             @enderror
                                         </div>
                                         <div class="mb-3 row">
-                                            <label for="dosis" class="col-sm-2 col-form-label">Dosis</label>
+                                            <label for="harga" class="col-sm-2 col-form-label">Harga</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="dosis"
-                                                    name="dosis" value="{{ $obt->dosis }}">
+                                                <input type="text" class="form-control" id="harga"
+                                                    name="harga" value="{{ $obt->harga }}">
                                             </div>
-                                            @error('dosis')
+                                            @error('harga')
                                                 <script>
                                                     Swal.fire('Error', '{{ $message }}', 'error');
                                                 </script>
@@ -263,29 +243,12 @@
                             @csrf
                             <div class="modal-body">
                                 <div class="mb-3 row">
-                                    <label for="resep" class="col-sm-2 col-form-label">nama</label>
+                                    <label for="obat" class="col-sm-2 col-form-label">Obat</label>
                                     <div class="col-sm-10">
-                                        <select name="resep_id" id="resep_id" class="form-control">
-                                            <option>--- nama pasien ---</option>
-                                            @foreach ($resep as $res)
-                                                <option value="{{ $res->id }}">{{ $res->kunjungan->pasien->nama }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        <input type="text" class="form-control" id="obat" name="obat"
+                                            value="{{ old('obat') }}">
                                     </div>
-                                    @error('resep_id')
-                                        <script>
-                                            Swal.fire('Error', '{{ $message }}', 'error');
-                                        </script>
-                                    @enderror
-                                </div>
-                                <div class="mb-3 row">
-                                    <label for="obat" class="col-sm-2 col-form-label">Nama Obat</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="nama_obat" name="nama_obat"
-                                            value="{{ old('nama_obat') }}">
-                                    </div>
-                                    @error('nama_obat')
+                                    @error('obat')
                                         <script>
                                             Swal.fire('Error', '{{ $message }}', 'error');
                                         </script>
@@ -304,12 +267,12 @@
                                     @enderror
                                 </div>
                                 <div class="mb-3 row">
-                                    <label for="dosis" class="col-sm-2 col-form-label">Dosis</label>
+                                    <label for="harga" class="col-sm-2 col-form-label">Harga</label>
                                     <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="dosis" name="dosis"
-                                            value="{{ old('dosis') }}">
+                                        <input type="text" class="form-control" id="harga" name="harga"
+                                            value="{{ old('harga') }}">
                                     </div>
-                                    @error('dosis')
+                                    @error('harga')
                                         <script>
                                             Swal.fire('Error', '{{ $message }}', 'error');
                                         </script>
