@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\RekamMedis;
 use App\Models\Kunjungan;
 use App\Models\Pasien;
+use App\Models\Resep;
 use App\Models\RekamMedisImage;
 use Illuminate\Container\Attributes\DB;
 use Illuminate\Http\Request;
@@ -18,24 +19,26 @@ class RekamMedisController extends Controller
     if(auth()->user()->hasRole('admin|dokter')){
         $layout = 'layouts.sidebar';
         $content = 'side';
-    }else{
+    } else {
         $layout = 'layouts.app';
         $content = 'content';
     }
+    
     $search = $request->input('search');
 
     // Query for searching by patient's name, diagnosis, and action
-    $rekamMedis = RekamMedis::whereHas('kunjungan.pasien', function($query) use ($search) {
-        $query->where('nama', 'like', "%$search%");
-    })
-    ->orWhere('diagnosa', 'like', "%$search%")
-    ->orWhere('tindakan', 'like', "%$search%")
-    ->paginate(10);
+    $rekamMedis = RekamMedis::with('resep') // Eager load the resep relationship
+        ->whereHas('kunjungan.pasien', function($query) use ($search) {
+            $query->where('nama', 'like', "%$search%");
+        })
+        ->orWhere('diagnosa', 'like', "%$search%")
+        ->orWhere('tindakan', 'like', "%$search%")
+        ->paginate(10);
     
     // Get all kunjungan data
     $kunjungans = Kunjungan::with('pasien')->get();
 
-    return view('rekam_medis.index', compact('rekamMedis', 'kunjungans','layout','content'));
+    return view('rekam_medis.index', compact('rekamMedis', 'kunjungans', 'layout', 'content'));
 }
 
     public function create()
@@ -73,6 +76,7 @@ class RekamMedisController extends Controller
     // Menambahkan resep
     Resep::create([
         'kunjungan_id' => $validated['kunjungan_id'],
+        'rekam_medis_id' => $rekamMedis->id, // Set rekam_medis_id here
         'deskripsi' => $validated['deskripsi'],
     ]);
 
