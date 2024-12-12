@@ -125,9 +125,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="button" class="btn btn-secondary" id="add-image-button-create">Tambah Gambar</button>                            
-                            
-                            
+                            <button type="button" class="btn btn-secondary" id="add-image-button-create">Tambah Gambar</button>
+
+
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -149,7 +149,7 @@
                     @if (auth()->user()->hasRole('admin'))
                     <th>Aksi</th>
                     @endif
-                    
+
                 </tr>
             </thead>
             <tbody>
@@ -162,7 +162,7 @@
                         @foreach ($rm->images as $image)
                             <img src="{{ asset('storage/' . $image->image_path) }}" height="100" width="80" alt="Gambar">
                         @endforeach
-                    </td>                    
+                    </td>
                     @if (auth()->user()->hasRole('admin'))
                     <td>
                         <form id="delete-form-{{ $rm->id }}" action="{{ route('rekam_medis.destroy', $rm->id) }}" method="POST" style="display: none;">
@@ -194,11 +194,11 @@
                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal{{ $rm->id }}">
                             Edit
                         </button>
-                    
+
                             <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal{{ $rm->id }}">
                                 Detail
                             </button>
-                    </td>    
+                    </td>
                     <!-- Detail Modal -->
 <div class="modal fade" id="detailModal{{ $rm->id }}" tabindex="-1" aria-labelledby="detailModalLabel{{ $rm->id }}" aria-hidden="true">
     <div class="modal-dialog">
@@ -223,7 +223,7 @@
     </div>
 </div>
 
-                    @endif             
+                    @endif
                 </tr>
 
                 <!-- Edit Modal -->
@@ -302,7 +302,7 @@
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-secondary" id="add-image-button-edit">Tambah Gambar</button>                    
+                    <button type="button" class="btn btn-secondary" id="add-image-button-edit">Tambah Gambar</button>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -373,9 +373,9 @@ document.querySelectorAll('.modal-footer button').forEach(button => {
 });
 
     </script>
-    
 
-    
+
+
 
 </body>
 </html>
