@@ -114,7 +114,7 @@ class KunjunganController extends Controller
     $doctor = auth()->user(); // Get the logged-in doctor
 
 
-    // Ambil nilai pencarian dari request (jika ada)
+// Ambil nilai pencarian dari request (jika ada)
     $search = $request->get('search');
 
     // Get the visits related to the logged-in doctor

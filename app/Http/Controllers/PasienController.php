@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pasien;
+use App\Models\Dokter;
+use App\Models\Kunjungan;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Traits\HasRoles;
@@ -30,7 +32,10 @@ class PasienController extends Controller
               ->orWhere('no_hp', 'like', "%$search%");
     })->paginate(10);
 
-    return view('pasien.index', compact('pasiens', 'layout', 'content'));
+    // Ambil semua dokter
+    $dokters = Dokter::all(); // Ambil semua dokter
+
+    return view('pasien.index', compact('pasiens', 'layout', 'content', 'dokters')); // Kirim $dokters ke view
 }
 
 
@@ -95,10 +100,24 @@ class PasienController extends Controller
         'alamat' => 'nullable|string',
         'no_hp' => 'nullable|unique:pasiens,no_hp,' . $pasien->id,
         'tanggal_lahir' => 'nullable|date',
+        'dokter_id' => 'required|exists:dokters,id',
+        'keluhan' => 'required|string',
+        'tanggal_kunjungan' => 'required|date',
     ]);
 
-    $pasien->update($request->all());
-    return redirect()->route('pasien.index')->with('success', 'Data pasien berhasil diperbarui.');
+    // Update data pasien
+    $pasien->update($request->only(['nama', 'alamat', 'no_hp', 'tanggal_lahir']));
+
+    // Buat kunjungan
+    Kunjungan::create([
+        'pasien_id' => $pasien->id,
+        'dokter_id' => $request->dokter_id,
+        'keluhan' => $request->keluhan,
+        'tanggal_kunjungan' => $request->tanggal_kunjungan,
+        'user_id' => auth()->id(), // Menyimpan ID pengguna yang membuat kunjungan
+    ]);
+
+    return redirect()->route('pasien.index')->with('success', 'Data pasien dan kunjungan berhasil diperbarui.');
 }
     public function destroy(Pasien $pasien)
     {
