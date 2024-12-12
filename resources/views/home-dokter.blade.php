@@ -125,7 +125,7 @@
 
     .content-bottom {
         display: flex;
-        justify-content: space-between;
+        flex-wrap: wrap;
         padding: 0 2rem 2rem 2rem;
         margin-top: 2rem;
     }
@@ -135,7 +135,7 @@
         border: 1px solid #ccc;
         border-radius: 10px;
         width: 1070px;
-        height: 900px;
+        height: auto;
         margin-top: 1rem;
     }
 
@@ -189,8 +189,30 @@
     table tr:hover td {
         background-color: #f1f1f1;
     }
+    .outer-periksa {
+
+        background-color: white;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        width: 1070px;
+        height: auto;
+        margin-top: 1rem;
+    }
+    .content-periksa {
+        display: flex;
+        flex-direction: column;
+        font-weight: 600;
+        position: relative;
+    }
+    .content-table-periksa {
+        margin: 1rem;
+        width: auto;
+        overflow: hidden;
+    }
+
 
     .content-chart {
+        margin-left: 15px;
         background-color: white;
         border: 1px solid #ccc;
         border-radius: 10px;
@@ -198,6 +220,7 @@
         text-align: center;
         width: 600px;
         height: 700px;
+
     }
 
     .content-chart h1 {
@@ -444,7 +467,7 @@
             <div class="content-header">
                 <div class="welcome">
                     <div class="welcome-text">
-                        <h2 class="h2-title-bold">Selamat Datang, Dr. [Nama Dokter]!</h2>
+                        <h2 class="h2-title-bold">Selamat Datang, Dr. {{ Auth::user()->name }}!</h2>
                         <p>Semoga Harimu Menyenangkan</p>
                     </div>
                     <img src="{{ asset('asset/img/dokter.png') }}" alt="">
@@ -530,11 +553,20 @@
                             <td>Ani Rahmawati</td>
                             <td>Demam tinggi dan sakit kepala</td>
                         </tr>
+                        <tr>
+                            <td>Ani Rahmawati</td>
+                            <td>Demam tinggi dan sakit kepala</td>
+                        </tr>
+                        <tr>
+                            <td>Ani Rahmawati</td>
+                            <td>Demam tinggi dan sakit kepala</td>
+                        </tr>
+
                     </table>
                 </div>
             </div>
         </div>
-        <div class="content-chart" style="margin-top: 145px;">
+        <div class="content-chart">
             <h2 class="h2-title-bold h2-left">Data Kunjungan</h2>
             <div class="chart-container">
                 <canvas id="myChart"></canvas>
@@ -553,6 +585,46 @@
                     <div class="desember"><span></span>Desember: 40 (19.23%)</div>
                 </div>
             </div>
+        </div>
+        <div class="content-periksa" style="margin-left: 150px;">
+            <div class="content-table-text" style="font-size: 30px">
+                <h2>Data Periksa Pasien</h2>
+                <p>Berikut adalah daftar pasien yang sudah diperiksa dan tidak.</p>
+            </div>
+            <div class="search-container">
+                <input type="text" placeholder="Search here...">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+        <div class="outer-periksa">
+            <div class="content-table-periksa">
+                <table>
+                    <tr>
+                        <th>Nama Pasien</th>
+                        <th>Keluhan</th>
+                    </tr>
+                    <tr>
+                        <td>Ani Rahmawati</td>
+                        <td>Demam tinggi dan sakit kepala</td>
+                    </tr>
+                    <tr>
+                        <td>Ani Rahmawati</td>
+                        <td>Demam tinggi dan sakit kepala</td>
+                    </tr>
+                    <tr>
+                        <td>Ani Rahmawati</td>
+                        <td>Demam tinggi dan sakit kepala</td>
+                    </tr>
+                    <tr>
+                        <td>Ani Rahmawati</td>
+                        <td>Demam tinggi dan sakit kepala</td>
+                    </tr>
+                    <tr>
+                        <td>Ani Rahmawati</td>
+                        <td>Demam tinggi dan sakit kepala</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
         </div>
     </div>
 @endsection
