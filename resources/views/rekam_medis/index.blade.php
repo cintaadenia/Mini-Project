@@ -145,6 +145,7 @@
                     <th>pasien</th>
                     <th>Diagnosa</th>
                     <th>Tindakan</th>
+                    <th>Resep</th>
                     <th>Gambar</th>
                     @if (auth()->user()->hasRole('admin'))
                     <th>Aksi</th>
@@ -158,6 +159,11 @@
                     <td>{{ $rm->kunjungan->pasien->nama }}</td>
                     <td>{{ $rm->diagnosa }}</td>
                     <td>{{ $rm->tindakan }}</td>
+                    <td>
+                        @foreach ($rm->resep as $resep) <!-- Loop through each resep -->
+                            <p>{{ $resep->deskripsi }}</p> <!-- Display the deskripsi -->
+                        @endforeach
+                    </td>
                     <td>
                         @foreach ($rm->images as $image)
                             <img src="{{ asset('storage/' . $image->image_path) }}" height="100" width="80" alt="Gambar">
