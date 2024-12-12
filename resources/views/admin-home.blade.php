@@ -301,7 +301,7 @@
             }
 
             .content-bottom-card h2 {
-              font-size: 1.5rem;
+                font-size: 1.5rem;
             }
 
             .content-bottom-card p {
@@ -324,7 +324,7 @@
             }
 
             .content-chart h1 {
-              font-size: 1.5rem;
+                font-size: 1.5rem;
             }
 
             .chart-container {
@@ -351,96 +351,94 @@
 </head>
 @extends('layouts.sidebar')
 @section('side')
-    <div class="wrapper-container">
-        <div class="header">
-            <div class="content-header">
-                <div class="search-container">
-                    <input type="text" placeholder="Search here...">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+    <div class="header">
+        <div class="content-header">
+            <div class="search-container">
+                <input type="text" placeholder="Search here...">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="welcome">
+                <div class="welcome-text">
+                    <h2>Selamat Datang, Dr. [Nama Dokter]!</h2>
+                    <p>Semoga Harimu Menyenangkan</p>
                 </div>
-                <div class="welcome">
-                    <div class="welcome-text">
-                        <h2>Selamat Datang, Admin!</h2>
-                        <p>Kelola data klinik dengam mudah.</p>
+                <img src="{{ asset('asset/img/dokter.png') }}" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="content-bottom">
+        <div class="content-bottom-top">
+            <div class="content-bottom-top-content">
+                <div class="content-bottom-card">
+                    <h2>Total Pasien</h2>
+                    <div class="content-bottom-card-content">
+                        <i class="fa-solid fa-bed-pulse"></i>
+                        <div class="content-bottom-card-content-content">
+                            <h2>208</h2>
+                            <p>Jumlah Seluruh Pasien yang terdaftar di klinik</p>
+                        </div>
                     </div>
-                    <img src="{{ asset('asset/img/dokter.png') }}" alt="">
+                </div>
+                <div class="content-bottom-card">
+                    <h2>Total Pasien</h2>
+                    <div class="content-bottom-card-content">
+                        <i class="fa-solid fa-user-doctor"></i>
+                        <div class="content-bottom-card-content-content">
+                            <h2>208</h2>
+                            <p>Jumlah Seluruh Pasien yang terdaftar di klinik</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="content-tree-chart">
+                <h2>Chart Batang Kunjungan Per Bulan</h2>
+                <div class="chart-tree-container">
+                    <div class="bar" id="jan"></div>
+                    <div class="bar" id="feb"></div>
+                    <div class="bar" id="mar"></div>
+                    <div class="bar" id="apr"></div>
+                    <div class="bar" id="may"></div>
+                    <div class="bar" id="jun"></div>
+                    <div class="bar" id="jul"></div>
+                    <div class="bar" id="aug"></div>
+                    <div class="bar" id="sep"></div>
+                    <div class="bar" id="oct"></div>
+                    <div class="bar" id="nov"></div>
+                    <div class="bar" id="dec"></div>
+                </div>
+                <div class="labels">
+                    <span>Jan</span>
+                    <span>Feb</span>
+                    <span>Mar</span>
+                    <span>Apr</span>
+                    <span>May</span>
+                    <span>Jun</span>
+                    <span>Jul</span>
+                    <span>Aug</span>
+                    <span>Sep</span>
+                    <span>Oct</span>
+                    <span>Nov</span>
+                    <span>Dec</span>
                 </div>
             </div>
         </div>
-        <div class="content-bottom">
-            <div class="content-bottom-top">
-                <div class="content-bottom-top-content">
-                    <div class="content-bottom-card">
-                        <h2>Total Pasien</h2>
-                        <div class="content-bottom-card-content">
-                            <i class="fa-solid fa-bed-pulse"></i>
-                            <div class="content-bottom-card-content-content">
-                                <h2>208</h2>
-                                <p>Jumlah Seluruh Pasien yang terdaftar di klinik</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content-bottom-card">
-                        <h2>Total Pasien</h2>
-                        <div class="content-bottom-card-content">
-                            <i class="fa-solid fa-user-doctor"></i>
-                            <div class="content-bottom-card-content-content">
-                                <h2>208</h2>
-                                <p>Jumlah Seluruh Pasien yang terdaftar di klinik</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content-tree-chart">
-                    <h2>Chart Batang Kunjungan Per Bulan</h2>
-                    <div class="chart-tree-container">
-                        <div class="bar" id="jan"></div>
-                        <div class="bar" id="feb"></div>
-                        <div class="bar" id="mar"></div>
-                        <div class="bar" id="apr"></div>
-                        <div class="bar" id="may"></div>
-                        <div class="bar" id="jun"></div>
-                        <div class="bar" id="jul"></div>
-                        <div class="bar" id="aug"></div>
-                        <div class="bar" id="sep"></div>
-                        <div class="bar" id="oct"></div>
-                        <div class="bar" id="nov"></div>
-                        <div class="bar" id="dec"></div>
-                    </div>
-                    <div class="labels">
-                        <span>Jan</span>
-                        <span>Feb</span>
-                        <span>Mar</span>
-                        <span>Apr</span>
-                        <span>May</span>
-                        <span>Jun</span>
-                        <span>Jul</span>
-                        <span>Aug</span>
-                        <span>Sep</span>
-                        <span>Oct</span>
-                        <span>Nov</span>
-                        <span>Dec</span>
-                    </div>
-                </div>
+        <div class="content-chart">
+            <h1>Data Kunjungan Perbulan</h1>
+            <div class="chart-container">
+                <canvas id="myChart"></canvas>
             </div>
-            <div class="content-chart">
-                <h1>Data Kunjungan Perbulan</h1>
-                <div class="chart-container">
-                    <canvas id="myChart"></canvas>
+            <div class="legend">
+                <div class="legend-left">
+                    <div class="mei"><span></span>Mei: 20 (9.62%)</div>
+                    <div class="juni"><span></span>Juni: 25 (12.02%)</div>
+                    <div class="juli"><span></span>Juli: 10 (4.81%)</div>
+                    <div class="agustus"><span></span>Agustus: 35 (16.83%)</div>
                 </div>
-                <div class="legend">
-                    <div class="legend-left">
-                        <div class="mei"><span></span>Mei: 20 (9.62%)</div>
-                        <div class="juni"><span></span>Juni: 25 (12.02%)</div>
-                        <div class="juli"><span></span>Juli: 10 (4.81%)</div>
-                        <div class="agustus"><span></span>Agustus: 35 (16.83%)</div>
-                    </div>
-                    <div class="legend-right">
-                        <div class="september"><span></span>September: 18 (8.65%)</div>
-                        <div class="oktober"><span></span>Oktober: 28 (13.46%)</div>
-                        <div class="november"><span></span>November: 32 (15.38%)</div>
-                        <div class="desember"><span></span>Desember: 40 (19.23%)</div>
-                    </div>
+                <div class="legend-right">
+                    <div class="september"><span></span>September: 18 (8.65%)</div>
+                    <div class="oktober"><span></span>Oktober: 28 (13.46%)</div>
+                    <div class="november"><span></span>November: 32 (15.38%)</div>
+                    <div class="desember"><span></span>Desember: 40 (19.23%)</div>
                 </div>
             </div>
         </div>
