@@ -19,6 +19,8 @@ $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('alamat')->nullable();
             $table->string('no_hp')->nullable();
             $table->date('tanggal_lahir')->nullable();
+           
+
             $table->timestamps();
         });
     }
