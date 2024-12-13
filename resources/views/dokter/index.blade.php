@@ -87,7 +87,7 @@
                                             value="{{ old('no_hp') }}">
                                     </div>
                                     @error('no_hp')
-                                        <p style="color: red">{{ $message }}</p>
+                                        <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <!-- Add this inside the form for creating a doctor -->

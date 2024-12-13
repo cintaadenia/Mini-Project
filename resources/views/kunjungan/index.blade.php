@@ -104,9 +104,17 @@
                                 <div class="col-sm-10">
                                     <input type="date" class="form-control" id="tanggal_kunjungan" name="tanggal_kunjungan" value="{{ old('tanggal_kunjungan') }}">
                                 </div>
-                                @error('tanggal_kunjungan')
-                                    <p style="color: red">{{ $message }}</p>
-                                @enderror
+                                @if ($errors->any())
+                                <script>
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: '{{ $errors->first() }}',
+                                        confirmButtonText: 'Tutup'
+                                    });
+                                </script>
+                            @endif
+                            
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -227,15 +235,34 @@
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="keluhan" name="keluhan" value="{{ $kunjungan->keluhan }}">
                                         </div>
-                                        @error('keluhan')
-                                            <p style="color: red">{{ $message }}</p>
-                                        @enderror
+                                        @if ($errors->any())
+                                            <script>
+                                                Swal.fire({
+                                                    icon: 'error',
+                                                    title: 'Oops...',
+                                                    text: '{{ $errors->first() }}',
+                                                    confirmButtonText: 'Tutup'
+                                                });
+                                            </script>
+                                        @endif
+
                                     </div>
                                     <div class="mb-3 row">
                                         <label for="tanggal_kunjungan" class="col-sm-2 col-form-label">Tanggal Kunjungan</label>
                                         <div class="col-sm-10">
                                             <input type="date" class="form-control" id="tanggal_kunjungan" name="tanggal_kunjungan" value="{{ $kunjungan->tanggal_kunjungan }}" required>
                                         </div>
+                                        @if ($errors->any())
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: '{{ $errors->first() }}',
+            confirmButtonText: 'Tutup'
+        });
+    </script>
+@endif
+
                                     </div>
                                 </div>
                                 <div class="modal-footer">

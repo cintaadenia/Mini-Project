@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
         rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         body {
@@ -44,8 +45,8 @@
             border-radius: 10px;
             position: absolute;
             display: flex;
-            top: 150px;
-            left: 250px;
+            top: 120px;
+            left: 350px;
         }
 
         /* .form-container.active {
@@ -425,83 +426,22 @@
     color: blue;
     z-index: 1;
 }
+.gambar img{
+    position: relative;
+    z-index: 10;
+    top: 240px;
+}
     </style>
     <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 </head>
 
 <body>
-    <!-- Lottie animation placed at the top of the screen -->
-    {{-- <dotlottie-player src="https://lottie.host/680d9a21-2dd6-436f-a589-dd46a94152f2/vPQkqPk12r.json" background="transparent" speed="1" loop autoplay></dotlottie-player> --}}
     <div class="header-text">
         <h1 style="font-family: open sans; font-weight: bold">KLINIK</h1>
     </div>
-    {{-- <div class="outer-container">
-        <div class="container">
-            <div class="info-container">
-        <div class="login">
-          <div class="info-item log-in">
-            <div class="btn" style="color: black; font-size: 20px; font-weight: bold; font-family: open sans">Login</div>
-          </div>
-        </div>
-        <div class="register">
-          <div class="info-item sign-up">
-            <div class="btn" style="color: black; font-size: 20px; font-weight: bold; font-family: open sans">Register</div>
-          </div>
-        </div>
-
-      </div>
-            <div class="form-container">
-        <div class="form-item">
-          <form class="form-log-in" method="POST" action="{{ route('login') }}">
-            @csrf
-
-              <input name="email" placeholder="Email Address" type="email" required />
-            <input name="password" placeholder="Password" type="password" required />
-            <button type="submit" class="btn btn-primary">
-                {{ __('Login') }}
-            </button>
-          </form>
-          <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-          <script>
-              @if (session('error'))
-              Swal.fire({
-                  icon: 'error',
-                  title: 'Login Gagal',
-                  text: "{{ session('error') }}",
-                  confirmButtonText: 'OK'
-              });
-              @endif
-          </script>
-
-          <form class="form-sign-up" style="display: none;" method="POST" action="{{ route('register') }}">
-            @csrf
-            <i class="bi bi-person-circle"></i>
-            <input name="name" placeholder="Name" type="text"/>
-            @if ($errors->has('name'))
-    <small style="color: red;">{{ $errors->first('name') }}</small>
-@endif
-            <input name="email" placeholder="Email Address" type="email"/>
-            @if ($errors->has('email'))
-    <small style="color: red;">{{ $errors->first('email') }}</small>
-@endif
-            <input name="password" placeholder="Password" type="password"/>
-            @if ($errors->has('password'))
-    <small style="color: red;">{{ $errors->first('password') }}</small>
-@endif
-            <input name="password_confirmation" placeholder="Confirm Password" type="password"/>
-            @if ($errors->has('password_confirmation'))
-    <small style="color: red;">{{ $errors->first('password_confirmation') }}</small>
-@endif
-            <button type="submit" class="btn btn-primary">
-                {{ __('Register') }}
-            </button>
-          </form>
-        </div>
-      </div>
-
-
-        </div>
-    </div> --}}
+    <div class="gambar">
+        <img src="{{asset('asset/img/titik.png')}}" alt="">
+    </div>
     <div class="container">
         <div class="wrapper">
             <div class="form-container">
@@ -551,15 +491,15 @@
                         </div>
                         <div class="field" id="nohp-field">
                             <input type="text" id="nohp" placeholder="Phone Number" name="phone" required>
+                            @error('phone')
+                                   <div class="text-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="field">
                             <input type="password" placeholder="Password" name="password" required>
                         </div>
                         <div class="field">
                             <input type="password" placeholder="Confirm Password" name="password_confirmation" required>
-                        </div>
-                        <div class="signup-link">
-                            Not a member? <a href="">Signup now</a>
                         </div>
                         <div class="field btn">
                             <div class="btn-layer"></div>
@@ -641,6 +581,17 @@
             return false;
         });
     </script>
+    @if ($errors->any())
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: '{{ $errors->first() }}',
+            confirmButtonText: 'Tutup'
+        });
+    </script>
+@endif
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
