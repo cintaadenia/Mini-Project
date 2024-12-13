@@ -352,6 +352,17 @@
                 });
             }
         </script>
+        @if ($errors->any())
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '{{ $errors->first() }}',
+                confirmButtonText: 'Tutup'
+            });
+        </script>
+    @endif
+    
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
     </body>
