@@ -28,6 +28,13 @@ class UserSeeder extends Seeder
             'password' => bcrypt('12345678') // Encrypt password
         ])->assignRole('user');
 
+        // Create another user (john)
+        $john = User::create([
+            'name' => 'john',
+            'email' => 'john@gmail.com',
+            'password' => bcrypt('12345678') // Encrypt password
+        ])->assignRole('user');
+
         // Create doctor user (dokter)
         $dokterUser = User::create([
             'name' => 'dokter',
@@ -43,6 +50,15 @@ class UserSeeder extends Seeder
             'alamat' => 'Alamat Evan',
             'no_hp' => '08123456789',
             'tanggal_lahir' => '1990-01-01',
+        ]);
+
+        // Create pasien for john
+        Pasien::create([
+            'user_id' => $john->id,
+            'nama' => 'John Pasien',
+            'alamat' => 'Alamat John',
+            'no_hp' => '08223456789',
+            'tanggal_lahir' => '1985-05-15',
         ]);
 
         // Create dokter for dokterUser

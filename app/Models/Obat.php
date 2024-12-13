@@ -12,5 +12,13 @@ class Obat extends Model
     protected $guarded = ['id'];
 
 
+
+    public function rekamMedis()
+    {
+        return $this->belongsToMany(RekamMedis::class)->withPivot('jumlah');
+    }
+
+    
+
 }
 

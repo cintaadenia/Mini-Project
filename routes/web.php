@@ -22,7 +22,7 @@ Auth::routes();
 
 // Home route after login
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+    
 // Admin Dashboard (accessible by admin only)
 Route::get('/admin', function () {
     $months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

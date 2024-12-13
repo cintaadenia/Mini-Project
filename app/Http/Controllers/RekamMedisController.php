@@ -6,11 +6,13 @@ use App\Models\RekamMedis;
 use App\Models\Kunjungan;
 use App\Models\Pasien;
 use App\Models\Resep;
+use App\Models\Obat;
 use App\Models\RekamMedisImage;
 use Illuminate\Container\Attributes\DB;
 use Illuminate\Http\Request;
 use function Laravel\Prompts\select;
 use Illuminate\Support\Facades\Storage;
+
 
 class RekamMedisController extends Controller
 {
@@ -27,18 +29,20 @@ class RekamMedisController extends Controller
     $search = $request->input('search');
 
     // Query for searching by patient's name, diagnosis, and action
-    $rekamMedis = RekamMedis::with('resep') // Eager load the resep relationship
-        ->whereHas('kunjungan.pasien', function($query) use ($search) {
-            $query->where('nama', 'like', "%$search%");
-        })
-        ->orWhere('diagnosa', 'like', "%$search%")
-        ->orWhere('tindakan', 'like', "%$search%")
-        ->paginate(10);
-    
+    $rekamMedis = RekamMedis::with(['resep', 'obats'])
+    ->whereHas('kunjungan.pasien', function($query) use ($search) {
+        $query->where('nama', 'like', "%$search%");
+    })
+    ->where(function ($query) use ($search) {
+        $query->orWhere('diagnosa', 'like', "%$search%")
+              ->orWhere('tindakan', 'like', "%$search%");
+    })
+    ->paginate(10);
+
     // Get all kunjungan data
     $kunjungans = Kunjungan::with('pasien')->get();
-
-    return view('rekam_medis.index', compact('rekamMedis', 'kunjungans', 'layout', 'content'));
+    $obats = Obat::all(); // Ambil semua data obat dari database
+    return view('rekam_medis.index', compact('rekamMedis', 'kunjungans', 'obats', 'layout', 'content'));
 }
 
     public function create()
@@ -49,20 +53,25 @@ class RekamMedisController extends Controller
 
     public function store(Request $request)
 {
-    // Validasi untuk rekam medis
     $validated = $request->validate([
         'kunjungan_id' => 'required',
         'diagnosa' => 'required',
         'tindakan' => 'required',
-        'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
-        'deskripsi' => 'required|string', // Validasi untuk resep
+        'deskripsi' => 'required|string',
+        'obat_id.*' => 'required|exists:obats,id',
+        'jumlah_obat.*' => 'required|integer|min:1',
     ]);
 
-    // Membuat rekam medis baru
     $rekamMedis = RekamMedis::create([
         'kunjungan_id' => $validated['kunjungan_id'],
         'diagnosa' => $validated['diagnosa'],
         'tindakan' => $validated['tindakan'],
+    ]);
+
+    Resep::create([
+        'kunjungan_id' => $validated['kunjungan_id'],
+        'rekam_medis_id' => $rekamMedis->id,
+        'deskripsi' => $validated['deskripsi'],
     ]);
 
     // Menambahkan gambar jika ada
@@ -73,16 +82,23 @@ class RekamMedisController extends Controller
         }
     }
 
-    // Menambahkan resep
-    Resep::create([
-        'kunjungan_id' => $validated['kunjungan_id'],
-        'rekam_medis_id' => $rekamMedis->id, // Set rekam_medis_id here
-        'deskripsi' => $validated['deskripsi'],
-    ]);
+    foreach ($validated['obat_id'] as $index => $obatId) {
+        $obat = Obat::findOrFail($obatId);
+        $jumlah = $validated['jumlah_obat'][$index];
 
-    // Redirect ke halaman index dengan pesan sukses
-    return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis dan resep berhasil ditambahkan!');
+        if ($obat->jumlah >= $jumlah) {
+            $obat->decrement('jumlah', $jumlah); // Kurangi stok obat
+            $rekamMedis->obats()->attach($obat->id, ['jumlah' => $jumlah]); // Simpan ke pivot table
+        } else {
+            return back()->with('error', 'Stok obat tidak mencukupi untuk ' . $obat->obat);
+        }
+    }
+
+    return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil ditambahkan.');
 }
+
+
+    
     public function edit(RekamMedis $rekamMedis)
     {
         $kunjungans = Kunjungan::all();
@@ -90,68 +106,94 @@ class RekamMedisController extends Controller
     }
 
     public function update(Request $request, $id)
-{
-    $request->validate([
-        'diagnosa' => 'required|string|max:255',
-        'tindakan' => 'required|string|max:255',
-        'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi gambar
-    ]);
-
-    $rekamMedis = RekamMedis::findOrFail($id);
-
-    // Handle deletion of selected images
-    if ($request->has('delete_images')) {
-        foreach ($request->delete_images as $imageId) {
-            $image = RekamMedisImage::find($imageId);
-            if ($image) {
-                // Delete image file from storage
-                Storage::delete('public/' . $image->image_path); // Corrected path
-                // Delete image record from the database
-                $image->delete();
+    {
+        $request->validate([
+            'diagnosa' => 'required|string|max:255',
+            'tindakan' => 'required|string|max:255',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'deskripsi' => 'required|string',
+            'obat_id.*' => 'required|exists:obats,id',
+            'jumlah_obat.*' => 'required|integer|min:1',
+        ]);
+    
+        $rekamMedis = RekamMedis::findOrFail($id);
+    
+        // Handle image deletion if any
+        if ($request->has('delete_images') && is_array($request->delete_images)) {
+            foreach ($request->delete_images as $imageId) {
+                $image = RekamMedisImage::find($imageId);
+                if ($image) {
+                    // Delete image file and database record
+                    Storage::delete('public/' . $image->image_path);
+                    $image->delete();
+                }
             }
         }
-    }
-
-    // Update other fields (diagnosa, tindakan, etc.)
-    $rekamMedis->update($request->only(['kunjungan_id', 'diagnosa', 'tindakan'])); // Ensure only relevant fields are updated
-
-    // Handle new image uploads
-    if ($request->hasFile('new_images')) {
-        foreach ($request->file('new_images') as $file) {
-            $path = $file->store('rekam_medis_images', 'public');
-            $rekamMedis->images()->create(['image_path' => $path]); // Use $rekamMedis instead of $rm
+    
+        // Update Rekam Medis data
+        $rekamMedis->update($request->only(['kunjungan_id', 'diagnosa', 'tindakan']));
+    
+        // Update Resep (Prescription)
+        $resep = $rekamMedis->resep->first();
+        if ($resep) {
+            $resep->update([
+                'deskripsi' => $request->input('deskripsi')
+            ]);
         }
-    }    
-
-    return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil diupdate.');
-}
-
-public function destroy(RekamMedis $rekamMedis, $id)
-{
-    $rekamMedis = RekamMedis::findOrFail($id);
-
-    // Delete associated images from storage
-    foreach ($rekamMedis->images as $image) {
-        Storage::delete('public/' . $image->image_path); // Use Storage facade
+    
+        // Detach old medications
+        $rekamMedis->obats()->detach();
+    
+        // Handle the new medications and quantities
+        $jumlahObat = $request->input('jumlah_obat', []);
+        foreach ($request->input('obat_id', []) as $index => $obatId) {
+            $obat = Obat::findOrFail($obatId);
+            $jumlah = isset($jumlahObat[$obatId]) ? $jumlahObat[$obatId] : 0; // Default to 0 if not found
+    
+            if ($obat->jumlah >= $jumlah) {
+                $obat->decrement('jumlah', $jumlah); // Reduce stock of the medication
+                $rekamMedis->obats()->attach($obat->id, ['jumlah' => $jumlah]); // Attach medication to Rekam Medis
+            } else {
+                return back()->with('error', 'Stok obat tidak mencukupi untuk ' . $obat->nama);
+            }
+        }
+    
+        // Handle new image uploads
+        if ($request->hasFile('new_images') && $request->file('new_images')) {
+            foreach ($request->file('new_images') as $image) {
+                $path = $image->store('rekam_medis', 'public');
+                // Save the new image in the RekamMedisImage table
+                $rekamMedis->images()->create(['image_path' => $path]);
+            }
+        }
+    
+        return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil diupdate.');
     }
-
-    // Delete RekamMedis record
-    $rekamMedis->delete();
-
-    return redirect()->route('rekam_medis.index')->with('success', 'Rekam Medis berhasil dihapus.');
-}
-
-
-public function deleteImage($id)
+    
+    
+    public function destroy(RekamMedis $rekamMedis)
 {
-    $image = RekamMedisImage::find($id);
-    if ($image) {
-        Storage::delete($image->image_path);
-        $image->delete();
-        return response()->json(['success' => true]);
+    try {
+        foreach ($rekamMedis->images as $image) {
+            Storage::delete('public/' . $image->image_path);
+        }
+
+        $rekamMedis->delete();
+
+        return redirect()->route('rekam_medis.index')->with('success', 'Rekam Medis berhasil dihapus.');
+    } catch (\Exception $e) {
+        return redirect()->route('rekam_medis.index')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
     }
-    return response()->json(['success' => false, 'message' => 'Gambar tidak ditemukan'], 404);
 }
 
-
+    public function deleteImage($id)
+    {
+        $image = RekamMedisImage::find($id);
+        if ($image) {
+            Storage::delete('public/' . $image->image_path);
+            $image->delete();
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false, 'message' => 'Gambar tidak ditemukan'], 404);
+    }
 }

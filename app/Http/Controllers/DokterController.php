@@ -11,17 +11,17 @@ class DokterController extends Controller
 {
     public function index(Request $request)
 {
-
     if(auth()->user()->hasRole('admin|dokter')){
         $layout = 'layouts.sidebar';
         $content = 'side';
-    }else{
+    } else {
         $layout = 'layouts.app';
         $content = 'content';
     }
 
     $query = Dokter::query();
 
+    // Apply search filter if there's a search query
     if ($request->has('search') && $request->search) {
         $search = $request->search;
         $query->where('nama', 'LIKE', "%$search%")
@@ -30,11 +30,9 @@ class DokterController extends Controller
     }
 
     $dokters = $query->paginate(10);
-    return view('dokter.index', compact('dokters','layout','content'));
+
+    return view('dokter.index', compact('dokters', 'layout', 'content'));
 }
-
-
-
     public function create()
     {
         return view('dokter.create');
