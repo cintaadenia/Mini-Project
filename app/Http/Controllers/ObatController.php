@@ -34,16 +34,6 @@ class ObatController extends Controller
             'jumlah' => 'required|numeric|min:0',
             'harga' => 'required|string',
         ]);
-        // Ambil nilai harga dan buang 'RP' untuk validasi
-$harga = str_replace('RP', '', $request->input('harga'));
-
-// Pastikan hanya angka yang ada setelah menghapus 'RP'
-if (!is_numeric($harga) || $harga < 0) {
-    return back()->withInput()->withErrors(['harga' => 'Harga harus berupa angka dan tidak boleh negatif.']);
-}
-
-// Jika valid, simpan harga dengan 'RP' untuk penggunaan lebih lanjut
-$request->merge(['harga' => 'RP ' . $harga]); // Mengembalikan teks 'RP' ke input harga
 
         Obat::create($request->all());
         return redirect()->route('obat.index')->with('success', 'Obat berhasil ditambahkan.');
@@ -64,9 +54,10 @@ $request->merge(['harga' => 'RP ' . $harga]); // Mengembalikan teks 'RP' ke inpu
     {
         $request->validate([
             'obat' => 'required',
-            'jumlah' => 'required',
-            'harga' => 'required',
+            'jumlah' => 'required|numeric|min:0',
+            'harga' => 'required|string',
         ]);
+        
 
         $obat = Obat::findOrFail($id);
         $obat->update($request->all());
