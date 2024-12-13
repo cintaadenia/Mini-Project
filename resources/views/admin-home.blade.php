@@ -2,7 +2,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -23,6 +23,18 @@
             border-radius: 1.2rem;
             color: rgb(255, 255, 255);
             text-align: left;
+        }
+
+        .welcome::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 30%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.576), rgba(255, 255, 255, 0));
+            z-index: 1;
         }
 
         .welcome-text {
@@ -145,7 +157,7 @@
             padding: 20px;
             text-align: center;
             width: 600px;
-            height: 700px;
+            height: 720px;
         }
 
         .content-chart h1 {
@@ -357,7 +369,7 @@
                 <input type="text" placeholder="Search here...">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
-            <div class="welcome">
+            <div class="welcome drop-shadow">
                 <div class="welcome-text">
                     <h2>Selamat Datang, Dr. [Nama Dokter]!</h2>
                     <p>Semoga Harimu Menyenangkan</p>
@@ -369,7 +381,7 @@
     <div class="content-bottom">
         <div class="content-bottom-top">
             <div class="content-bottom-top-content">
-                <div class="content-bottom-card">
+                <div class="content-bottom-card drop-shadow">
                     <h2>Total Pasien</h2>
                     <div class="content-bottom-card-content">
                         <i class="fa-solid fa-bed-pulse"></i>
@@ -379,7 +391,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="content-bottom-card">
+                <div class="content-bottom-card drop-shadow">
                     <h2>Total Pasien</h2>
                     <div class="content-bottom-card-content">
                         <i class="fa-solid fa-user-doctor"></i>
@@ -390,7 +402,7 @@
                     </div>
                 </div>
             </div>
-            <div class="content-tree-chart">
+            <div class="content-tree-chart drop-shadow">
                 <h2>Chart Batang Kunjungan Per Bulan</h2>
                 <div class="chart-tree-container">
                     <div class="bar" id="jan"></div>
@@ -422,7 +434,7 @@
                 </div>
             </div>
         </div>
-        <div class="content-chart">
+        <div class="content-chart drop-shadow">
             <h1>Data Kunjungan Perbulan</h1>
             <div class="chart-container">
                 <canvas id="myChart"></canvas>

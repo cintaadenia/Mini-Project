@@ -73,6 +73,8 @@ Route::middleware(['auth', 'role:dokter|admin'])->group(function () {
     Route::resource('jadwal_praktek', JadwalPraktekController::class);
     Route::resource('obat', ObatController::class);
     Route::resource('resep', ResepController::class);
+    Route::resource('rekam_medis', RekamMedisController::class);
+
     
 });
 

@@ -29,7 +29,7 @@
     </script> --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    {{-- 
+    {{--
     <!-- CSS Files -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -73,9 +73,13 @@
             text-align: left;
         }
 
+        .drop-shadow {
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
+        }
+
         .sidebar {
             text-align: center;
-            width: 120px;
+            width: 300px;
             height: 100vh;
             background-color: #0F8CA9;
             color: white;
@@ -84,11 +88,17 @@
             top: 0;
             border-radius: 0 15px 15px 0;
             padding-top: 20px;
-            transition: width 0.3s ease;
+            transition: width 0.5s cubic-bezier(0.25, 1.5, 0.5, 1);
+            z-index: 999;
         }
 
-        .sidebar:hover {
-            width: 200px;
+        .sidebar.collapsed {
+            width: 100px;
+        }
+
+        .sidebar.collapsed ul li a {
+            justify-content: center;
+            margin: 0 1rem;
         }
 
         .sidebar ul {
@@ -98,7 +108,8 @@
         }
 
         .sidebar ul li {
-            margin: 10px 0;
+            margin-top: 10px;
+            margin-bottom: 10px;
             position: relative;
         }
 
@@ -107,38 +118,92 @@
             color: white;
             text-decoration: none;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
-            padding: 10px 20px;
+            padding: 1rem 1.5rem;
             font-size: 16px;
             cursor: pointer;
+            margin: 0 2rem;
         }
 
         .sidebar ul li a i {
-            margin-bottom: 0.5rem;
-            font-size: 2rem;
+            font-size: 1.5rem;
+            /* margin-right: 1rem; */
         }
 
         .sidebar ul li a:hover {
-            background-color: #0C6F82;
-            border-radius: 5px;
+            background-color: #0c6e8272;
+            border-radius: 2rem;
         }
 
         .sidebar ul li a span {
             font-size: 1rem;
             font-weight: 800;
+            margin-left: 1rem;
         }
 
-        .sidebar ul li a.active i {
+        .photo-profile-sidebar {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #000;
+            border-radius: 50%;
+        }
+
+        .sidebar.collapsed ul li span {
+            display: none;
+        }
+
+        .btn-toggle-sidebar {
+            cursor: pointer;
+            background: white;
+            padding: 10px;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            position: absolute;
+            right: -15;
+            top: 2.7rem;
+            border: 1px solid black;
+        }
+
+        .btn-toggle-sidebar i {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #333;
+        }
+
+        .sidebar.collapsed .btn-toggle-sidebar {
+            transform: rotate(180deg);
+        }
+
+        /* .sidebar ul li a.active {
             color: var(--main-color);
             background: white;
-            padding: 0.5rem;
             border-radius: 1rem;
+        } */
+
+        .gap-li {
+            margin: 2rem 0;
+        }
+
+        .profile-sidebar {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
         }
 
         .wrapper-container {
-            margin-left: 7rem;
             flex: 1;
+            margin-left: 18rem;
+            transition: margin-left 0.3s;
+        }
+
+        .wrapper-container.expanded {
+            margin-left: 6rem;
         }
 
         .header {
@@ -249,8 +314,21 @@
 <body>
     <!-- Sidebar -->
     <div class="app-container">
-        <div class="sidebar">
+        <div class="sidebar" id="sidebar">
+            <div onclick="toggleSidebar()" class="btn-toggle-sidebar">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
             <ul>
+                <li>
+                    <a href="#">
+                        {{-- <i class="fas fa-home"></i> --}}
+                        <img src="{{ asset('icons/logos.svg') }}" alt="">
+                        <Span>Klinik</Span>
+                    </a>
+                </li>
+                <li>
+                    <div class="gap-li"></div>
+                </li>
                 <li>
                     @if (auth()->user()->hasRole('admin'))
                         <a href="{{ route('admin-home') }}"
@@ -294,6 +372,9 @@
                     </a>
                 </li>
                 <li>
+                    <div class="gap-li"></div>
+                </li>
+                <li>
                     <a href="{{ route('kunjungan.index') }}"
                         class="{{ request()->routeIs('kunjungan.index') ? 'active' : '' }}">
                         <i class="fa fa-calendar-check"></i>
@@ -325,10 +406,22 @@
                     </form>
                 </li>
             </ul>
+            <ul class="profile-sidebar">
+                <li>
+                    <a href="#">
+                        {{-- <i class="fas fa-home"></i> --}}
+                        <img class="photo-profile-sidebar" src="{{ asset('asset/img/dokter.png') }}" alt="">
+                        <span>
+                            <h6>Welcome Bek</h2>
+                                <p>Admin/Dokter</p>
+                        </span>
+                    </a>
+                </li>
+            </ul>
         </div>
 
 
-        <div class="wrapper-container">
+        <div class="wrapper-container" id="wrapper-container">
             @yield('side')
         </div>
     </div>
@@ -407,6 +500,15 @@
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('expanded');
+        }
+    </script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('wrapper-container');
+
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
         }
     </script>
 </body>

@@ -32,8 +32,8 @@ class ObatController extends Controller
     {
         $request->validate([
             'obat' => 'required',
-            'jumlah' => 'required',
-            'harga' => 'required',
+            'jumlah' => 'required|numeric|min:0',
+            'harga' => 'required|string',
         ]);
 
         Obat::create($request->only(['obat', 'jumlah', 'harga']));
@@ -55,9 +55,10 @@ class ObatController extends Controller
     {
         $request->validate([
             'obat' => 'required',
-            'jumlah' => 'required',
-            'harga' => 'required',
+            'jumlah' => 'required|numeric|min:0',
+            'harga' => 'required|string',
         ]);
+        
 
         $obat = Obat::findOrFail($id);
         $obat->update($request->only(['obat', 'jumlah', 'harga']));
