@@ -31,7 +31,11 @@ class KunjunganController extends Controller
     ->with(['pasien', 'dokter'])
     ->paginate(10);
 
-    $pasiens = Pasien::all();$pasiens = Pasien::where('user_id', auth()->id())->get();  // Fetch all patients
+    if(auth()->user()->hasRole('admin')){
+        $pasiens = Pasien::all();
+    }else{
+        $pasiens = Pasien::all();$pasiens = Pasien::where('user_id', auth()->id())->get();
+    }
     $dokters = Dokter::all();  // Fetch all doctors
 
     return view('kunjungan.index', compact('kunjungans', 'pasiens', 'dokters','layout','content'));  // Pass dokters to the view
