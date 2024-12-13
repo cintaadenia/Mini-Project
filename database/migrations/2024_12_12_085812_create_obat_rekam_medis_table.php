@@ -11,20 +11,21 @@ return new class extends Migration
      */
     public function up()
 {
-    Schema::create('obats', function (Blueprint $table) {
+    Schema::create('obat_rekam_medis', function (Blueprint $table) {
         $table->id();
-        $table->string('obat');
+        $table->foreignId('obat_id')->constrained()->onDelete('cascade');
+        $table->foreignId('rekam_medis_id')->constrained()->onDelete('cascade');
         $table->integer('jumlah');
-        $table->integer('harga');
         $table->timestamps();
     });
 }
+
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('obats');
+        Schema::dropIfExists('obat_rekam_medis');
     }
 };

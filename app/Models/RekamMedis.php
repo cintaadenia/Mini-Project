@@ -9,7 +9,8 @@ class RekamMedis extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['kunjungan_id', 'diagnosa', 'tindakan', 'image'];
+    protected $fillable = ['kunjungan_id', 'diagnosa', 'tindakan', 'deskripsi', 'obat_id'];
+
 
     public function kunjungan()
     {
@@ -25,6 +26,12 @@ public function resep()
 {
     return $this->hasMany(Resep::class);
 }
+
+public function obats()
+{
+    return $this->belongsToMany(Obat::class)->withPivot('jumlah');
+}
+
 
 
 }

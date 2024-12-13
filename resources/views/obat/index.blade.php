@@ -140,13 +140,14 @@
                             data-bs-target="#editModal{{ $obt->id }}">
                             <i class="fas fa-edit edit"></i>
                             </button>
-                            <form id="delete-form-{{ $obt->id }}" action="{{ route('obat.destroy', $obt->id) }}" method="POST" style="display: none;">
+                            <form id="delete-form-{{ $obt->id }}" action="{{ route('obat.destroy', $obt->id) }}" method="POST" style="display: inline;">
                                 @csrf
                                 @method('DELETE')
+                                <button type="button" style="background: transparent; outline: none; border: none" onclick="confirmDelete({{ $obt->id }})">
+                                    <i class="fas fa-trash delete"></i>
+                                </button>
                             </form>
-                            <button type="submit" style="background: transparent; outline: none; border: none" onclick="confirmDelete({{ $obt->id }})">
-                                <i class="fas fa-trash delete"></i>
-                            </button>
+                            
                             <script>
                                 function confirmDelete(id) {
                                     Swal.fire({

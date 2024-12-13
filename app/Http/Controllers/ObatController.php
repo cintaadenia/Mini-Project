@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Obat;
 use App\Models\Resep;
+use App\Models\RekamMedis;
 use Illuminate\Http\Request;
 
 class ObatController extends Controller
@@ -35,7 +36,7 @@ class ObatController extends Controller
             'harga' => 'required',
         ]);
 
-        Obat::create($request->all());
+        Obat::create($request->only(['obat', 'jumlah', 'harga']));
         return redirect()->route('obat.index')->with('success', 'Obat berhasil ditambahkan.');
     }
 
@@ -59,7 +60,7 @@ class ObatController extends Controller
         ]);
 
         $obat = Obat::findOrFail($id);
-        $obat->update($request->all());
+        $obat->update($request->only(['obat', 'jumlah', 'harga']));
         return redirect()->route('obat.index')->with('success', 'Obat berhasil diperbarui.');
     }
 
