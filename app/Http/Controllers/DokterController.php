@@ -46,7 +46,7 @@ class DokterController extends Controller
     $request->validate([
         'nama' => 'required|string|max:255',
         'spesialis' => 'required|string|max:255',
-        'no_hp' => 'required|unique:dokters,no_hp',
+        'no_hp' => 'required|unique:dokters,no_hp|numeric',
         'email' => 'required|email|unique:users,email',
         'password' => 'required|string|min:6',
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate the image

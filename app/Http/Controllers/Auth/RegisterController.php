@@ -28,8 +28,16 @@ class RegisterController extends Controller
         'email' => 'required|string|email|max:255|unique:users',
         'password' => 'required|string|min:8|confirmed',
         'specialty' => 'required|string|max:255',  // Spesialisasi harus valid
-        'phone' => 'required|string|regex:/^[0-9]+$/|max:15', // Hanya angka
+        'phone' => 'required|string|regex:/^[0-9]{10,15}$/|max:15', // Hanya angka
+    ],[
+        'phone.regex' => 'Nomor telepon hanya boleh berisi angka dan memiliki panjang antara 10 hingga 15 digit.'
+
     ]);
+    if ($validator->fails()) {
+        return redirect()->back()
+            ->withInput() // Menyertakan kembali input yang dimasukkan
+            ->withErrors($validator); // Mengirimkan error ke view
+    }
 }
 
 protected function create(array $data)

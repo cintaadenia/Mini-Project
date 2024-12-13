@@ -53,7 +53,17 @@ class PasienController extends Controller
                 'nama' => 'required|string|max:255',
                 'alamat' => 'required|string',
                 'no_hp' => 'required|unique:pasiens,no_hp|numeric',
-                'tanggal_lahir' => 'required|date',
+                'tanggal_lahir' =>[
+                    'required',
+                    'date',
+                    function ($attribute, $value, $fail) {
+                        $today = now()->toDateString(); // Mendapatkan tanggal hari ini
+            
+                        if ($value >= $today) { // Jika tanggal inputan lebih besar atau sama dengan hari ini
+                            $fail("$attribute tidak boleh hari ini atau di masa depan.");
+                        }
+                    },
+                ],
             ]);
         
 
@@ -73,7 +83,17 @@ class PasienController extends Controller
             'nama' => 'required|string|max:255',
             'alamat' => 'required|string',
             'no_hp' => 'required|unique:pasiens,no_hp|numeric',
-            'tanggal_lahir' => 'required|date',
+            'tanggal_lahir' => [
+                'required',
+                'date',
+                function ($attribute, $value, $fail) {
+                    $today = now()->toDateString(); // Mendapatkan tanggal hari ini
+        
+                    if ($value >= $today) { // Jika tanggal inputan lebih besar atau sama dengan hari ini
+                        $fail("$attribute tidak boleh hari ini atau di masa depan.");
+                    }
+                },
+            ],
         ]);
 
         $data = $request->all();
