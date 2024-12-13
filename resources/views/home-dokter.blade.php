@@ -17,7 +17,6 @@
 
 
         .search-button {
-            background-color: var(--main-color);
             color: white;
             border: none;
             border-radius: 0 1.5rem 1.5rem 0;
@@ -435,7 +434,7 @@
 
             .outer-table {
                 width: 770px;
-                height: 600px;
+                height: auto;
             }
 
             .content-table h2 {
