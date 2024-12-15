@@ -268,7 +268,7 @@
                                         @csrf
                                         @method('DELETE')
                                     </form>
-                                    <button type="submit" class="btn btn-danger btn-sm"
+                                    <button type="button" class="btn btn-danger btn-sm"
                                         onclick="confirmDelete({{ $rm->id }})">Hapus</button>
                                     <script>
                                         function confirmDelete(id) {
@@ -283,7 +283,6 @@
                                                 cancelButtonText: 'Batal'
                                             }).then((result) => {
                                                 if (result.isConfirmed) {
-                                                    // Submit form hapus
                                                     document.getElementById('delete-form-' + id).submit();
                                                 }
                                             });
@@ -482,7 +481,6 @@
                                 </div>
                             </div>
                         </div>
-
                     @endforeach
                 </tbody>
             </table>
@@ -550,14 +548,14 @@
 
             // Tambah gambar baru di modal edit
             document.getElementById('add-image-button-edit').addEventListener('click', function() {
-    const container = document.getElementById('edit-image-container');
-    const newInput = document.createElement('div');
-    newInput.className = 'mb-3';
-    newInput.innerHTML = `
+                const container = document.getElementById('edit-image-container');
+                const newInput = document.createElement('div');
+                newInput.className = 'mb-3';
+                newInput.innerHTML = `
         <input type="file" class="form-control" name="new_images[]">
     `;
-    container.appendChild(newInput);
-});
+                container.appendChild(newInput);
+            });
             document.querySelectorAll('.modal-footer button').forEach(button => {
                 button.addEventListener('click', function(event) {
                     event.stopPropagation();

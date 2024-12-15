@@ -171,29 +171,30 @@ class RekamMedisController extends Controller
     }
     
     
-    public function destroy(RekamMedis $rekamMedis)
-{
-    try {
-        foreach ($rekamMedis->images as $image) {
-            Storage::delete('public/' . $image->image_path);
-        }
-
-        $rekamMedis->delete();
-
-        return redirect()->route('rekam_medis.index')->with('success', 'Rekam Medis berhasil dihapus.');
-    } catch (\Exception $e) {
-        return redirect()->route('rekam_medis.index')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
-    }
-}
-
-    public function deleteImage($id)
+    public function destroy(RekamMedis $rekamMedis, $id)
     {
-        $image = RekamMedisImage::find($id);
-        if ($image) {
-            Storage::delete('public/' . $image->image_path);
-            $image->delete();
-            return response()->json(['success' => true]);
+        $rekamMedis = RekamMedis::findOrFail($id);
+    
+        // Delete associated images from storage
+        foreach ($rekamMedis->images as $image) {
+            Storage::delete('public/' . $image->image_path); // Delete image from storage
         }
-        return response()->json(['success' => false, 'message' => 'Gambar tidak ditemukan'], 404);
+    
+        // Permanently delete RekamMedis record (force delete)
+        $rekamMedis->forceDelete();  // This will permanently delete the record
+    
+        return redirect()->route('rekam_medis.index')->with('success', 'Rekam Medis berhasil dihapus.');
     }
+    
+
+public function deleteImage($id)
+{
+    $image = RekamMedisImage::find($id);
+    if ($image) {
+        Storage::delete($image->image_path);
+        $image->delete();
+        return response()->json(['success' => true]);
+    }
+    return response()->json(['success' => false, 'message' => 'Gambar tidak ditemukan'], 404);
+}
 }
