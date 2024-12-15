@@ -160,12 +160,11 @@
                                     <div class="mb-3 row">
                                         <label for="image" class="col-sm-2 col-form-label">Tambah Gambar</label>
                                         <div class="col-sm-10">
-                                            <input type="file" class="form-control" id="image" name="images[]">
+                                            <input type="file" class="form-control" id="image" name="images[]" multiple>
                                         </div>
                                     </div>
                                 </div>
-                                <button type="button" class="btn btn-secondary" id="add-image-button-create">Tambah
-                                    Gambar</button>
+                                
                             </div>
 
 
@@ -268,7 +267,7 @@
                                         @csrf
                                         @method('DELETE')
                                     </form>
-                                    <button type="submit" class="btn btn-danger btn-sm"
+                                    <button type="button" class="btn btn-danger btn-sm"
                                         onclick="confirmDelete({{ $rm->id }})">Hapus</button>
                                     <script>
                                         function confirmDelete(id) {
@@ -283,7 +282,6 @@
                                                 cancelButtonText: 'Batal'
                                             }).then((result) => {
                                                 if (result.isConfirmed) {
-                                                    // Submit form hapus
                                                     document.getElementById('delete-form-' + id).submit();
                                                 }
                                             });
@@ -315,7 +313,7 @@
                                                 <p><strong>Diagnosa:</strong> {{ $rm->diagnosa }}</p>
                                                 <p><strong>Tindakan:</strong> {{ $rm->tindakan }}</p>
                                                 <p><strong>Obat:</strong> {{ $obat->obat }} - Jumlah:
-                                                    {{-- {{ $obat->pivot->jumlah }}</p> --}}
+                                                    {{ $obat->pivot->jumlah }}
                                                 <p><strong>Resep</strong> {{ $resep->deskripsi }}</p>
                                                 <p><strong>Gambar:</strong></p>
                                                 @foreach ($rm->images as $image)
@@ -459,18 +457,19 @@
                                                 </div>
                                             </div>
 
-                                            <!-- Option to Add New Images -->
+
                                             <div id="edit-image-container">
                                                 <div class="mb-3 row">
-                                                    <label for="image" class="col-sm-2 col-form-label">Tambah Gambar
-                                                        Baru</label>
+                                                    <label class="col-sm-2 col-form-label">Tambah Gambar Baru</label>
                                                     <div class="col-sm-10">
-                                                        <input type="file" class="form-control" name="new_images[]">
+                                                        <input type="file" class="form-control" name="new_images[]"
+                                                            multiple>
                                                     </div>
+
                                                 </div>
                                             </div>
-                                            <button type="button" class="btn btn-secondary"
-                                                id="add-image-button-edit">Tambah Gambar</button>
+                                            
+
 
 
                                             <div class="modal-footer">
@@ -482,7 +481,6 @@
                                 </div>
                             </div>
                         </div>
-
                     @endforeach
                 </tbody>
             </table>
@@ -548,16 +546,8 @@
                 container.appendChild(newImageRow);
             });
 
-            // Tambah gambar baru di modal edit
-            document.getElementById('add-image-button-edit').addEventListener('click', function() {
-    const container = document.getElementById('edit-image-container');
-    const newInput = document.createElement('div');
-    newInput.className = 'mb-3';
-    newInput.innerHTML = `
-        <input type="file" class="form-control" name="new_images[]">
-    `;
-    container.appendChild(newInput);
-});
+
+
             document.querySelectorAll('.modal-footer button').forEach(button => {
                 button.addEventListener('click', function(event) {
                     event.stopPropagation();

@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('rekam_medis', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('kunjungan_id')->constrained('kunjungans')->onDelete('cascade');
+            $table->foreignId('kunjungan_id')->constrained('kunjungans')->onDelete('restrict');
             $table->text('diagnosa'); // Kolom untuk diagnosa
             $table->text('tindakan'); // Kolom untuk tindakan
             $table->string('image')->nullable(); // Membuat image nullable
+            $table->softDeletes();
             $table->timestamps();
         });
     }
