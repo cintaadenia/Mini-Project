@@ -23,16 +23,19 @@ class PasienController extends Controller
         $content = 'content';
         $pasiens = Pasien::where('user_id', auth()->id()); // Non-admin hanya dapat melihat pasien mereka
     }
-
-    // Tambahkan pencarian
+    // Ambil input pencarian
     $search = $request->input('search');
-    $pasiens = $pasiens->when($search, function ($query, $search) {
-        $query->where('nama', 'like', "%$search%")
-              ->orWhere('alamat', 'like', "%$search%")
-              ->orWhere('no_hp', 'like', "%$search%");
-    })->paginate(10);
 
-    // Ambil semua dokter
+    // Ambil data pasien dengan pencarian dan pagination
+    $pasiens = Pasien::query()
+        ->when($search, function ($query, $search) {
+            $query->where('nama', 'like', "%$search%")
+                ->orWhere('alamat', 'like', "%$search%")
+                ->orWhere('no_hp', 'like', "%$search%");
+        })
+        ->paginate(10);
+
+    // Ambil semua data dokter
     $dokters = Dokter::all(); // Ambil semua dokter
 
     return view('pasien.index', compact('pasiens', 'layout', 'content', 'dokters')); // Kirim $dokters ke view
