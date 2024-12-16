@@ -10,7 +10,7 @@ class RekamMedis extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['kunjungan_id', 'diagnosa', 'tindakan', 'deskripsi', 'obat_id'];
+    protected $guarded = ['id'];
 
     public function kunjungan()
     {
