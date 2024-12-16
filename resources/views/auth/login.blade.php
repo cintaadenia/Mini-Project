@@ -40,8 +40,8 @@
         .container {
             background-color: #ffffff;
             /* Medium blue */
-            width: 500px;
-            height: 400px;
+            width: auto;
+            height: auto;
             border-radius: 10px;
             position: absolute;
             display: flex;
@@ -58,13 +58,13 @@
             background-color: white;
             /* height: 380px;
             width: 305px; */
-            align-self: center;
+            /* align-self: center;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
             position: absolute;
-            transition: margin-left 1.5s ease-in-out;
+            transition: margin-left 1.5s ease-in-out; */
             /* Smooth animation */
         /* } */ */
 
@@ -164,8 +164,7 @@
       /* } */
 
         .wrapper {
-            overflow: hidden;
-            max-width: 390px;
+            width: 400px;
             background: #fff;
             padding: 30px;
             border-radius: px;
@@ -190,11 +189,10 @@
             display: flex;
             height: 50px;
             width: 100%;
-            overflow: hidden;
             margin: 15px 0 10px 0;
             justify-content: space-between;
             border-radius: 5px;
-            right: 50px;
+            right: 30px;
         }
 
         .slide-controls .slide {
@@ -248,6 +246,7 @@
         }
 
         #login:checked~label.login {
+            margin-bottom: 10px;
             cursor: default;
             user-select: none;
         }
@@ -262,16 +261,20 @@
           text-underline-offset: 10px;
           color: #c689cf;
         }
-
-        .wrapper .form-container {
-            width: 100%;
+        .form-container{
+            position: relative;
             overflow: hidden;
+            transition: height 0.5s ease-in-out;
         }
-
-        .form-container .form-inner {
+        .form-inner{
             display: flex;
-            width: 200%;
-            height: 100%;
+            flex-direction: column;
+        }
+        form{
+            display: none;
+        }
+        form.active{
+            display: block;
         }
 
         .form-container .form-inner form {
@@ -288,7 +291,7 @@
 
         .form-inner form .field input {
             height: 100%;
-            width: 100%;
+            width: 300px;
             outline: none;
             padding-left: 15px;
             border-radius: 15px;
@@ -336,8 +339,7 @@
             height: 50px;
             width: 100%;
             border-radius: 20px;
-            position: relative;
-            overflow: hidden;
+
         }
         .slide-btn{
             margin-left: 70px;
@@ -349,7 +351,6 @@
             width: 300%;
             position: absolute;
             left: -100%;
-            /* background: -webkit-linear-gradient(right, #e5dfe6, #fa4299, #a445b2, #fa4299); */
             background-color: rgb(160, 160, 229);
             border-radius: 5px;
             transition: all 0.4s ease;
@@ -360,19 +361,15 @@
             left: 0;
         }
 
-        form .btn input[type="submit"] {
-            height: 100%;
-            width: 100%;
-            z-index: 1;
-            position: relative;
-            background: none;
-            border: none;
+        .field.btn input[type="submit"] {
+            margin-left: -15px;
+            background: #4e73df;
             color: #fff;
-            padding-left: 0;
-            border-radius: 5px;
-            font-size: 20px;
-            font-weight: 500;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
             cursor: pointer;
+            transition: background 0.3s;
         }
 
         /* Lottie animation at the top */
@@ -422,15 +419,20 @@
     overflow: hidden;
     opacity: 0;
 }
-.field-btn{
-    color: blue;
-    z-index: 1;
-}
 .gambar img{
     position: relative;
     z-index: 10;
     top: 240px;
 }
+.field select {
+    width: 300px;
+    border-radius: 15px; /* Atur radius sesuai keinginan */
+    padding: 8px; /* Tambahkan padding agar lebih rapi */
+    border: 1px solid #ccc; /* Tambahkan border */
+    outline: none; /* Hilangkan outline saat focus */
+    appearance: none; /* Menghilangkan gaya default browser */
+}
+
     </style>
     <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 </head>
@@ -448,15 +450,15 @@
                 <div class="slide-controls">
                     <input type="radio" name="slide" id="login" checked>
                     <input type="radio" name="slide" id="signup">
-                    <label style="font-family: open sans; font-weight: bold" for="login" class="slide login">Login</label>
-                    <label style="font-family: open sans; font-weight: bold" for="signup" class="slide signup">Register</label>
+                    <label for="login" class="slide login">Login</label>
+                    <label for="signup" class="slide signup">Register</label>
                     <div class="slider-tab"></div>
-
                 </div>
 
                 <div class="form-inner">
-                    <form action="{{route('login')}}" class="login" method="POST">
-                      @csrf
+                    <!-- Form Login -->
+                    <form action="{{ route('login') }}" class="login active" method="POST">
+                        @csrf
                         <div class="field">
                             <input type="text" placeholder="Email Address" name="email" required>
                         </div>
@@ -464,36 +466,31 @@
                             <input type="password" placeholder="Password" name="password" required>
                         </div>
                         <div class="field btn">
-                            <div class="btn-layer"></div>
-                            <input type="submit" value="Login">
-                        </div>
-                        <div class="signup-link">
-                            Not a member? <a href="">Signup now</a>
+                            <input type="submit" value="Login" >
                         </div>
                     </form>
+
+                    <!-- Form Register -->
                     <form action="{{ route('register') }}" method="POST">
                         @csrf
-                        <div class="field">
-                            <select class="form-select" aria-label="Default select example">
-                                <option selected>role kamu</option>
-                                <option value="1">pasien</option>
-                                <option value="2">dokter</option>
-                              </select>
-                          </div>
+                        <div class="field" >
+                            <select class="form-select" name="role" id="role-select" required>
+                                <option selected disabled>Role kamu</option>
+                                <option value="1">Pasien</option>
+                                <option value="2">Dokter</option>
+                            </select>
+                        </div>
                         <div class="field">
                             <input type="text" placeholder="Name" name="name" required>
                         </div>
                         <div class="field">
                             <input type="email" placeholder="Email Address" name="email" required>
                         </div>
-                        <div class="field" id="specialty-field">
-                            <input type="text" id="specialty" placeholder="Specialty" name="specialty" required>
+                        <div class="field" id="specialty-field" style="display: none;">
+                            <input type="text" placeholder="Specialty" name="specialty" required>
                         </div>
-                        <div class="field" id="nohp-field">
-                            <input type="text" id="nohp" placeholder="Phone Number" name="phone" required>
-                            @error('phone')
-                                   <div class="text-danger">{{ $message }}</div>
-                            @enderror
+                        <div class="field">
+                            <input type="text" placeholder="Phone Number" name="phone" required>
                         </div>
                         <div class="field">
                             <input type="password" placeholder="Password" name="password" required>
@@ -502,14 +499,14 @@
                             <input type="password" placeholder="Confirm Password" name="password_confirmation" required>
                         </div>
                         <div class="field btn">
-                            <div class="btn-layer"></div>
-                            <input type="submit" value="simpan">
+                            <input type="submit" value="Register">
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="lotie">
       <dotlottie-player src="https://lottie.host/621f36a4-85ad-48cc-aa5f-acbae0c13265/iO2nGuesOg.lottie"
           background="transparent" speed="1" style="width: 300px; height: 300px" loop
@@ -532,7 +529,7 @@
                 currentlyHidden = temp;
             });
         });
-    </script>
+    </script
     <script>
         @if (session('error'))
             Swal.fire({
@@ -563,23 +560,35 @@
     </script>
     <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
     <script>
-        const loginText = document.querySelector(".title-text .login");
-        const loginForm = document.querySelector("form.login");
-        const loginBtn = document.querySelector("label.login");
-        const signupBtn = document.querySelector("label.signup");
-        const signupLink = document.querySelector("form .signup-link a");
-        signupBtn.onclick = (() => {
-            loginForm.style.marginLeft = "-50%";
-            loginText.style.marginLeft = "-50%";
-        });
-        loginBtn.onclick = (() => {
-            loginForm.style.marginLeft = "0%";
-            loginText.style.marginLeft = "0%";
-        });
-        signupLink.onclick = (() => {
-            signupBtn.click();
-            return false;
-        });
+        document.addEventListener("DOMContentLoaded", function () {
+    const formContainer = document.querySelector("container");
+    const loginForm = document.querySelector(".form-inner .login");
+    const signupForm = document.querySelector(".form-inner form:nth-child(2)");
+    const loginRadio = document.getElementById("login");
+    const signupRadio = document.getElementById("signup");
+
+    // Fungsi untuk menyesuaikan tinggi container
+    function adjustHeight(form) {
+        formContainer.style.height = `${form.offsetHeight}px`;
+    }
+
+    // Event listener untuk mengubah form saat radio button diklik
+    loginRadio.addEventListener("change", function () {
+        loginForm.classList.add("active");
+        signupForm.classList.remove("active");
+        adjustHeight(loginForm);
+    });
+
+    signupRadio.addEventListener("change", function () {
+        signupForm.classList.add("active");
+        loginForm.classList.remove("active");
+        adjustHeight(signupForm);
+    });
+
+    // Set tinggi awal sesuai form login
+    adjustHeight(loginForm);
+});
+
     </script>
     @if ($errors->any())
     <script>
@@ -591,6 +600,29 @@
         });
     </script>
 @endif
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const roleSelect = document.getElementById("role-select"); // Dropdown select
+        const specialtyField = document.getElementById("specialty-field"); // Div Specialty
+
+        // Tambahkan event listener untuk mendeteksi perubahan di select
+        roleSelect.addEventListener("change", function () {
+            if (roleSelect.value === "2") { // Jika "Dokter" dipilih
+                specialtyField.style.display = "block"; // Tampilkan input Specialty
+                specialtyField.querySelector("input").setAttribute("required", "true");
+            } else { // Jika "Pasien" dipilih
+                specialtyField.style.display = "none"; // Sembunyikan input Specialty
+                specialtyField.querySelector("input").removeAttribute("required");
+                specialtyField.querySelector("input").value = ""; // Bersihkan nilai input
+            }
+        });
+
+        // Default: Sembunyikan input Specialty saat halaman dimuat
+        specialtyField.style.display = "none";
+    });
+</script>
+
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
