@@ -45,7 +45,7 @@
             border-radius: 10px;
             position: absolute;
             display: flex;
-            top: 120px;
+            top: 190px;
             left: 350px;
         }
 
@@ -468,7 +468,7 @@
                             <input type="submit" value="Login">
                         </div>
                         <div class="signup-link">
-                            Not a member? <a href="">Signup now</a>
+                            Not a member? <a href="/register">Signup now</a>
                         </div>
                     </form>
                     <form action="{{ route('register') }}" method="POST">

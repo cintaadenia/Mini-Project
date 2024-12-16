@@ -111,7 +111,10 @@
         <div class="container">
             <div class="header">
                 <input type="text" placeholder="Search"><i class="fa-solid fa-magnifying-glass" style="margin-left: -100px"></i>
-                <button><i class="fas fa-sign-out-alt"></i> Keluar</button>
+                <form action="{{route('logout')}}" method="POST">
+                    @csrf
+                    <button><i class="fas fa-sign-out-alt"></i> Keluar</button>
+                </form>
             </div>
             <div class="judul">
                 <div class="title">Data Obat</div>
