@@ -37,7 +37,7 @@
             z-index: 1;
         }
 
-        .welcome-text {
+        /* .welcome-text {
             font-weight: 600;
             padding: 1rem;
             display: flex;
@@ -45,31 +45,18 @@
             justify-content: center;
             text-align: left;
             padding: 1.5rem;
-        }
+        } */
 
-        .welcome h2 {
-            font-size: 3rem;
-            font-weight: 900;
-            margin-bottom: 10px;
-        }
-
-        .welcome p {
+        /* .welcome p {
             font-size: 2rem;
             font-weight: 800;
             margin-top: 0;
-        }
+        } */
 
         .welcome img {
             width: auto;
             height: 310px;
-        }
-
-        .content-bottom {
-            display: flex;
-            justify-content: space-between;
-            padding: 0 2rem 2rem 2rem;
-            margin-top: 0.5rem;
-            height: 800px;
+            z-index: 5;
         }
 
         .content-bottom-top {
@@ -115,7 +102,7 @@
             text-align: center;
             width: 1070px;
             border: 1px solid #c9cbcf;
-            border-radius: 10px;
+            border-radius: 1rem;
             background: #fff;
             padding: 2rem 4rem;
         }
@@ -125,7 +112,7 @@
             justify-content: space-around;
             align-items: flex-end;
             margin-top: 30px;
-            height: 300px;
+            height: 400px;
             width: 100%;
         }
 
@@ -134,7 +121,7 @@
         }
 
         .bar {
-            width: 40px;
+            width: 50px;
             background-color: #4CAF50;
             transition: height 0.5s ease-in-out;
         }
@@ -153,24 +140,17 @@
         .content-chart {
             background-color: white;
             border: 1px solid #ccc;
-            border-radius: 10px;
+            border-radius: 1rem;
             padding: 20px;
             text-align: center;
             width: 600px;
-            height: 720px;
-        }
-
-        .content-chart h1 {
-            text-align: left;
-            font-size: 2rem;
-            margin-bottom: 20px;
-            font-weight: 900;
+            height: 600px;
         }
 
         .chart-container {
             position: relative;
-            width: 400px;
-            height: 400px;
+            width: 250px;
+            height: 250px;
             margin: 3rem auto;
         }
 
@@ -211,37 +191,14 @@
             margin-right: 5px;
         }
 
-        .legend .mei span {
+        .legend .selesai span {
             background-color: #ff6384;
         }
 
-        .legend .juni span {
+        .legend .menunggu span {
             background-color: #36a2eb;
         }
 
-        .legend .juli span {
-            background-color: #ffce56;
-        }
-
-        .legend .agustus span {
-            background-color: #4bc0c0;
-        }
-
-        .legend .september span {
-            background-color: #9966ff;
-        }
-
-        .legend .oktober span {
-            background-color: #ff9f40;
-        }
-
-        .legend .november span {
-            background-color: #c9cbcf;
-        }
-
-        .legend .desember span {
-            background-color: #7e57c2;
-        }
 
         @media screen and (max-width: 1366px) {
             :root {
@@ -363,78 +320,84 @@
 </head>
 @extends('layouts.sidebar')
 @section('side')
-    <div class="header">
-        <div class="content-header">
-            <div class="search-container">
-                <input type="text" placeholder="Search here...">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </div>
+    <div class="m-2">
+        <div class="col">
             <div class="welcome drop-shadow">
-                <div class="welcome-text">
-                    <h2>Selamat Datang, Dr. [Nama Dokter]!</h2>
-                    <p>Semoga Harimu Menyenangkan</p>
+                <div class="welcome-text ml-3 col d-flex j-center">
+                    <h2 class="h1 f-bolder">Selamat Datang Admin</h2>
+                    <p class="p3 f-bolder">Semoga Harimu Menyenangkan</p>
                 </div>
                 <img src="{{ asset('asset/img/dokter.png') }}" alt="">
             </div>
         </div>
     </div>
-    <div class="content-bottom">
-        <div class="content-bottom-top">
-            <div class="content-bottom-top-content">
-                <div class="content-bottom-card drop-shadow">
-                    <h2>Total Pasien</h2>
-                    <div class="content-bottom-card-content">
-                        <i class="fa-solid fa-bed-pulse"></i>
-                        <div class="content-bottom-card-content-content">
-                            <h2>208</h2>
-                            <p>Jumlah Seluruh Pasien yang terdaftar di klinik</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="content-bottom-card drop-shadow">
-                    <h2>Total Pasien</h2>
-                    <div class="content-bottom-card-content">
-                        <i class="fa-solid fa-user-doctor"></i>
-                        <div class="content-bottom-card-content-content">
-                            <h2>208</h2>
-                            <p>Jumlah Seluruh Pasien yang terdaftar di klinik</p>
-                        </div>
+    <div class="content-card">
+        <div class="content-bottom-top d-flex row">
+            <div class="card-v bg-white col ml-2 mr-2 pl-2 pr-2 j-center d-flex drop-shadow">
+                <h2>Total Pasien</h2>
+                <div class="card-info d-flex p-1 row">
+                    <i class="fa-solid fa-bed-pulse i2 main-color"></i>
+                    <div class="card-info ml-2">
+                        <h2>208</h2>
+                        <p>Jumlah Seluruh Pasien yang terdaftar di klinik</p>
                     </div>
                 </div>
             </div>
-            <div class="content-tree-chart drop-shadow">
-                <h2>Chart Batang Kunjungan Per Bulan</h2>
-                <div class="chart-tree-container">
-                    <div class="bar" id="jan"></div>
-                    <div class="bar" id="feb"></div>
-                    <div class="bar" id="mar"></div>
-                    <div class="bar" id="apr"></div>
-                    <div class="bar" id="may"></div>
-                    <div class="bar" id="jun"></div>
-                    <div class="bar" id="jul"></div>
-                    <div class="bar" id="aug"></div>
-                    <div class="bar" id="sep"></div>
-                    <div class="bar" id="oct"></div>
-                    <div class="bar" id="nov"></div>
-                    <div class="bar" id="dec"></div>
+            <div class="card-v bg-white col ml-2 mr-2 pl-2 pr-2 j-center d-flex drop-shadow">
+                <h2>Dokter aktif</h2>
+                <div class="card-info d-flex p-1 row">
+                    <i class="fa-solid fa-user-doctor i2 main-color"></i>
+                    <div class="card-info ml-2">
+                        <h2>208</h2>
+                        <p>Jumlah Seluruh Pasien yang terdaftar di klinik</p>
+                    </div>
                 </div>
-                <div class="labels">
-                    <span>Jan</span>
-                    <span>Feb</span>
-                    <span>Mar</span>
-                    <span>Apr</span>
-                    <span>May</span>
-                    <span>Jun</span>
-                    <span>Jul</span>
-                    <span>Aug</span>
-                    <span>Sep</span>
-                    <span>Oct</span>
-                    <span>Nov</span>
-                    <span>Dec</span>
+            </div>
+            <div class="card-v bg-white col ml-2 mr-2 pl-2 pr-2 j-center d-flex drop-shadow">
+                <h2>Janji Hari Ini</h2>
+                <div class="card-info d-flex p-1 row">
+                    <i class="fa-solid fa-list-check i2 main-color "></i>
+                    <div class="card-info ml-2">
+                        <h2>208</h2>
+                        <p>Janji Hari Ini</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="content-chart drop-shadow">
+    </div>
+    <div class="content-end ml-2 mr-2 mb-2 d-flex">
+        <div class="content-tree-chart m-1 drop-shadow">
+            <h2 class="h2">Chart Batang Kunjungan Per Bulan</h2>
+            <div class="chart-tree-container">
+                <div class="bar" id="jan"></div>
+                <div class="bar" id="feb"></div>
+                <div class="bar" id="mar"></div>
+                <div class="bar" id="apr"></div>
+                <div class="bar" id="may"></div>
+                <div class="bar" id="jun"></div>
+                <div class="bar" id="jul"></div>
+                <div class="bar" id="aug"></div>
+                <div class="bar" id="sep"></div>
+                <div class="bar" id="oct"></div>
+                <div class="bar" id="nov"></div>
+                <div class="bar" id="dec"></div>
+            </div>
+            <div class="labels">
+                <span>Jan</span>
+                <span>Feb</span>
+                <span>Mar</span>
+                <span>Apr</span>
+                <span>May</span>
+                <span>Jun</span>
+                <span>Jul</span>
+                <span>Aug</span>
+                <span>Sep</span>
+                <span>Oct</span>
+                <span>Nov</span>
+                <span>Dec</span>
+            </div>
+        </div>
+        <div class="content-chart m-1 drop-shadow">
             <h1>Data Kunjungan Perbulan</h1>
             <div class="chart-container">
                 <canvas id="myChart"></canvas>

@@ -45,7 +45,7 @@
             border-radius: 10px;
             position: absolute;
             display: flex;
-            top: 120px;
+            top: 190px;
             left: 350px;
         }
 
@@ -467,6 +467,12 @@
                         </div>
                         <div class="field btn">
                             <input type="submit" value="Login" >
+
+                            <div class="btn-layer"></div>
+                            <input type="submit" value="Login">
+                        </div>
+                        <div class="signup-link">
+                            Not a member? <a href="/register">Signup now</a>
                         </div>
                     </form>
 

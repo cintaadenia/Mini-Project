@@ -73,7 +73,12 @@ class KunjunganController extends Controller
         $data['user_id'] = auth()->id();
 
         Kunjungan::create($data);
-        return redirect()->route('kunjungan.index')->with('success', 'Data kunjungan berhasil ditambahkan.');
+        
+        if(auth()->user()->hasRole('admin')){
+            return redirect()->route('kunjungan.index')->with('success', 'Data kunjungan berhasil ditambahkan.');
+        }else{
+            return redirect()->route('home')->with('success', 'Data kunjungan berhasil ditambahkan, harap tunggu beberapa saat lagi');
+        }
     }
 
     public function show(Kunjungan $kunjungan)
