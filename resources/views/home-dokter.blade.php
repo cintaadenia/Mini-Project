@@ -406,7 +406,7 @@
     <div class="d-flex j-between">
         <div class="welcome drop-shadow ml-2 mt-2 mb-2">
             <div class="welcome-text ml-3 col d-flex j-center">
-                <h2 class="h1 f-bolder">Selamat Datang, Dr. [Nama Dokter]!</h2>
+                <h2 class="h1 f-bolder">Selamat Datang, Dr. {{Auth::user()->name}}</h2>
                 <p class="p3 f-bolder">Semoga Harimu Menyenangkan</p>
             </div>
             <img src="{{ asset('asset/img/dokter.png') }}" alt="">
@@ -491,7 +491,7 @@
         <div class="outer-table drop-shadow mr-1">
             <div class="d-flex j-between">
                 <div class="content-table-text m-1 a-center">
-                    <h2 class="h2">Data Kunjungan Pasien</h2>
+                    <h2 class="h2">Data Terbaru Kunjungan Pasien</h2>
                 </div>
                 <div class="search-container m-1">
                     <input type="text" placeholder="Search here...">
@@ -504,26 +504,12 @@
                         <th>Nama Pasien</th>
                         <th>Keluhan</th>
                     </tr>
+                    @foreach ($kunjungans as $kun)
                     <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
+                        <td>{{$kun->pasien->nama}}</td>
+                        <td>{{$kun->keluhan}}</td>
                     </tr>
-                    <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
-                    </tr>
-                    <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
-                    </tr>
-                    <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
-                    </tr>
-                    <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
-                    </tr>
+                    @endforeach
                 </table>
             </div>
         </div>
@@ -557,26 +543,13 @@
                         <th>Nama Pasien</th>
                         <th>Keluhan</th>
                     </tr>
+                    @foreach ($kunjungan as $k)
                     <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
+                        <td>{{$k->pasien->nama}}</td>
+                        <td>{{$k->keluhan}}</td>
+                        <td>{{$k->}}</td>
                     </tr>
-                    <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
-                    </tr>
-                    <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
-                    </tr>
-                    <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
-                    </tr>
-                    <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
-                    </tr>
+                    @endforeach
                 </table>
             </div>
         </div>

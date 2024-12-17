@@ -42,8 +42,16 @@ class RegisterController extends Controller
 
 protected function create(array $data)
 {
-    // Create the user
-    $user = User::create([
+    if($data['role'] == 1){
+        $user = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make(($data['password']))
+        ]);
+
+        $user->assignRole('user');
+    }else{
+        $user = User::create([
         'name' => $data['name'],
         'email' => $data['email'],
         'password' => Hash::make($data['password']),
@@ -60,8 +68,10 @@ protected function create(array $data)
         'no_hp' => $data['phone'],
     ]);
 
-    // Associate the doctor with the user
-    $user->dokter()->save($dokter); // Using the relationship
+    $user->dokter()->save($dokter);
+    }
+    // Create the user
+    
 
     return $user;
 }

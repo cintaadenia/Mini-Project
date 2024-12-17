@@ -20,6 +20,7 @@ return new class extends Migration
         $table->foreign('dokter_id')->references('id')->on('pasiens')->onDelete('cascade');
         $table->string('keluhan');
         $table->date('tanggal_kunjungan');
+        $table->string('status')->default('undone');
         $table->timestamps();
     });
 }
