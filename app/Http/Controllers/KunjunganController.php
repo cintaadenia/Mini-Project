@@ -147,13 +147,13 @@ class KunjunganController extends Controller
 
     $dokterid = Auth::user()->dokter->id;
     $kunjungans = Kunjungan::where('dokter_id', $dokterid)
-                  ->where('tanggal_kunjungan', '>=', Carbon::today())
-                  ->orderBy('tanggal_kunjungan', 'asc')
+                  ->where('status', 'UNDONE')
+                  ->orderBy('created_at', 'asc')
                   ->get();
 
     $kunjungan = Kunjungan::where('dokter_id', $dokterid)
-                ->where('tanggal_kunjungan' , '<=', Carbon::today())
-                ->orderBy('tanggal_kunjungan', 'desc')
+                ->where('status' , 'DONE')
+                ->orderBy('created_at', 'desc')
                 ->get();
     
 

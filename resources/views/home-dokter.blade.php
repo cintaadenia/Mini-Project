@@ -503,11 +503,13 @@
                     <tr>
                         <th>Nama Pasien</th>
                         <th>Keluhan</th>
+                        <th>Status</th>
                     </tr>
                     @foreach ($kunjungans as $kun)
                     <tr>
                         <td>{{$kun->pasien->nama}}</td>
                         <td>{{$kun->keluhan}}</td>
+                        <td style="color: red;">{{$kun->status}}</td>
                     </tr>
                     @endforeach
                 </table>
@@ -542,12 +544,13 @@
                     <tr>
                         <th>Nama Pasien</th>
                         <th>Keluhan</th>
+                        <th>status</th>
                     </tr>
                     @foreach ($kunjungan as $k)
                     <tr>
                         <td>{{$k->pasien->nama}}</td>
                         <td>{{$k->keluhan}}</td>
-                        <td>{{$k->}}</td>
+                        <td style="color: green;">{{$k->status}}</td>
                     </tr>
                     @endforeach
                 </table>
