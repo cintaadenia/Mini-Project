@@ -1,13 +1,6 @@
 @extends('layouts.sidebar')
 
 <style>
-    .content-header {
-        display: inline;
-        justify-content: center;
-        align-items: center;
-        max-width: 1070px;
-    }
-
     .welcome {
         display: flex;
         justify-content: space-between;
@@ -21,35 +14,36 @@
         text-align: left;
     }
 
+    .welcome::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 30%;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.576), rgba(255, 255, 255, 0));
+        z-index: 1;
+    }
+
     .welcome-text {
-        font-weight: 600;
-        padding: 1rem;
         display: flex;
         flex-direction: column;
         justify-content: center;
         text-align: left;
-        padding: 1.5rem;
-    }
-
-    .welcome h2 {
-        font-size: 2.7rem;
-        margin-bottom: 10px;
-    }
-
-    .welcome p {
-        font-size: 1.7rem;
-        margin-top: 0;
     }
 
     .welcome img {
         width: auto;
         height: 310px;
+        z-index: 5;
     }
 
     .profile {
         border-radius: 1.5rem;
-        width: 600px;
-        height: 370px;
+        min-width: 550px;
+        max-width: 550px;
+        height: 300px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -61,17 +55,11 @@
         justify-content: space-between;
         background: var(--main-color);
         width: 100%;
-        padding: 2rem 1.5rem;
         border-radius: 1.5rem;
         font-size: 0.9rem;
         font-weight: 600;
         color: #fff;
         z-index: 2;
-    }
-
-    .profile-header h1 {
-        align-items: center;
-        font-weight: 700;
     }
 
     .profile-header i {
@@ -94,24 +82,18 @@
         background-color: white;
     }
 
-    .profile-info h2 {
-        font-size: 2rem;
-        font-weight: 600;
-        margin: 10px 0;
-    }
-
-    .profile-info p {
-        font-size: 1.3rem;
-        font-weight: 500;
-        margin: 10px 0 20px 0;
-    }
-
     .profile-info a {
         border: solid 1px #ccc;
-        border-radius: 1rem;
+        background: var(--main-color);
+        border-radius: 10px;
         text-decoration: none;
-        color: #000;
-        padding: 3px 10px;
+        color: #ffffff;
+        padding: 5px 16px;
+        transition: ease;
+    }
+
+    .profile-info a:hover {
+        background: #20a0ef;
     }
 
     .profile-info img {
@@ -130,31 +112,18 @@
         margin-top: 2rem;
     }
 
+    .content-table {
+        /* max-width: 1800px; */
+    }
+
     .outer-table {
         background-color: white;
         border: 1px solid #ccc;
-        border-radius: 10px;
-        width: 1070px;
+        border-radius: 1rem;
+        width: 100%;
+        /* max-width: 1200px */
         height: auto;
         margin-top: 1rem;
-    }
-
-    .content-table {
-        display: flex;
-        flex-direction: column;
-        font-weight: 600;
-        position: relative;
-        top: -60px;
-    }
-
-    .content-table h2 {
-        font-size: 3rem;
-        margin-bottom: 10px;
-    }
-
-    .content-table p {
-        font-size: 1.3rem;
-        font-weight: 550;
     }
 
     .content-table-table {
@@ -194,23 +163,17 @@
     .content-chart {
         background-color: white;
         border: 1px solid #ccc;
-        border-radius: 10px;
+        border-radius: 1rem;
         padding: 20px;
         text-align: center;
         width: 600px;
-        height: 700px;
-    }
-
-    .content-chart h1 {
-        text-align: left;
-        font-size: 2rem;
-        margin-bottom: 20px;
+        height: 600px;
     }
 
     .chart-container {
         position: relative;
-        width: 400px;
-        height: 400px;
+        width: 250px;
+        height: 250px;
         margin: 3rem auto;
     }
 
@@ -440,181 +403,195 @@
 </style>
 
 @section('side')
-    <div class="wrapper-container">
-        <div class="header">
-            <div class="content-header">
-                <div class="welcome">
-                    <div class="welcome-text">
-                        <h2 class="h2-title-bold">Selamat Datang, Dr. [Nama Dokter]!</h2>
-                        <p>Semoga Harimu Menyenangkan</p>
-                    </div>
-                    <img src="{{ asset('asset/img/dokter.png') }}" alt="">
-                </div>
+    <div class="d-flex j-between">
+        <div class="welcome drop-shadow ml-2 mt-2 mb-2">
+            <div class="welcome-text ml-3 col d-flex j-center">
+                <h2 class="h1 f-bolder">Selamat Datang, Dr. [Nama Dokter]!</h2>
+                <p class="p3 f-bolder">Semoga Harimu Menyenangkan</p>
             </div>
-            <div class="profile">
-                <div class="profile-header">
-
-                    <h1>Profile Saya</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                        style="background: transparent; outline: none; border: none;" id="openModal"><i
-                            class="fa-solid fa-pen"></i></button>
-                </div>
-                @if (Auth::check())
-                    <div class="profile-info">
-                        <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('asset/img/dokter.png') }}"
-                            width="auto" alt="Foto Profil">
-                        <div class="profile-info-text">
-                            <h2>{{ Auth::user()->name }}</h2>
-                            <p>Spesialisasi: {{ Auth::user()->spesialisasi }}</p>
-                            <!-- Link untuk mengarahkan ke halaman edit profil -->
-                            <a href="{{ route('profile.update') }}" class="btn btn-primary">Ubah Profil</a>
-                        </div>
-                    </div>
-                @endif
-
-            </div>
+            <img src="{{ asset('asset/img/dokter.png') }}" alt="">
         </div>
-
-        <div id="modal" class="modal">
-            <div class="modal-content">
-                <span id="closeModal" class="close">&times;</span>
-                <h2>Edit Profile</h2>
-                <form>
-                    <label for="name">Nama:</label>
-                    <input type="text" id="name" name="name" required>
-                    <br><br>
-                    <label for="image">Foto:</label>
-                    <input type="file" id="image" name="image" required>
-                    <br><br>
-                    <label for="spesialis">Spesialis</label>
-                    <input type="text" id="spesialis" name="spesialis">
-                    <button type="submit">Submit</button>
-                </form>
+        <div class="profile m-2">
+            <div class="profile-header p-1">
+                <h1>Profile Saya</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    style="background: transparent; outline: none; border: none;" id="openModal"><i
+                        class="fa-solid fa-pen"></i></button>
             </div>
-        </div>
+            @if (Auth::check())
+                <div class="profile-info drop-shadow">
+                    <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('asset/img/dokter.png') }}"
+                        width="auto" alt="Foto Profil">
+                    <div class="profile-info-text">
+                        <h2 class="h2">{{ Auth::user()->name }}</h2>
+                        <p class="p4 f-bold mb-1">Spesialisasi: {{ Auth::user()->spesialisasi }}</p>
+                        <!-- Link untuk mengarahkan ke halaman edit profil -->
+                        <a href="{{ route('profile.update') }}" class="f-bold">Ubah Profil</a>
+                    </div>
+                </div>
+            @endif
 
+        </div>
     </div>
-    <div class="content-bottom">
-        <div class="content-table" style="margin-left: 150px;">
-            <div class="content-table-text">
-                <h2>Data Kunjungan Pasien</h2>
-                <p>Berikut adalah daftar pasien beserta keluhan yang terdaftar.</p>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <h2>Edit Profile</h2>
+            <form>
+                <label for="name">Nama:</label>
+                <input type="text" id="name" name="name" required>
+                <br><br>
+                <label for="image">Foto:</label>
+                <input type="file" id="image" name="image" required>
+                <br><br>
+                <label for="spesialis">Spesialis</label>
+                <input type="text" id="spesialis" name="spesialis">
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="content-card">
+        <div class="content-bottom-top d-flex row">
+            <div class="card-v bg-white col ml-2 mr-2 pl-2 pr-2 j-center d-flex drop-shadow">
+                <h2>Total Pasien</h2>
+                <div class="card-info d-flex p-1 row">
+                    <i class="fa-solid fa-bed-pulse i2 main-color"></i>
+                    <div class="card-info ml-2">
+                        <h2>208</h2>
+                        <p class="f-normal">Jumlah Seluruh Pasien yang terdaftar di klinik</p>
+                    </div>
+                </div>
             </div>
-            <div class="search-container">
-                <input type="text" placeholder="Search here...">
-                <i class="fa-solid fa-magnifying-glass"></i>
+            <div class="card-v bg-white col ml-2 mr-2 pl-2 pr-2 j-center d-flex drop-shadow">
+                <h2>Janji Hari ini</h2>
+                <div class="card-info d-flex p-1 row">
+                    <i class="fa-solid fa-list-check i2 main-color "></i>
+                    <div class="card-info ml-2">
+                        <h2>208</h2>
+                        <p class="f-normal">Jumlah Seluruh Pasien yang terdaftar di klinik</p>
+                    </div>
+                </div>
             </div>
-            <div class="outer-table">
-                <div class="content-table-table">
-                    <table>
-                        <tr>
-                            <th>Nama Pasien</th>
-                            <th>Keluhan</th>
-                        </tr>
-                        <tr>
-                            <td>Ani Rahmawati</td>
-                            <td>Demam tinggi dan sakit kepala</td>
-                        </tr>
-                        <tr>
-                            <td>Ani Rahmawati</td>
-                            <td>Demam tinggi dan sakit kepala</td>
-                        </tr>
-                        <tr>
-                            <td>Ani Rahmawati</td>
-                            <td>Demam tinggi dan sakit kepala</td>
-                        </tr>
-                        <tr>
-                            <td>Ani Rahmawati</td>
-                            <td>Demam tinggi dan sakit kepala</td>
-                        </tr>
-                        <tr>
-                            <td>Ani Rahmawati</td>
-                            <td>Demam tinggi dan sakit kepala</td>
-                        </tr>
-                    </table>
+            <div class="card-v bg-white col ml-2 mr-2 pl-2 pr-2 j-center d-flex drop-shadow">
+                <h2>Menunggu</h2>
+                <div class="card-info d-flex p-1 row">
+                    <i class="fa-solid fa-user-clock i2 main-color"></i>
+                    <div class="card-info ml-2">
+                        <h2>208</h2>
+                        <p class="f-normal">Janji Hari Ini</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="content-chart" style="margin-top: 145px;">
-            <h2 class="h2-title-bold h2-left">Data Kunjungan</h2>
+    </div>
+
+    <div class="content-table m-2 d-flex j-between">
+        <div class="outer-table drop-shadow mr-1">
+            <div class="d-flex j-between">
+                <div class="content-table-text m-1 a-center">
+                    <h2 class="h2">Data Kunjungan Pasien</h2>
+                </div>
+                <div class="search-container m-1">
+                    <input type="text" placeholder="Search here...">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+            <div class="content-table-table">
+                <table>
+                    <tr>
+                        <th>Nama Pasien</th>
+                        <th>Keluhan</th>
+                    </tr>
+                    <tr>
+                        <td>Ani Rahmawati</td>
+                        <td>Demam tinggi dan sakit kepala</td>
+                    </tr>
+                    <tr>
+                        <td>Ani Rahmawati</td>
+                        <td>Demam tinggi dan sakit kepala</td>
+                    </tr>
+                    <tr>
+                        <td>Ani Rahmawati</td>
+                        <td>Demam tinggi dan sakit kepala</td>
+                    </tr>
+                    <tr>
+                        <td>Ani Rahmawati</td>
+                        <td>Demam tinggi dan sakit kepala</td>
+                    </tr>
+                    <tr>
+                        <td>Ani Rahmawati</td>
+                        <td>Demam tinggi dan sakit kepala</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="content-chart m-1 drop-shadow">
+            <h2 class="h2 f-bolder">Data Kunjungan Perbulan</h2 class="h2 f-bolder">
             <div class="chart-container">
                 <canvas id="myChart"></canvas>
             </div>
             <div class="legend">
                 <div class="legend-left">
-                    <div class="mei"><span></span>Mei: 20 (9.62%)</div>
-                    <div class="juni"><span></span>Juni: 25 (12.02%)</div>
-                    <div class="juli"><span></span>Juli: 10 (4.81%)</div>
-                    <div class="agustus"><span></span>Agustus: 35 (16.83%)</div>
-                </div>
-                <div class="legend-right">
-                    <div class="september"><span></span>September: 18 (8.65%)</div>
-                    <div class="oktober"><span></span>Oktober: 28 (13.46%)</div>
-                    <div class="november"><span></span>November: 32 (15.38%)</div>
-                    <div class="desember"><span></span>Desember: 40 (19.23%)</div>
+                    <div class="selesai"><span></span>Selesai: 20 (9.62%)</div>
+                    <div class="menunggu"><span></span>Menunggu: 25 (12.02%)</div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="content-table" style="margin-left: 150px;">
-        <div class="content-table-text">
-            <h2>Data Kunjungan Pasien</h2>
-            <p>Berikut adalah daftar pasien beserta keluhan yang terdaftar.</p>
-        </div>
-        <div class="search-container" style="width: 0px">
-            <input type="text" placeholder="Search here...">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
-    <div class="outer-table">
-        <div class="content-table-table">
-            <table>
-                <tr>
-                    <th>Nama Pasien</th>
-                    <th>Keluhan</th>
-                </tr>
-                <tr>
-                    <td>Ani Rahmawati</td>
-                    <td>Demam tinggi dan sakit kepala</td>
-                </tr>
-                <tr>
-                    <td>Ani Rahmawati</td>
-                    <td>Demam tinggi dan sakit kepala</td>
-                </tr>
-                <tr>
-                    <td>Ani Rahmawati</td>
-                    <td>Demam tinggi dan sakit kepala</td>
-                </tr>
-                <tr>
-                    <td>Ani Rahmawati</td>
-                    <td>Demam tinggi dan sakit kepala</td>
-                </tr>
-                <tr>
-                    <td>Ani Rahmawati</td>
-                    <td>Demam tinggi dan sakit kepala</td>
-                </tr>
-            </table>
+    <div class="content-table m-2">
+        <div class="outer-table drop-shadow mr-1">
+            <div class="d-flex j-between">
+                <div class="content-table-text m-1">
+                    <h2 class="h2">Data Kunjungan Pasien</h2>
+                </div>
+                <div class="search-container m-1">
+                    <input type="text" placeholder="Search here...">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+            </div>
+            <div class="content-table-table">
+                <table>
+                    <tr>
+                        <th>Nama Pasien</th>
+                        <th>Keluhan</th>
+                    </tr>
+                    <tr>
+                        <td>Ani Rahmawati</td>
+                        <td>Demam tinggi dan sakit kepala</td>
+                    </tr>
+                    <tr>
+                        <td>Ani Rahmawati</td>
+                        <td>Demam tinggi dan sakit kepala</td>
+                    </tr>
+                    <tr>
+                        <td>Ani Rahmawati</td>
+                        <td>Demam tinggi dan sakit kepala</td>
+                    </tr>
+                    <tr>
+                        <td>Ani Rahmawati</td>
+                        <td>Demam tinggi dan sakit kepala</td>
+                    </tr>
+                    <tr>
+                        <td>Ani Rahmawati</td>
+                        <td>Demam tinggi dan sakit kepala</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
-    </div>
-@endsection
-
-<script>
-    const ctx = document.getElementById('myChart').getContext('2d');
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
     const myChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            labels: ['Selesai', 'Menunggu'],
             datasets: [{
-                data: [20, 25, 10, 35, 18, 28, 32, 40],
+                data: [20, 25],
                 backgroundColor: [
                     '#ff6384',
                     '#36a2eb',
-                    '#ffce56',
-                    '#4bc0c0',
-                    '#9966ff',
-                    '#ff9f40',
-                    '#c9cbcf',
-                    '#7e57c2'
                 ],
                 hoverOffset: 4
             }]
@@ -641,18 +618,17 @@
         }
     });
 </script>
-
 <script>
     // Dapatkan elemen
     const modal = document.getElementById('modal');
     const openModalBtn = document.getElementById('openModal');
     const closeModalBtn = document.getElementById('closeModal');
-
+    
     // Fungsi untuk membuka modal
     openModalBtn.addEventListener('click', () => {
         modal.style.display = 'block';
     });
-
+    
     // Fungsi untuk menutup modal
     closeModalBtn.addEventListener('click', () => {
         modal.style.display = 'none';
@@ -665,4 +641,7 @@
         }
     });
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+@endsection

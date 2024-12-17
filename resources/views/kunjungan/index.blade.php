@@ -146,7 +146,7 @@
                 @foreach ($kunjungans as $kunjungan)
                 <tr>
                     <td>{{ $kunjungan->pasien->nama }}</td>
-                    <td>{{ $kunjungan->dokter->nama }}</td>
+                    <td>{{ $kunjungan->dokter->nama ?? 'Edit untuk menambahkan dokter' }}</td>
                     <td>{{ $kunjungan->keluhan }}</td>
                     <td>{{ $kunjungan->tanggal_kunjungan }}</td>
                     <td class="action-icons">
