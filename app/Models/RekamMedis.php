@@ -31,6 +31,11 @@ class RekamMedis extends Model
     {
         return $this->belongsToMany(Obat::class)->withPivot('jumlah');
     }
+
+    public function pasien()
+    {
+        return $this->belongsTo(Pasien::class);
+    }
 }
 
 

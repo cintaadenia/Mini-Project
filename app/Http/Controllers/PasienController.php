@@ -103,11 +103,11 @@ class PasienController extends Controller
         return redirect()->route('pasien.index')->with('success', 'Data pasien berhasil ditambahkan');
     }
 }
-    public function show(Pasien $pasien)
-    {
-        return view('pasien.show', compact('pasien'));
-    }
-
+public function show(Pasien $pasien)
+{
+    $pasien->load('kunjungan', 'rekamMedis'); // Eager load kunjungan dan rekam medis
+    return view('pasien.show', compact('pasien'));
+}
     public function edit(Pasien $pasien)
     {
         return view('pasien.edit', compact('pasien'));
