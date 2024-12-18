@@ -102,6 +102,13 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('peralatan.index') }}"
+                        class="{{ request()->routeIs('peralatan.index') ? 'active' : '' }}">
+                        <i class="bi bi-tools"></i>
+                        <span>peralatan</span>
+                    </a>
+                </li>
+                <li>
                     <a href="#" class="q-btn" style="color: inherit; cursor: pointer;"
                         onclick="confirmLogout(event)">
                         <i class="fa fa-sign-out-alt"></i>

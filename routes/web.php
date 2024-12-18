@@ -10,7 +10,11 @@ use App\Http\Controllers\KunjunganController;
 use App\Http\Controllers\JadwalPraktekController;
 use App\Http\Controllers\RekamMedisController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PeralatanController;
 use Illuminate\Support\Facades\Auth;
+
+
+
 
 // Home Route
 Route::get('/', function () {
@@ -57,6 +61,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // Route::resource('pasien', PasienController::class);
     Route::resource('rekam_medis', RekamMedisController::class);
     Route::resource('obat', ObatController::class);
+    Route::resource('peralatan', PeralatanController::class);
 });
 
 // Admin-only routes
