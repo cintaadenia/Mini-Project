@@ -20,25 +20,10 @@
             </div>
             <h2>Dokter aktif: 9090</h2>
         </div>
-
-        <!-- Keluar button -->
-        {{-- <button class="btn btn-danger">
-    <i class="fas fa-sign-out-alt"></i> Keluar
-</button> --}}
-
         <div class="content-table m-2 d-flex col">
-            {{-- @if (auth()->user()->hasRole('admin'))
-        <button type="button" class="add-button" data-bs-toggle="modal" data-bs-target="#addModal">
-            + Tambah Dokter
-        </button>
-    @endif --}}
             <form method="GET" action="{{ route('dokter.index') }}">
-                <!-- Search input with magnifying glass icon inside the button -->
                 <input type="text" class="search-container w-100 h4" name="search" placeholder="Search"
                     value="{{ request('search') }}" class="form-control">
-                {{-- <button type="submit" class="btn btn-link">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button> --}}
             </form>
             <div class="outer-table">
                 <div class="content-table-table">
@@ -49,7 +34,6 @@
                                 <th>Nama</th>
                                 <th>Spesialis</th>
                                 <th>No HP</th>
-                                {{-- <th>Image</th> --}}
                                 @if (auth()->user()->hasRole('admin'))
                                     <th>Aksi</th>
                                 @endif
@@ -60,8 +44,8 @@
                                 <tr>
                                     <td>
                                         @if ($dokter->image)
-                                            <img src="{{ asset('storage/dokters/' . $dokter->image) }}" height="100px"
-                                                width="80px" alt="gambar">
+                                            <img class="table-img" src="{{ asset('storage/dokters/' . $dokter->image) }}"
+                                                height="100px" width="80px" alt="gambar">
                                         @else
                                             <img class="table-img" src="{{ asset('asset/img/dokter.png') }}" alt="">
                                         @endif
@@ -69,14 +53,6 @@
                                     <td>{{ $dokter->nama }}</td>
                                     <td>{{ $dokter->spesialis }}</td>
                                     <td>{{ $dokter->no_hp }}</td>
-                                    {{-- <td>
-                                        @if ($dokter->image)
-                                            <img src="{{ asset('storage/dokters/' . $dokter->image) }}" height="100px"
-                                                width="80px" alt="gambar">
-                                        @else
-                                            <p>Kosong</p>
-                                        @endif
-                                    </td> --}}
 
                                     @if (auth()->user()->hasRole('admin'))
                                         <td class="action-icons">
@@ -109,7 +85,6 @@
                                                         cancelButtonText: 'Batal'
                                                     }).then((result) => {
                                                         if (result.isConfirmed) {
-                                                            // Submit form hapus
                                                             document.getElementById('delete-form-' + id).submit();
                                                         }
                                                     });
@@ -119,7 +94,6 @@
                                     @endif
                                 </tr>
 
-                                <!-- Modal Edit Dokter -->
                                 <div class="modal animate__fadeIn" id="myModalEdit{{ $dokter->id }}">
                                     <div class="modal-content animate__animated animate__zoomIn">
                                         <h2 class="h2 f-bolder">Edit Dokter</h2>
@@ -132,7 +106,8 @@
                                             <div class="my-2">
                                                 <label for="inputNama" class="h4 f-bolder">Nama</label>
                                                 <div class="my-1">
-                                                    <input type="text" class="form h4 f-normal px-2 w-100 h-3 border-radius-1"
+                                                    <input type="text"
+                                                        class="form h4 f-normal px-2 w-100 h-3 border-radius-1"
                                                         id="namaEdit{{ $dokter->id }}" name="nama"
                                                         value="{{ $dokter->nama }}">
                                                 </div>
@@ -140,7 +115,8 @@
                                             <div class="my-2">
                                                 <label for="inputSpesialis" class="h4 f-bolder">Spesialis</label>
                                                 <div class="my-1">
-                                                    <input type="text" class="form h4 f-normal px-2 w-100 h-3 border-radius-1"
+                                                    <input type="text"
+                                                        class="form h4 f-normal px-2 w-100 h-3 border-radius-1"
                                                         id="spesialisEdit{{ $dokter->id }}" name="spesialis"
                                                         value="{{ $dokter->spesialis }}">
                                                 </div>
@@ -148,7 +124,8 @@
                                             <div class="my-2">
                                                 <label for="inputNo_hp" class="h4 f-bolder">No HP</label>
                                                 <div class="my-1">
-                                                    <input type="number" class="form h4 f-normal px-2 w-100 h-3 border-radius-1"
+                                                    <input type="number"
+                                                        class="form h4 f-normal px-2 w-100 h-3 border-radius-1"
                                                         id="no_hpEdit{{ $dokter->id }}" name="no_hp"
                                                         value="{{ $dokter->no_hp }}">
                                                 </div>
@@ -166,8 +143,9 @@
                                             </div>
 
                                             <button type="button" class="px-2 py-1 btn-close red-hover"
-                                                onclick="closeEditModal({{ $dokter->id }})">Close</button>
-                                            <button type="submit" class="px-2 py-1 btn-add main-color-hover">Save</button>
+                                                onclick="closeEditModal({{ $dokter->id }})">Batal</button>
+                                            <button type="submit"
+                                                class="px-2 py-1 btn-add main-color-hover">Simpan</button>
                                         </form>
                                     </div>
                                 </div>
@@ -177,7 +155,6 @@
                 </div>
             </div>
         </div>
-        <!-- Modal Tambah Dokter -->
         <div class="modal animate__animated" id="myModalAdd">
             <div class="modal-content animate__animated animate__zoomIn">
                 <h2 class="h2 f-bolder">Tambah Dokter</h2>
@@ -214,7 +191,6 @@
                             <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    <!-- Add this inside the form for creating a doctor -->
                     <div class="my-2">
                         <label for="inputEmail" class="h4 f-bolder">Email</label>
                         <div class="my-1">
@@ -242,20 +218,17 @@
                     <div class="my-2">
                         <label for="image" class="h4 f-bolder">Image</label>
                         <div class="my-1">
-                            <input type="file" class="h4 f-bolder px-2 w-100 h-3" id="image"
-                                name="image">
+                            <input type="file" class="h4 f-bolder px-2 w-100 h-3" id="image" name="image">
                         </div>
                     </div>
 
-                    <button type="button" id="btnCloseAddModal" class="px-2 py-1 btn-close red-hover">Close</button>
-                    <button type="submit" id="btnCloseAddModal" class="px-2 py-1 btn-add main-color-hover">Save</button>
+                    <button type="button" id="btnCloseAddModal" class="px-2 py-1 btn-close red-hover">Batal</button>
+                    <button type="submit" id="btnCloseAddModal"
+                        class="px-2 py-1 btn-add main-color-hover">Simpan</button>
                 </form>
             </div>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-        </script>
         <script>
             var addModal = document.getElementById("myModalAdd");
             var btnOpenAddModal = document.getElementById("btnOpenAddModal");
@@ -278,20 +251,16 @@
                 }
             }
 
-            // Fungsi untuk membuka modal edit dan mengisi data ke dalam form
             function btnOpenEditModal(id) {
-                // Menampilkan modal edit berdasarkan id dokter
                 var modal = document.getElementById("myModalEdit" + id);
                 modal.style.display = "block";
             }
 
-            // Fungsi untuk menutup modal edit
             function closeEditModal(id) {
                 var modal = document.getElementById("myModalEdit" + id);
                 modal.style.display = "none";
             }
 
-            // Menutup modal jika pengguna mengklik di luar modal
             window.onclick = function(event) {
                 var modals = document.querySelectorAll('.modal');
                 modals.forEach(function(modal) {

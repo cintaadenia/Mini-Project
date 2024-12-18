@@ -7,40 +7,9 @@
     <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
-    {{-- <!-- Fonts and icons -->
-    <script src="sidebar/assets/js/plugin/webfont/webfont.min.js"></script>
-    <script>
-        WebFont.load({
-            google: {
-                families: ["Public Sans:300,400,500,600,700"]
-            },
-            custom: {
-                families: [
-                    "Font Awesome 5 Solid",
-                    "Font Awesome 5 Regular",
-                    "Font Awesome 5 Brands",
-                    "simple-line-icons",
-                ],
-                urls: ["sidebar/assets/css/fonts.min.css"],
-            },
-            active: function() {
-                sessionStorage.fonts = true;
-            },
-        });
-    </script> --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    {{--
-    <!-- CSS Files -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="sidebar/assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="sidebar/assets/css/plugins.min.css" />
-    <link rel="stylesheet" href="/css/home_admin.css">
-
-    <!-- CSS Just for demo purpose, don't include it in your project -->
-    <link rel="stylesheet" href="sidebar/assets/css/demo.css" /> --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,7 +20,6 @@
 </head>
 
 <body>
-    <!-- Sidebar -->
     <div class="app-container">
         <div class="sidebar" id="sidebar">
             <div onclick="toggleSidebar()" class="btn-toggle-sidebar">
@@ -60,7 +28,6 @@
             <ul>
                 <li>
                     <a href="#">
-                        {{-- <i class="fas fa-home"></i> --}}
                         <img src="{{ asset('icons/logos.svg') }}" alt="">
                         <Span>Klinik</Span>
                     </a>
@@ -136,7 +103,7 @@
                 </li>
                 <li>
                     <a href="#" class="q-btn" style="color: inherit; cursor: pointer;"
-                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        onclick="confirmLogout(event)">
                         <i class="fa fa-sign-out-alt"></i>
                         <span>Keluar</span>
                     </a>
@@ -144,11 +111,32 @@
                         @csrf
                     </form>
                 </li>
+
+                <script>
+                    function confirmLogout(event) {
+                        event.preventDefault();
+
+                        Swal.fire({
+                            title: 'Apakah Anda yakin?',
+                            text: "Anda akan keluar dari akun ini.",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Ya, keluar!',
+                            cancelButtonText: 'Batal'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                document.getElementById('logout-form').submit();
+                            }
+                        });
+                    }
+                </script>
+
             </ul>
             <ul class="profile-sidebar">
                 <li>
                     <a href="#">
-                        {{-- <i class="fas fa-home"></i> --}}
                         <img class="photo-profile-sidebar" src="{{ asset('asset/img/dokter.png') }}" alt="">
                         <span>
                             <h6>Welcome Bek</h2>
@@ -165,11 +153,6 @@
         </div>
     </div>
 
-    <!-- End Sidebar -->
-
-    <!-- End Custom template -->
-
-    <!--   Core JS Files   -->
     <script src="sidebar/assets/js/core/jquery-3.7.1.min.js"></script>
     <script src="sidebar/assets/js/core/popper.min.js"></script>
     <script src="sidebar/assets/js/core/bootstrap.min.js"></script>
@@ -202,11 +185,6 @@
     <!-- Sweet Alert -->
     <script src="sidebar/assets/js/plugin/sweetalert/sweetalert.min.js"></script>
 
-    <!-- Kaiadmin JS -->
-
-    <!-- Kaiadmin DEMO methods, don't include it in your project! -->
-    {{-- <script src="sidebar/assets/js/setting-demo.js"></script> --}}
-    {{-- <script src="sidebar/assets/js/demo.js"></script> --}}
     <script>
         $("#lineChart").sparkline([102, 109, 120, 99, 110, 105, 115], {
             type: "line",
