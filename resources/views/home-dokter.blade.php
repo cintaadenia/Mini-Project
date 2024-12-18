@@ -116,50 +116,6 @@
         /* max-width: 1800px; */
     }
 
-    .outer-table {
-        background-color: white;
-        border: 1px solid #ccc;
-        border-radius: 1rem;
-        width: 100%;
-        /* max-width: 1200px */
-        height: auto;
-        margin-top: 1rem;
-    }
-
-    .content-table-table {
-        margin: 1rem;
-        width: auto;
-        overflow: hidden;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        font-weight: 500;
-        font-size: 1.2rem;
-    }
-
-    table th {
-        background-color: var(--main-color);
-        color: #fff;
-        text-align: left;
-        padding: 1.2rem 1rem;
-    }
-
-    table td {
-        padding: 1.5rem 1rem;
-        color: #474747;
-    }
-
-    table tr:last-child td {
-        border-bottom: none;
-    }
-
-    table tr:hover td {
-        background-color: #f1f1f1;
-    }
-
-
     .content-chart {
         background-color: white;
         border: 1px solid #ccc;
