@@ -1,4 +1,5 @@
 @extends($layout)
+
 @section($content)
     <!DOCTYPE html>
     <html lang="en">
@@ -7,42 +8,113 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <title>Rekam Medis</title>
+        <title>Pasien</title>
         <style>
-            /* Style for images in the table */
-            table img {
-                border: 2px solid #ddd;
-                /* Adding border */
-                border-radius: 8px;
-                /* Optional: rounded corners */
-                box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
-                /* Adding shadow */
-                margin: 5px;
-                /* Adding space between images */
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f5f5f5;
             }
 
-            /* Style for images in the modal */
-            .modal-body img {
-                border: 2px solid #ddd;
-                /* Adding border */
-                border-radius: 8px;
-                /* Optional: rounded corners */
-                box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
-                /* Adding shadow */
-                margin: 5px;
-                /* Adding space between images */
+            .container {
+                width: 90%;
+                margin: 20px auto;
+                background-color: #fff;
+                padding: 20px;
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .header input[type="text"] {
+                width: 90%;
+                padding: 5px;
+                border: 1px solid #ccc;
+                border-radius: 15px;
+                margin-left: -30px;
+            }
+
+            .header button {
+                background-color: #d9534f;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+
+            .header button i {
+                margin-right: 5px;
+            }
+
+            .title {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+
+            .add-button {
+                background-color: #5bc0de;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 3px;
+                cursor: pointer;
+                margin-bottom: 20px;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            table,
+            th,
+            td {
+                border: 1px solid #ccc;
+            }
+
+            th,
+            td {
+                padding: 10px;
+                text-align: left;
+            }
+
+            th {
+                background-color: #0275d8;
+                color: white;
+            }
+
+            tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
+            .action-icons i {
+                margin: 0 5px;
+                cursor: pointer;
+            }
+
+            .action-icons .edit {
+                color: #0275d8;
+            }
+
+            .action-icons .delete {
+                color: #d9534f;
             }
         </style>
     </head>
 
-
     <body>
+
         <div class="container mt-5">
-            <h1>Daftar Rekam Medis</h1>
+            <h1>Daftar rekam medis</h1>
             @if (session('success'))
                 <script>
                     Swal.fire('Success', '{{ session('success') }}', 'success');
@@ -71,7 +143,6 @@
                     </form>
                 </div>
             </div>
-
 
             <!-- Add Modal -->
             <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
@@ -176,7 +247,6 @@
                     </div>
                 </div>
             </div>
-
             <script>
                 document.getElementById('obat_id').addEventListener('change', function() {
                     var selectedObats = Array.from(this.selectedOptions);
@@ -216,7 +286,7 @@
             </script>
 
             <!-- Table -->
-            <table class="table table-striped">
+            <table>
                 <thead>
                     <tr>
                         <th>pasien</th>
@@ -228,7 +298,6 @@
                         @if (auth()->user()->hasRole('admin'))
                             <th>Aksi</th>
                         @endif
-
                     </tr>
                 </thead>
                 <tbody>
@@ -252,7 +321,6 @@
                                     <p>Tidak ada obat yang terkait</p>
                                 @endif
                             </td>
-
                             <td>
                                 @foreach ($rm->images as $image)
                                     <img src="{{ asset('storage/' . $image->image_path) }}" height="100"
@@ -260,78 +328,76 @@
                                 @endforeach
                             </td>
                             @if (auth()->user()->hasRole('admin'))
-                                <td>
-                                    <form id="delete-form-{{ $rm->id }}"
-                                        action="{{ route('rekam_medis.destroy', $rm->id) }}" method="POST"
-                                        style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                    <button type="button" class="btn btn-danger btn-sm"
-                                        onclick="confirmDelete({{ $rm->id }})">Hapus</button>
-                                    <script>
-                                        function confirmDelete(id) {
-                                            Swal.fire({
-                                                title: 'Apakah Anda yakin?',
-                                                text: "Data ini akan dihapus secara permanen!",
-                                                icon: 'warning',
-                                                showCancelButton: true,
-                                                confirmButtonColor: '#3085d6',
-                                                cancelButtonColor: '#d33',
-                                                confirmButtonText: 'Ya, hapus!',
-                                                cancelButtonText: 'Batal'
-                                            }).then((result) => {
-                                                if (result.isConfirmed) {
-                                                    document.getElementById('delete-form-' + id).submit();
-                                                }
-                                            });
-                                        }
-                                    </script>
-                                    <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#editModal{{ $rm->id }}">
-                                        Edit
-                                    </button>
-
-                                    <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#detailModal{{ $rm->id }}">
-                                        Detail
-                                    </button>
-                                </td>
-                                <!-- Detail Modal -->
-                                <div class="modal fade" id="detailModal{{ $rm->id }}" tabindex="-1"
-                                    aria-labelledby="detailModalLabel{{ $rm->id }}" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="detailModalLabel{{ $rm->id }}">Detail
-                                                    Rekam Medis</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <p><strong>Pasien:</strong> {{ $rm->kunjungan->pasien->nama }}</p>
-                                                <p><strong>Diagnosa:</strong> {{ $rm->diagnosa }}</p>
-                                                <p><strong>Tindakan:</strong> {{ $rm->tindakan }}</p>
-                                                <p><strong>Obat:</strong> {{ $obat->obat }} - Jumlah:
-                                                    {{ $obat->pivot->jumlah }}
-                                                <p><strong>Resep</strong> {{ $resep->deskripsi }}</p>
-                                                <p><strong>Gambar:</strong></p>
-                                                @foreach ($rm->images as $image)
-                                                    <img src="{{ asset('storage/' . $image->image_path) }}"
-                                                        height="150" width="120" class="mb-2" alt="Gambar">
-                                                @endforeach
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Close</button>
-                                            </div>
+                            <td class="action-icons">
+                                <a data-bs-toggle="modal" data-bs-target="#detailModal{{ $rm->id }}">
+                                    <i class="fas fa-info-circle detail"></i>
+                                </a>
+                                <button type="button" style="border: none; outline: none; background: transparent;"
+                                    data-bs-toggle="modal" data-bs-target="#editModal{{ $rm->id }}">
+                                    <i class="fas fa-edit edit"></i>
+                                </button>
+                                <form id="delete-form-{{ $rm->id }}"
+                                    action="{{ route('rekam_medis.destroy', $rm->id) }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
+                                    @method('DELETE')
+                                </form>
+                                <button type="submit" style="background: transparent; outline: none; border: none"
+                                    onclick="confirmDelete({{ $rm->id }})">
+                                    <i class="fas fa-trash delete"></i>
+                                </button>
+                                <script>
+                                    function confirmDelete(id) {
+                                        Swal.fire({
+                                            title: 'Apakah Anda yakin?',
+                                            text: "Data ini akan dihapus secara permanen!",
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'Ya, hapus!',
+                                            cancelButtonText: 'Batal'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                // Submit form hapus
+                                                document.getElementById('delete-form-' + id).submit();
+                                            }
+                                        });
+                                    }
+                                </script>
+                            </td>
+                            <div class="modal fade" id="detailModal{{ $rm->id }}" tabindex="-1"
+                                aria-labelledby="detailModalLabel{{ $rm->id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="detailModalLabel{{ $rm->id }}">Detail
+                                                Rekam Medis</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p><strong>Pasien:</strong> {{ $rm->kunjungan->pasien->nama }}</p>
+                                            <p><strong>Diagnosa:</strong> {{ $rm->diagnosa }}</p>
+                                            <p><strong>Tindakan:</strong> {{ $rm->tindakan }}</p>
+                                            <p><strong>Obat:</strong> {{ $obat->obat }} - Jumlah:
+                                                {{ $obat->pivot->jumlah }}
+                                            <p><strong>Resep</strong> {{ $resep->deskripsi }}</p>
+                                            <p><strong>Gambar:</strong></p>
+                                            @foreach ($rm->images as $image)
+                                                <img src="{{ asset('storage/' . $image->image_path) }}"
+                                                    height="150" width="120" class="mb-2" alt="Gambar">
+                                            @endforeach
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             @endif
                         </tr>
-
-                        <!-- Edit Modal -->
                         <div class="modal fade" id="editModal{{ $rm->id }}" tabindex="-1"
                             aria-labelledby="editModalLabel{{ $rm->id }}" aria-hidden="true">
                             <div class="modal-dialog">
@@ -366,7 +432,7 @@
                                             @error('kunjungan_id')
                                                 <p style="color: red">{{ $message }}</p>
                                             @enderror
-
+            
                                             <!-- Diagnosa -->
                                             <div class="mb-3 row">
                                                 <label for="diagnosa" class="col-sm-2 col-form-label">Diagnosa</label>
@@ -378,7 +444,7 @@
                                                     <p style="color: red">{{ $message }}</p>
                                                 @enderror
                                             </div>
-
+            
                                             <!-- Tindakan -->
                                             <div class="mb-3 row">
                                                 <label for="tindakan" class="col-sm-2 col-form-label">Tindakan</label>
@@ -390,7 +456,7 @@
                                                     <p style="color: red">{{ $message }}</p>
                                                 @enderror
                                             </div>
-
+            
                                             <!-- Resep -->
                                             <div class="mb-3 row">
                                                 <label for="deskripsi" class="col-sm-2 col-form-label">Resep</label>
@@ -401,7 +467,7 @@
                                                     <p style="color: red">{{ $message }}</p>
                                                 @enderror
                                             </div>
-
+            
                                             <!-- Medication Input Section -->
                                             <div class="mb-3 row">
                                                 <label for="obat_id" class="col-sm-2 col-form-label">Obat</label>
@@ -420,7 +486,7 @@
                                                     <p style="color: red">{{ $message }}</p>
                                                 @enderror
                                             </div>
-
+            
                                             <!-- Quantity Section (Dynamic) -->
                                             <div id="obat-quantity-container">
                                                 @foreach ($rm->obats as $obat)
@@ -436,7 +502,7 @@
                                                     </div>
                                                 @endforeach
                                             </div>
-
+            
                                             <!-- Images Section with Checkboxes -->
                                             <div class="mb-3">
                                                 <label class="form-label">Gambar</label>
@@ -456,8 +522,8 @@
                                                     @endforeach
                                                 </div>
                                             </div>
-
-
+            
+            
                                             <div id="edit-image-container">
                                                 <div class="mb-3 row">
                                                     <label class="col-sm-2 col-form-label">Tambah Gambar Baru</label>
@@ -465,13 +531,13 @@
                                                         <input type="file" class="form-control" name="new_images[]"
                                                             multiple>
                                                     </div>
-
+            
                                                 </div>
                                             </div>
                                             
-
-
-
+            
+            
+            
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary"
                                                     data-bs-dismiss="modal">Cancel</button>
@@ -481,16 +547,45 @@
                                 </div>
                             </div>
                         </div>
+
+
+                        <!-- Detail Modal for Visit and Medical Record Input -->
+                        <div class="modal fade" id="detailModal{{ $rm->id }}" tabindex="-1"
+                            aria-labelledby="detailModalLabel{{ $rm->id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="detailModalLabel{{ $rm->id }}">Detail
+                                            Rekam Medis</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p><strong>Pasien:</strong> {{ $rm->kunjungan->pasien->nama }}</p>
+                                        <p><strong>Diagnosa:</strong> {{ $rm->diagnosa }}</p>
+                                        <p><strong>Tindakan:</strong> {{ $rm->tindakan }}</p>
+                                        <p><strong>Obat:</strong> {{ $obat->obat }} - Jumlah:
+                                            {{ $obat->pivot->jumlah }}
+                                        <p><strong>Resep</strong> {{ $resep->deskripsi }}</p>
+                                        <p><strong>Gambar:</strong></p>
+                                        @foreach ($rm->images as $image)
+                                            <img src="{{ asset('storage/' . $image->image_path) }}"
+                                                height="150" width="120" class="mb-2" alt="Gambar">
+                                        @endforeach
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @endforeach
                 </tbody>
             </table>
-
-            <!-- Pagination -->
             {{ $rekamMedis->links() }}
-
         </div>
 
-        <!-- Bootstrap JS -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
         <script>
             $(document).ready(function() {
@@ -554,11 +649,6 @@
                 });
             });
         </script>
-
-
-
-
-
     </body>
 
     </html>

@@ -66,6 +66,7 @@ class RekamMedisController extends Controller
         'kunjungan_id' => $validated['kunjungan_id'],
         'diagnosa' => $validated['diagnosa'],
         'tindakan' => $validated['tindakan'],
+        'pasien_id' => Kunjungan::find($validated['kunjungan_id'])->pasien_id, 
     ]);
 
     Resep::create([
