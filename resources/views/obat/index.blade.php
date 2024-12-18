@@ -109,7 +109,7 @@
             @endif
 
         <div class="container">
-            <div class="header">
+            <div class="header" style="margin-left: 20px">
                 <input type="text" placeholder="Search"><i class="fa-solid fa-magnifying-glass" style="margin-left: -100px"></i>
                 <form action="{{route('logout')}}" method="POST">
                     @csrf

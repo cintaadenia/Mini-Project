@@ -340,8 +340,6 @@
                                             @foreach ($pasien->kunjungan as $kunjungan)
                                                 <p><strong>Tanggal Kunjungan:</strong>
                                                     {{ $kunjungan->tanggal_kunjungan ?? 'kosong' }}</p>
-                                                <p><strong>Diagnosa:</strong> {{ $kunjungan->diagnosa ?? 'kosong' }}</p>
-                                                <p><strong>Tindakan:</strong> {{ $kunjungan->tindakan ?? 'kosong' }}</p>
                                                 <hr>
                                             @endforeach
                                         @endif

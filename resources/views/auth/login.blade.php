@@ -45,8 +45,8 @@
             border-radius: 10px;
             position: absolute;
             display: flex;
-            top: 190px;
-            left: 350px;
+            top: 120px;
+            left:400px;
         }
 
         /* .form-container.active {
@@ -362,7 +362,7 @@
         }
 
         .field.btn input[type="submit"] {
-            margin-left: -15px;
+            margin-left: -10px;
             background: #4e73df;
             color: #fff;
             font-weight: bold;
@@ -404,9 +404,7 @@
       transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease;
 
         }
-        #btn1, #btn2 {
-    display: none;
-}
+
 #specialty-field.hidden {
     height: 0;
     margin: 0;
@@ -432,6 +430,8 @@
     outline: none; /* Hilangkan outline saat focus */
     appearance: none; /* Menghilangkan gaya default browser */
 }
+
+
 
     </style>
     <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
@@ -467,9 +467,6 @@
                         </div>
                         <div class="field btn">
                             <input type="submit" value="Login" >
-
-                            <div class="btn-layer"></div>
-                            <input type="submit" value="Login">
                         </div>
                         <div class="signup-link">
                             Not a member? <a href="/register">Signup now</a>
@@ -493,10 +490,10 @@
                             <input type="email" placeholder="Email Address" name="email" required>
                         </div>
                         <div class="field" id="specialty-field" style="display: none;">
-                            <input type="text" placeholder="Specialty" name="specialty" required>
+                            <input type="text" placeholder="Specialty" name="specialty">
                         </div>
-                        <div class="field">
-                            <input type="text" placeholder="Phone Number" name="phone" required>
+                        <div class="field" id="phone-field" style="display: none;">
+                            <input type="text" placeholder="Phone Number" name="phone" >
                         </div>
                         <div class="field">
                             <input type="password" placeholder="Password" name="password" required>
@@ -535,7 +532,7 @@
                 currentlyHidden = temp;
             });
         });
-    </script
+    </script>
     <script>
         @if (session('error'))
             Swal.fire({
@@ -610,11 +607,14 @@
     document.addEventListener("DOMContentLoaded", function () {
         const roleSelect = document.getElementById("role-select"); // Dropdown select
         const specialtyField = document.getElementById("specialty-field"); // Div Specialty
+        const phoneField = document.getElementById("phone-field"); // Div Specialty
+
 
         // Tambahkan event listener untuk mendeteksi perubahan di select
         roleSelect.addEventListener("change", function () {
             if (roleSelect.value === "2") { // Jika "Dokter" dipilih
                 specialtyField.style.display = "block"; // Tampilkan input Specialty
+                phoneField.style.display = "block"; // Tampilkan input phone
                 specialtyField.querySelector("input").setAttribute("required", "true");
             } else { // Jika "Pasien" dipilih
                 specialtyField.style.display = "none"; // Sembunyikan input Specialty

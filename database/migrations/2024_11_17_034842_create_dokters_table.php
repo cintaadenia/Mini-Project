@@ -15,8 +15,8 @@ public function up()
     Schema::create('dokters', function (Blueprint $table) {
         $table->id();
         $table->string('nama');
-        $table->string('spesialis');
-        $table->string('no_hp')->unique();  
+        $table->string('spesialis')->nullable();
+        $table->string('no_hp')->unique()->nullable();  
         $table->string('image')->nullable();
         $table->unsignedBigInteger('user_id')->nullable();
         $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
