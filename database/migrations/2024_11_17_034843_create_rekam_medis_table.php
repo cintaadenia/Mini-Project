@@ -15,11 +15,15 @@ return new class extends Migration
             $table->id();
             $table->foreignId('kunjungan_id')->constrained('kunjungans')->onDelete('restrict');
             $table->unsignedBigInteger('pasien_id'); // Menambah kolom pasien_id
-            
-            $table->foreign('pasien_id')->references('id')->on('pasiens')->onDelete('cascade')->nullable(); // Perbaiki nama tabel 'pasiens' di sini
+
+            $table->foreign('pasien_id')->references('id')->on('pasiens')->onDelete('cascade'); // Perbaiki nama tabel 'pasiens' di sini
             $table->text('diagnosa'); // Kolom untuk diagnosa
             $table->text('tindakan'); // Kolom untuk tindakan
             $table->string('image')->nullable(); // Membuat image nullable
+
+            $table->enum('payment_status', ['pending', 'paid', 'failed'])->default('pending'); // Status pembayaran
+            $table->decimal('total_payment', 15, 2)->nullable(); // Jumlah pembayaran, dengan format desimal
+
             $table->softDeletes();
             $table->timestamps();
         });
