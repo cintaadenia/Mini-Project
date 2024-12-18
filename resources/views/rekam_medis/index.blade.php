@@ -122,10 +122,12 @@
             @endif
 
             <!-- Button trigger modal -->
-            @if (auth()->user()->hasRole('admin'))
-                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addModal">
-                    + Tambah Rekam Medis
-                </button>
+            @if (auth()->user()->hasRole('user'))
+
+            @else
+            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addModal">
+                + Tambah Rekam Medis
+            </button>
             @endif
 
             <!-- Search Form -->

@@ -95,6 +95,9 @@ class RekamMedisController extends Controller
         }
     }
 
+    $kunjungan = Kunjungan::findOrFail($request->kunjungan_id);
+    $kunjungan->status = 'DONE';
+    $kunjungan->save(); 
     return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil ditambahkan.');
 }
 
