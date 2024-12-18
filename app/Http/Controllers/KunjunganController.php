@@ -120,7 +120,7 @@ class KunjunganController extends Controller
             if(Auth()->user()->hasRole('admin')){
                 return redirect()->route('kunjungan.idex')->with('error','Data tidak bisa dihapus');
             }else{
-                return redirect()->route('home')->with('error','Data tidak bisa dihapus');
+                return redirect()->route('home')->with('error','Data tidak bisa dihapus karena sudah dilakukan pemeriksaan');
             }
         }else{
             $kunjungan->delete();
