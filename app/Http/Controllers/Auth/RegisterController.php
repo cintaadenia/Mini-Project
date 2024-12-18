@@ -32,14 +32,23 @@ class RegisterController extends Controller
         ]);
     }
 
-    protected function create(array $data)
-    {
-        // Create the user
+protected function create(array $data)
+{
+    if($data['role'] == 1){
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => Hash::make(($data['password']))
         ]);
+
+        $user->assignRole('user');
+    }else{
+        $user = User::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => Hash::make($data['password']),
+        'spesialisasi' => $data['specialty'], // Store the specialty in the users table
+    ]);
 
         // If no specialty is provided, assign the 'user' role
         if (empty($data['specialty'])) {
@@ -56,9 +65,13 @@ class RegisterController extends Controller
                 'no_hp' => $data['phone'] ?? null, // If no phone, set it as null
             ]);
 
-            // Save the dokter entry and link it to the user
-            $user->dokter()->save($dokter);
-        }
+    $user->dokter()->save($dokter);
+    }
+    // Create the user
+    
+
+    return $user;
+}
 
         return $user;
     }

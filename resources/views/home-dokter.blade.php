@@ -116,50 +116,6 @@
         /* max-width: 1800px; */
     }
 
-    .outer-table {
-        background-color: white;
-        border: 1px solid #ccc;
-        border-radius: 1rem;
-        width: 100%;
-        /* max-width: 1200px */
-        height: auto;
-        margin-top: 1rem;
-    }
-
-    .content-table-table {
-        margin: 1rem;
-        width: auto;
-        overflow: hidden;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        font-weight: 500;
-        font-size: 1.2rem;
-    }
-
-    table th {
-        background-color: var(--main-color);
-        color: #fff;
-        text-align: left;
-        padding: 1.2rem 1rem;
-    }
-
-    table td {
-        padding: 1.5rem 1rem;
-        color: #474747;
-    }
-
-    table tr:last-child td {
-        border-bottom: none;
-    }
-
-    table tr:hover td {
-        background-color: #f1f1f1;
-    }
-
-
     .content-chart {
         background-color: white;
         border: 1px solid #ccc;
@@ -406,7 +362,7 @@
     <div class="d-flex j-between">
         <div class="welcome drop-shadow ml-2 mt-2 mb-2">
             <div class="welcome-text ml-3 col d-flex j-center">
-                <h2 class="h1 f-bolder">Selamat Datang, Dr. [Nama Dokter]!</h2>
+                <h2 class="h1 f-bolder">Selamat Datang, Dr. {{Auth::user()->name}}</h2>
                 <p class="p3 f-bolder">Semoga Harimu Menyenangkan</p>
             </div>
             <img src="{{ asset('asset/img/dokter.png') }}" alt="">
@@ -491,7 +447,7 @@
         <div class="outer-table drop-shadow mr-1">
             <div class="d-flex j-between">
                 <div class="content-table-text m-1 a-center">
-                    <h2 class="h2">Data Kunjungan Pasien</h2>
+                    <h2 class="h2">Data Terbaru Kunjungan Pasien</h2>
                 </div>
                 <div class="search-container m-1">
                     <input type="text" placeholder="Search here...">
@@ -503,27 +459,15 @@
                     <tr>
                         <th>Nama Pasien</th>
                         <th>Keluhan</th>
+                        <th>Status</th>
                     </tr>
+                    @foreach ($kunjungans as $kun)
                     <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
+                        <td>{{$kun->pasien->nama}}</td>
+                        <td>{{$kun->keluhan}}</td>
+                        <td style="color: red;">{{$kun->status}}</td>
                     </tr>
-                    <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
-                    </tr>
-                    <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
-                    </tr>
-                    <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
-                    </tr>
-                    <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
-                    </tr>
+                    @endforeach
                 </table>
             </div>
         </div>
@@ -556,27 +500,15 @@
                     <tr>
                         <th>Nama Pasien</th>
                         <th>Keluhan</th>
+                        <th>status</th>
                     </tr>
+                    @foreach ($kunjungan as $k)
                     <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
+                        <td>{{$k->pasien->nama}}</td>
+                        <td>{{$k->keluhan}}</td>
+                        <td style="color: green;">{{$k->status}}</td>
                     </tr>
-                    <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
-                    </tr>
-                    <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
-                    </tr>
-                    <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
-                    </tr>
-                    <tr>
-                        <td>Ani Rahmawati</td>
-                        <td>Demam tinggi dan sakit kepala</td>
-                    </tr>
+                    @endforeach
                 </table>
             </div>
         </div>

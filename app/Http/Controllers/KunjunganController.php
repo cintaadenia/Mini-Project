@@ -6,7 +6,9 @@ use App\Models\Kunjungan;
 use App\Models\Pasien;
 use App\Models\Dokter;
 use App\Notifications\DokterAssignedNotification;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class KunjunganController extends Controller
 {
@@ -133,19 +135,31 @@ class KunjunganController extends Controller
 
 
     // Get the visits related to the logged-in doctor
-    $kunjungans = Kunjungan::when($search, function ($query, $search) {
-        return $query->whereHas('pasien', function ($query) use ($search) {
-            $query->where('nama', 'like', '%' . $search . '%');
-        })->orWhereHas('dokter', function ($query) use ($search) {
-            $query->where('nama', 'like', '%' . $search . '%');
-        });
-    })
-    ->with(['pasien', 'dokter', 'resep']) // Pastikan semua relasi dimuat
-    ->paginate(10);
+    // $kunjungans = Kunjungan::when($search, function ($query, $search) {
+    //     return $query->whereHas('pasien', function ($query) use ($search) {
+    //         $query->where('nama', 'like', '%' . $search . '%');
+    //     })->orWhereHas('dokter', function ($query) use ($search) {
+    //         $query->where('nama', 'like', '%' . $search . '%');
+    //     });
+    // })
+    // ->with(['pasien', 'dokter', 'resep']) // Pastikan semua relasi dimuat
+    // ->paginate(10);
+
+    $dokterid = Auth::user()->dokter->id;
+    $kunjungans = Kunjungan::where('dokter_id', $dokterid)
+                  ->where('status', 'UNDONE')
+                  ->orderBy('created_at', 'asc')
+                  ->get();
+
+    $kunjungan = Kunjungan::where('dokter_id', $dokterid)
+                ->where('status' , 'DONE')
+                ->orderBy('created_at', 'desc')
+                ->get();
+    
 
     // Return the data to the doctor dashboard view
 
-    return view('home-dokter', compact('kunjungans'));
+    return view('home-dokter', compact('kunjungans', 'kunjungan'));
 
 }
 
