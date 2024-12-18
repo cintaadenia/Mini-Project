@@ -22,6 +22,48 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="/css/home_dashboard.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <style>
+        .history-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .history-section h2 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .history-section p {
+            margin: 10px 0 20px;
+        }
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .history-table th, .history-table td {
+            padding: 10px;
+            text-align: left;
+        }
+        .history-table th {
+            background-color: #457b9d;
+            color: white;
+        }
+        .history-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .history-table tr:nth-child(odd) {
+            background-color: #ffffff;
+        }
+
+        .info-kunjungan {
+            padding: 96px 30px 0 30px;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -62,13 +104,13 @@
             <li><a href="#form-section">
                     Pasien
                 </a></li>
-            <li><a href="#hero">
+            <li><a href="#form-section-kunjungan">
                     Buat Kunjungan
                 </a></li>
             <li><a href="#">
                     Diagnosa
                 </a></li>
-            <li><a href="#kunjungan-info">
+            <li><a href="#info-kunjungan">
                     Data Kunjungan    
             </a></li>
         </ul>
@@ -216,41 +258,158 @@
             @endforeach
         </div>
     </section>
-    <section id="kunjungan-info" class="patient-info">
-        @if ($jumlah > 0)
-        <h3>Informasi Kunjungan</h3>
-        <p>Daftar kunjungan yang anda buat <br> jangan lupa untuk ke klinik</p>
-        <div class="container">
-            @foreach ($kunjungan as $kun)
-                <div class="patient-card">
-                    <b>Kunjungan : {{$loop->iteration}}</b>
-                    <p>
-                        <i class="fas fa-user"></i>
-                        <span class="label">Nama        :</span>
-                        <span class="value">{{ $kun->pasien->nama }}</span>
-                    </p>
-                    <p>
-                        <i class="fa-solid fa-user-doctor"></i>
-                        <span class="label">Dokter      :</span>
-                        <span class="value">{{ $kun->dokter->nama ?? '--menunggu keputusan admin' }}</span>
-                    </p>
-                    <p>
-                        <i class="fas fa-frown"></i>
-                        <span class="label">keluhan     :</span>
-                        <span class="value">{{ $kun->keluhan }}</span>
-                    </p>
-                    <p>
-                        <i class="fa-solid fa-calendar"></i>
-                        <span class="label">Tgl Kunjungan   :</span>
-                        <span class="value">{{ $kun->tanggal_kunjungan }}</span>
-                    </p>
-                </div>
-            @endforeach
+    <section id="form-section-kunjungan" class="form-section">
+        <div class="form-right" id="form-pasien">
+            <form action="{{ route('kunjungan.store') }}" method="POST">
+                @csrf
+                <select name="pasien_id" class="pasien-select-option">
+                    <option disabled selected>Cari pasien</option>
+                    @foreach ($pasien as $pas)
+                    <option value="{{$pas->id}}">{{$pas->nama}}</option>
+                    @endforeach
+                </select>
+                @error('pasien_id')
+                    <p style="color: red">{{ $message }}</p>
+                @enderror
+                <input placeholder="keluhan" type="text" name="keluhan" value="{{ old('keluhan') }}" />
+                @error('keluhan')
+                    <p style="color: red">{{ $message }}</p>
+                @enderror
+                <input placeholder="Tanggal Kunjungan" name="tanggal_kunjungan" value="{{old('tanggal_kunjungan')}}" type="date">
+                @error('tanggal_kunjungan')
+                    <p style="color: red">{{ $message }}</p>
+                @enderror
+                <button type="submit">
+                    Kirim
+                </button>
+            </form>
         </div>
-        @else
-            <b style="font-size: 1.3rem">Tidak ada data kunjungan yang tersimpan</b>
-        @endif
+        <div class="form-left">
+            <h3>
+                Formulir <br> Kunjungan Pasien
+            </h3>
+            <p>
+                Isi detail kunjungan untuk membuat janji <br> temu dengan dokter
+            </p>
+        </div>
     </section>
+    <section id="info-kunjungan" class="info-kunjungan">
+        <div class="history-section">
+            <h2>Riwayat Kunjungan Anda</h2>
+            <p>Berikut adalah daftar kunjungan yang telah Anda buat.</p>
+            <table class="history-table">
+                <thead>
+                    <tr>
+                        <th>Nama Pasien</th>
+                        <th>Nama Dokter</th>
+                        <th>Keluhan</th>
+                        <th>Tanggal Kunjungan</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach ($kunjungan as $kun)
+                <tr>
+                    <td>{{$kun->pasien->nama}}</td>
+                    <td>{{$kun->dokter->nama ?? 'tunggu beberapa saat lagi'}}</td>
+                    <td>{{$kun->keluhan}}</td>
+                    <td>{{$kun->tanggal_kunjungan}}</td>
+                    <td class="action-icons">
+                        <button type="button" style="border: none; outline: none; background: transparent;" data-bs-toggle="modal"
+                        data-bs-target="#editModal{{ $kun->id }}">
+                        <i class="fas fa-edit edit"></i>
+                        </button>
+                        <form id="delete-form-{{ $kun->id }}" action="{{ route('kunjungan.destroy', $kun->id) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button" style="background: transparent; outline: none; border: none" onclick="confirmDelete({{ $kun->id }})">
+                                <i class="fas fa-trash delete"></i>
+                            </button>
+                        </form>
+                        
+                        <script>
+                            function confirmDelete(id) {
+                                Swal.fire({
+                                    title: 'Apakah Anda yakin?',
+                                    text: "Data ini akan dihapus secara permanen!",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Ya, hapus!',
+                                    cancelButtonText: 'Batal'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Submit form hapus
+                                        document.getElementById('delete-form-' + id).submit();
+                                    }
+                                });
+                            }
+                        </script>
+                    </td>
+                </tr> 
+                
+                <div class="modal fade" id="editModal{{ $kun->id }}" tabindex="-1"
+                    aria-labelledby="editModalLabel{{ $kun->id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addModalLabel">Edit Resep</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form action="{{ route('kunjungan.update', $kun->id) }}" method="POST">
+                                @csrf
+                                @method('put')
+                                <div class="modal-body">
+                                    <div class="mb-3 row">
+                                        <select name="pasien_id" class="pasien-select-option">
+                                            <option value="{{$kun->pasien_id}}">{{$kun->pasien->nama}}</option>
+                                            @foreach ($pasien as $pas)
+                                            <option value="{{$pas->id}}">{{$pas->nama}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 row">
+                                        <label for="keluhan" class="col-sm-2 col-form-label">Keluhan</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="jumlah"
+                                                name="keluhan" value="{{ $kun->keluhan }}">
+                                        </div>
+                                        @error('keluhan')
+                                            <script>
+                                                Swal.fire('Error', '{{ $message }}', 'error');
+                                            </script>
+                                        @enderror
+                                    </div>
+                                    <div class="mb-3 row">
+                                        <label for="Tanggal_kunjungan" class="col-sm-2 col-form-label">Tanggal Kunjungan</label>
+                                        <div class="col-sm-10">
+                                            <input type="date" class="form-control" id="tanggal_kunjungan"
+                                                name="tanggal_kunjungan" value="{{ $kun->tanggal_kunjungan }}">
+                                        </div>
+                                        @error('tanggal_kunjungan')
+                                            <script>
+                                                Swal.fire('Error', '{{ $message }}', 'error');
+                                            </script>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    </section>
+    
 </body>
 <script>
     document.querySelectorAll('nav a').forEach(anchor => {
@@ -262,6 +421,11 @@
             });
         });
     });
+</script>
+<script>
+    $(document).ready(function() {
+    $('.pasien-select-option').select2();
+});
 </script>
 
 
