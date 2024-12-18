@@ -14,31 +14,23 @@ class RegisterController extends Controller
 {
     use RegistersUsers;
 
-    protected $redirectTo = '/home-dokter';
-
     public function __construct()
     {
         $this->middleware('guest');
     }
 
     protected function validator(array $data)
-{
-    return Validator::make($data, [
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'required|string|min:8|confirmed',
-        'specialty' => 'required|string|max:255',  // Spesialisasi harus valid
-        'phone' => 'required|string|regex:/^[0-9]{10,15}$/|max:15', // Hanya angka
-    ],[
-        'phone.regex' => 'Nomor telepon hanya boleh berisi angka dan memiliki panjang antara 10 hingga 15 digit.'
-
-    ]);
-    if ($validator->fails()) {
-        return redirect()->back()
-            ->withInput() // Menyertakan kembali input yang dimasukkan
-            ->withErrors($validator); // Mengirimkan error ke view
+    {
+        return Validator::make($data, [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'phone' => 'nullable|regex:/^[0-9]{10,15}$/|max:15', // Phone is nullable
+            'specialty' => 'nullable|string|max:255', // Specialty is nullable
+        ],[
+            'phone.regex' => 'Nomor telepon hanya boleh berisi angka dan memiliki panjang antara 10 hingga 15 digit.',
+        ]);
     }
-}
 
 protected function create(array $data)
 {
@@ -58,15 +50,20 @@ protected function create(array $data)
         'spesialisasi' => $data['specialty'], // Store the specialty in the users table
     ]);
 
-    // Assign the 'dokter' role to the user
-    $user->assignRole('dokter');
+        // If no specialty is provided, assign the 'user' role
+        if (empty($data['specialty'])) {
+            $user->assignRole('user'); // Assign the 'user' role
+        } else {
+            $user->assignRole('dokter'); // Assign the 'dokter' role if specialty is provided
+        }
 
-    // Now create a related doctor entry in the dokters table
-    $dokter = new Dokter([
-        'nama' => $data['name'],
-        'spesialis' => $data['specialty'],
-        'no_hp' => $data['phone'],
-    ]);
+        // If the user is a 'dokter', create the corresponding 'dokter' record
+        if (!empty($data['specialty'])) {
+            $dokter = new Dokter([
+                'nama' => $data['name'],
+                'spesialis' => $data['specialty'],
+                'no_hp' => $data['phone'] ?? null, // If no phone, set it as null
+            ]);
 
     $user->dokter()->save($dokter);
     }
@@ -76,6 +73,8 @@ protected function create(array $data)
     return $user;
 }
 
+        return $user;
+    }
 
     public function register(Request $request)
     {
@@ -92,7 +91,11 @@ protected function create(array $data)
 
         $this->guard()->login($user);
 
-        return redirect($this->redirectTo)
-            ->with('success', 'Registration successful!');
+        // Redirect to the appropriate page based on the role
+        if ($user->hasRole('dokter')) {
+            return redirect('/home-dokter')->with('success', 'Registration successful!');
+        } else {
+            return redirect('/home')->with('success', 'Registration successful!');
+        }
     }
 }

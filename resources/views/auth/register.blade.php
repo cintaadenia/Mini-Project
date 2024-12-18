@@ -487,7 +487,7 @@
                             <input type="email" placeholder="Email Address" name="email" required>
                         </div>
                         <div class="field" id="specialty-field">
-                            <input type="text" id="specialty" placeholder="Specialty" name="specialty" required>
+                            <input type="text" id="specialty" placeholder="Specialty" name="specialty">
                         </div>
                         <div class="field" id="nohp-field">
                             <input type="text" id="nohp" placeholder="Phone Number" name="phone" required>
