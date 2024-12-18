@@ -116,8 +116,20 @@ class KunjunganController extends Controller
 
     public function destroy(Kunjungan $kunjungan)
     {
-        $kunjungan->delete();
-        return redirect()->route('kunjungan.index')->with('success', 'Data kunjungan berhasil dihapus.');
+        if($kunjungan->rekamMedis && $kunjungan->rekamMedis->count() > 0){
+            if(Auth()->user()->hasRole('admin')){
+                return redirect()->route('kunjungan.idex')->with('error','Data tidak bisa dihapus');
+            }else{
+                return redirect()->route('home')->with('error','Data tidak bisa dihapus');
+            }
+        }else{
+            $kunjungan->delete();
+            if(Auth()->user()->hasRole('admin')){
+                return redirect()->route('kunjungan.index')->with('success', 'Data kunjungan berhasil dihapus.');
+            }else{
+                return redirect()->route('home')->with('success', 'Data kunjungan berhasil dihapus');
+            }
+        }
     }
 
     public function dashboard(Request $request)
