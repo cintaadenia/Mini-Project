@@ -36,6 +36,13 @@ class RekamMedis extends Model
     {
         return $this->belongsTo(Pasien::class);
     }
+
+    public function peralatans()
+{
+    return $this->belongsToMany(Peralatan::class, 'peralatan_rekam_medis');
+}
+
+
 }
 
 

@@ -10,4 +10,11 @@ class Peralatan extends Model
     use HasFactory;
 
     protected $fillable = ['nama_peralatan','gambar', 'jumlah', 'harga'];
+
+
+    public function rekamMedis()
+{
+    return $this->belongsToMany(RekamMedis::class, 'peralatan_rekam_medis');
+}
+
 }
