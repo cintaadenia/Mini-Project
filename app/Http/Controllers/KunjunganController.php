@@ -167,11 +167,19 @@ class KunjunganController extends Controller
                 ->where('status' , 'DONE')
                 ->orderBy('created_at', 'desc')
                 ->get();
+
+    $count = Kunjungan::where('dokter_id', $dokterid)
+    ->where('status', 'undone')
+    ->count();
+
+    $selesai = Kunjungan::where('dokter_id', $dokterid)
+    ->where('status', 'done')
+    ->count();
     
 
     // Return the data to the doctor dashboard view
 
-    return view('home-dokter', compact('kunjungans', 'kunjungan'));
+    return view('home-dokter', compact('kunjungans', 'kunjungan','count','selesai'));
 
 }
 
