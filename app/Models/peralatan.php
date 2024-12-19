@@ -9,7 +9,7 @@ class Peralatan extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama_peralatan','gambar', 'jumlah', 'harga'];
+    protected $fillable = ['nama_peralatan','gambar', 'harga'];
 
 
     public function rekamMedis()

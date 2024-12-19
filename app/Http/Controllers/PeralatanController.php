@@ -53,7 +53,6 @@ class PeralatanController extends Controller
     // Validate the input
     $validated = $request->validate([
         'nama_peralatan' => 'required|string|max:255',
-        'jumlah' => 'required|integer|min:1',
         'harga' => 'required|integer|min:0',
         'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Add validation for gambar
     ]);
@@ -99,7 +98,6 @@ class PeralatanController extends Controller
     // Validasi input
     $validated = $request->validate([
         'nama_peralatan' => 'required|string|max:255',
-        'jumlah' => 'required|integer|min:1',
         'harga' => 'required|integer|min:0',
         'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi gambar (opsional)
     ]);
