@@ -415,18 +415,19 @@
                 <div class="card-info d-flex p-1 row">
                     <i class="fa-solid fa-bed-pulse i2 main-color"></i>
                     <div class="card-info ml-2">
-                        <h2>208</h2>
+                        <h2>{{DB::table('pasiens')->count()}}</h2> 
+                    </h2>
                         <p class="f-normal">Jumlah Seluruh Pasien yang terdaftar di klinik</p>
                     </div>
                 </div>
             </div>
             <div class="card-v bg-white col ml-2 mr-2 pl-2 pr-2 j-center d-flex drop-shadow">
-                <h2>Janji Hari ini</h2>
+                <h2>pasien yang sudah di periksa</h2>
                 <div class="card-info d-flex p-1 row">
                     <i class="fa-solid fa-list-check i2 main-color "></i>
                     <div class="card-info ml-2">
-                        <h2>208</h2>
-                        <p class="f-normal">Jumlah Seluruh Pasien yang terdaftar di klinik</p>
+                        <h2>{{$selesai}}</h2>
+                        <p class="f-normal">Jumlah Seluruh Pasien yang sudah di periksa</p>
                     </div>
                 </div>
             </div>
@@ -435,8 +436,9 @@
                 <div class="card-info d-flex p-1 row">
                     <i class="fa-solid fa-user-clock i2 main-color"></i>
                     <div class="card-info ml-2">
-                        <h2>208</h2>
-                        <p class="f-normal">Janji Hari Ini</p>
+                        <h2>{{ $count }}</h2>
+                    </h2>
+                        <p class="f-normal">pasien menunggu diperiksa</p>
                     </div>
                 </div>
             </div>
