@@ -14,14 +14,14 @@ class PasienController extends Controller
     public function index(Request $request)
 {
     // Tentukan layout dan content berdasarkan peran pengguna
-    if (auth()->user()->hasRole('admin')) {
-        $layout = 'layouts.sidebar';
-        $content = 'side';
-        $pasiens = Pasien::query(); // Admin dapat melihat semua pasien
-    } else {
+    if (auth()->user()->hasRole('user')) {
         $layout = 'layouts.app';
         $content = 'content';
         $pasiens = Pasien::where('user_id', auth()->id()); // Non-admin hanya dapat melihat pasien mereka
+    } else {
+        $layout = 'layouts.sidebar';
+        $content = 'side';
+        $pasiens = Pasien::query(); // Admin dapat melihat semua pasien
     }
     // Ambil input pencarian
     $search = $request->input('search');

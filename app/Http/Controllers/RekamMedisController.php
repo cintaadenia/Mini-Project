@@ -102,6 +102,10 @@ class RekamMedisController extends Controller
         }
     }
 
+    $kunjungan = Kunjungan::findOrFail($request->kunjungan_id);
+    $kunjungan->status = 'DONE';
+    $kunjungan->save();
+
     // Hubungkan peralatan
     if (!empty($validated['peralatan_id'])) {
         $rekamMedis->peralatans()->sync($validated['peralatan_id']);
