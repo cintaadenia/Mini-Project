@@ -47,7 +47,6 @@ Route::get('/notifications/{id}', function() {
 
 Route::get('/home-dokter', [KunjunganController::class, 'dashboard'])->middleware(['auth', 'role:dokter'])->name('home-dokter');
 
-
 // Routes accessible by both admin and dokter
 Route::middleware('auth')->group(function () {
     Route::resource('dokter', DokterController::class);
