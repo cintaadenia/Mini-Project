@@ -93,68 +93,62 @@
                                         </td>
                                     @endif
                                 </tr>
-
-                                <div class="modal animate__fadeIn" id="myModalEdit{{ $dokter->id }}">
-                                    <div class="modal-content animate__animated animate__zoomIn">
-                                        <h2 class="h2 f-bolder">Edit Dokter</h2>
-                                        <button type="button" class="btn-close"
-                                            onclick="closeEditModal({{ $dokter->id }})"></button>
-                                        <form action="{{ route('dokter.update', $dokter->id) }}" method="POST"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="my-2">
-                                                <label for="inputNama" class="h4 f-bolder">Nama</label>
-                                                <div class="my-1">
-                                                    <input type="text"
-                                                        class="form h4 f-normal px-2 w-100 h-3 border-radius-1"
-                                                        id="namaEdit{{ $dokter->id }}" name="nama"
-                                                        value="{{ $dokter->nama }}">
-                                                </div>
-                                            </div>
-                                            <div class="my-2">
-                                                <label for="inputSpesialis" class="h4 f-bolder">Spesialis</label>
-                                                <div class="my-1">
-                                                    <input type="text"
-                                                        class="form h4 f-normal px-2 w-100 h-3 border-radius-1"
-                                                        id="spesialisEdit{{ $dokter->id }}" name="spesialis"
-                                                        value="{{ $dokter->spesialis }}">
-                                                </div>
-                                            </div>
-                                            <div class="my-2">
-                                                <label for="inputNo_hp" class="h4 f-bolder">No HP</label>
-                                                <div class="my-1">
-                                                    <input type="number"
-                                                        class="form h4 f-normal px-2 w-100 h-3 border-radius-1"
-                                                        id="no_hpEdit{{ $dokter->id }}" name="no_hp"
-                                                        value="{{ $dokter->no_hp }}">
-                                                </div>
-                                            </div>
-                                            <div class="my-2">
-                                                <label for="image" class="h4 f-bolder">Image</label>
-                                                <div class="my-1">
-                                                    <input type="file" class="h4 f-bolder px-2 w-100 h-3"
-                                                        id="imageEdit{{ $dokter->id }}" name="image">
-                                                </div>
-                                                @if ($dokter->image)
-                                                    <img src="{{ asset('storage/dokters/' . $dokter->image) }}"
-                                                        class="mt-2" width="100">
-                                                @endif
-                                            </div>
-
-                                            <button type="button" class="px-2 py-1 btn-close red-hover"
-                                                onclick="closeEditModal({{ $dokter->id }})">Batal</button>
-                                            <button type="submit"
-                                                class="px-2 py-1 btn-add main-color-hover">Simpan</button>
-                                        </form>
-                                    </div>
-                                </div>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+
+        @foreach ($dokters as $dokter)
+            <div class="modal animate__fadeIn" id="myModalEdit{{ $dokter->id }}">
+                <div class="modal-content animate__animated animate__zoomIn">
+                    <h2 class="h2 f-bolder">Edit Dokter</h2>
+                    <button type="button" class="btn-close" onclick="closeEditModal({{ $dokter->id }})"></button>
+                    <form action="{{ route('dokter.update', $dokter->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="my-2">
+                            <label for="inputNama" class="h4 f-bolder">Nama</label>
+                            <div class="my-1">
+                                <input type="text" class="form h4 f-normal px-2 w-100 h-3 border-radius-1"
+                                    id="namaEdit{{ $dokter->id }}" name="nama" value="{{ $dokter->nama }}">
+                            </div>
+                        </div>
+                        <div class="my-2">
+                            <label for="inputSpesialis" class="h4 f-bolder">Spesialis</label>
+                            <div class="my-1">
+                                <input type="text" class="form h4 f-normal px-2 w-100 h-3 border-radius-1"
+                                    id="spesialisEdit{{ $dokter->id }}" name="spesialis"
+                                    value="{{ $dokter->spesialis }}">
+                            </div>
+                        </div>
+                        <div class="my-2">
+                            <label for="inputNo_hp" class="h4 f-bolder">No HP</label>
+                            <div class="my-1">
+                                <input type="number" class="form h4 f-normal px-2 w-100 h-3 border-radius-1"
+                                    id="no_hpEdit{{ $dokter->id }}" name="no_hp" value="{{ $dokter->no_hp }}">
+                            </div>
+                        </div>
+                        <div class="my-2">
+                            <label for="image" class="h4 f-bolder">Image</label>
+                            <div class="my-1">
+                                <input type="file" class="h4 f-bolder px-2 w-100 h-3" id="imageEdit{{ $dokter->id }}"
+                                    name="image">
+                            </div>
+                            @if ($dokter->image)
+                                <img src="{{ asset('storage/dokters/' . $dokter->image) }}" class="mt-2" width="100">
+                            @endif
+                        </div>
+
+                        <button type="button" class="px-2 py-1 btn-close red-hover"
+                            onclick="closeEditModal({{ $dokter->id }})">Batal</button>
+                        <button type="submit" class="px-2 py-1 btn-add main-color-hover">Simpan</button>
+                    </form>
+                </div>
+            </div>
+        @endforeach
+
         <div class="modal animate__animated" id="myModalAdd">
             <div class="modal-content animate__animated animate__zoomIn">
                 <h2 class="h2 f-bolder">Tambah Dokter</h2>
@@ -212,8 +206,6 @@
                             <p style="color: red">{{ $message }}</p>
                         @enderror
                     </div>
-
-
 
                     <div class="my-2">
                         <label for="image" class="h4 f-bolder">Image</label>
