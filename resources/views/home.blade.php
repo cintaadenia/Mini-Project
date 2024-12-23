@@ -64,6 +64,21 @@
         .info-kunjungan {
             padding: 96px 30px 0 30px;
         }
+
+        .custom-dropdown .select2-results {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            line-height: 80px;
+        }
     </style>
 
 </head>
@@ -269,8 +284,8 @@
         <div class="form-right" id="form-pasien">
             <form action="{{ route('kunjungan.store') }}" method="POST">
                 @csrf
-                <select name="pasien_id" class="pasien-select-option form-control">
-                    <option disabled selected>Cari pasien</option>
+                <select name="pasien_id" class="pasien-select-option" style="border-radius: 50px;">
+                    <option disabled selected style="border-radius: 50px;">Cari pasien</option>
                     @foreach ($pasien as $pas)
                     <option value="{{$pas->id}}">{{$pas->nama}}</option>
                     @endforeach
