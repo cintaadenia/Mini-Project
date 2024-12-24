@@ -23,6 +23,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="/css/home_dashboard.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -62,6 +64,21 @@
         .info-kunjungan {
             padding: 96px 30px 0 30px;
         }
+
+        .custom-dropdown .select2-results {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .select2-container .select2-selection--single {
+            height: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            line-height: 80px;
+        }
     </style>
 
 </head>
@@ -70,6 +87,11 @@
     @if (session('success'))
         <script>
             Swal.fire('Success', '{{ session('success') }}', 'success');
+        </script>
+    @endif
+    @if (session('error'))
+        <script>
+            Swal.fire('Error', '{{session('error')}}', 'error')
         </script>
     @endif
     <header>
@@ -262,8 +284,8 @@
         <div class="form-right" id="form-pasien">
             <form action="{{ route('kunjungan.store') }}" method="POST">
                 @csrf
-                <select name="pasien_id" class="pasien-select-option">
-                    <option disabled selected>Cari pasien</option>
+                <select name="pasien_id" class="pasien-select-option" style="border-radius: 50px;">
+                    <option disabled selected style="border-radius: 50px;">Cari pasien</option>
                     @foreach ($pasien as $pas)
                     <option value="{{$pas->id}}">{{$pas->nama}}</option>
                     @endforeach
@@ -315,14 +337,14 @@
                     <td>{{$kun->keluhan}}</td>
                     <td>{{$kun->tanggal_kunjungan}}</td>
                     <td class="action-icons">
-                        <button type="button" style="border: none; outline: none; background: transparent;" data-bs-toggle="modal"
+                        <button class="edit" type="button" style="border: none; outline: none; background: transparent;" data-bs-toggle="modal"
                         data-bs-target="#editModal{{ $kun->id }}">
                         <i class="fas fa-edit edit"></i>
                         </button>
                         <form id="delete-form-{{ $kun->id }}" action="{{ route('kunjungan.destroy', $kun->id) }}" method="POST" style="display: inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="button" style="background: transparent; outline: none; border: none" onclick="confirmDelete({{ $kun->id }})">
+                            <button class="delete" type="button" style="background: transparent; outline: none; border: none" onclick="confirmDelete({{ $kun->id }})">
                                 <i class="fas fa-trash delete"></i>
                             </button>
                         </form>
@@ -354,7 +376,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="addModalLabel">Edit Resep</h5>
+                                <h5 class="modal-title" id="addModalLabel">Edit Kunjungan</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                             </div>
@@ -363,12 +385,12 @@
                                 @method('put')
                                 <div class="modal-body">
                                     <div class="mb-3 row">
-                                        <select name="pasien_id" class="pasien-select-option">
-                                            <option value="{{$kun->pasien_id}}">{{$kun->pasien->nama}}</option>
-                                            @foreach ($pasien as $pas)
-                                            <option value="{{$pas->id}}">{{$pas->nama}}</option>
-                                            @endforeach
-                                        </select>
+                                        <label for="pasien" class="col-sm-2 col-form-label">Nama Pasien</label>
+                                        <div class="col-sm-10">
+                                            <select name="pasien_id" class="form-control">
+                                                <option value="{{$kun->pasien_id}}">{{$kun->pasien->nama}}</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="mb-3 row">
                                         <label for="keluhan" class="col-sm-2 col-form-label">Keluhan</label>

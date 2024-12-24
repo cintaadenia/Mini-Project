@@ -10,7 +10,11 @@ use App\Http\Controllers\KunjunganController;
 use App\Http\Controllers\JadwalPraktekController;
 use App\Http\Controllers\RekamMedisController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PeralatanController;
 use Illuminate\Support\Facades\Auth;
+
+
+
 
 // Home Route
 Route::get('/', function () {
@@ -43,7 +47,6 @@ Route::get('/notifications/{id}', function() {
 
 Route::get('/home-dokter', [KunjunganController::class, 'dashboard'])->middleware(['auth', 'role:dokter'])->name('home-dokter');
 
-
 // Routes accessible by both admin and dokter
 Route::middleware('auth')->group(function () {
     Route::resource('dokter', DokterController::class);
@@ -57,6 +60,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // Route::resource('pasien', PasienController::class);
     Route::resource('rekam_medis', RekamMedisController::class);
     Route::resource('obat', ObatController::class);
+    Route::resource('peralatan', PeralatanController::class);
 });
 
 // Admin-only routes
@@ -84,5 +88,3 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
-
-

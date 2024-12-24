@@ -415,18 +415,19 @@
                 <div class="card-info d-flex p-1 row">
                     <i class="fa-solid fa-bed-pulse i2 main-color"></i>
                     <div class="card-info ml-2">
-                        <h2>208</h2>
+                        <h2>{{DB::table('pasiens')->count()}}</h2> 
+                    </h2>
                         <p class="f-normal">Jumlah Seluruh Pasien yang terdaftar di klinik</p>
                     </div>
                 </div>
             </div>
             <div class="card-v bg-white col ml-2 mr-2 pl-2 pr-2 j-center d-flex drop-shadow">
-                <h2>Janji Hari ini</h2>
+                <h2>pasien yang sudah di periksa</h2>
                 <div class="card-info d-flex p-1 row">
                     <i class="fa-solid fa-list-check i2 main-color "></i>
                     <div class="card-info ml-2">
-                        <h2>208</h2>
-                        <p class="f-normal">Jumlah Seluruh Pasien yang terdaftar di klinik</p>
+                        <h2>{{$selesai}}</h2>
+                        <p class="f-normal">Jumlah Seluruh Pasien yang sudah di periksa</p>
                     </div>
                 </div>
             </div>
@@ -435,8 +436,9 @@
                 <div class="card-info d-flex p-1 row">
                     <i class="fa-solid fa-user-clock i2 main-color"></i>
                     <div class="card-info ml-2">
-                        <h2>208</h2>
-                        <p class="f-normal">Janji Hari Ini</p>
+                        <h2>{{ $count }}</h2>
+                    </h2>
+                        <p class="f-normal">pasien menunggu diperiksa</p>
                     </div>
                 </div>
             </div>
@@ -450,8 +452,10 @@
                     <h2 class="h2">Data Terbaru Kunjungan Pasien</h2>
                 </div>
                 <div class="search-container m-1">
-                    <input type="text" placeholder="Search here...">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <form action="{{ route('home-dokter') }}" method="GET">
+                        <input type="text" name="search_terbaru" placeholder="Search here..." value="{{ request('search_terbaru') }}">
+                        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </form>
                 </div>
             </div>
             <div class="content-table-table">
@@ -478,8 +482,8 @@
             </div>
             <div class="legend">
                 <div class="legend-left">
-                    <div class="selesai"><span></span>Selesai: 20 (9.62%)</div>
-                    <div class="menunggu"><span></span>Menunggu: 25 (12.02%)</div>
+                    <div class="selesai"><span></span>Selesai: <span id="selesai-count" style="margin-top:-10px">{{ $selesai }}</span> (<span id="selesai-percent" style="margin-top: -10px">{{ number_format(($selesai / ($selesai + $count)) * 100) }}</span>%)</div>
+                    <div class="menunggu"><span></span>Menunggu: <span id="menunggu-count" style="margin-top: -10px">{{ $count }}</span> (<span id="menunggu-percent" style="margin-top: -10px">{{ number_format(($count / ($selesai + $count)) * 100) }}</span>%)</div>
                 </div>
             </div>
         </div>
@@ -491,8 +495,10 @@
                     <h2 class="h2">Data Kunjungan Pasien</h2>
                 </div>
                 <div class="search-container m-1">
-                    <input type="text" placeholder="Search here...">
-                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <form action="{{ route('home-dokter') }}" method="GET">
+                        <input type="text" name="search_kunjungan" placeholder="Search here..." value="{{ request('search_kunjungan') }}">
+                        <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    </form>
                 </div>
             </div>
             <div class="content-table-table">
@@ -514,44 +520,55 @@
         </div>
     </div>
     <script>
+        const selesai = {{ $selesai }};
+        const menunggu = {{ $count }};
+        const total = selesai + menunggu; // Total kunjungan
+    
         const ctx = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Selesai', 'Menunggu'],
-            datasets: [{
-                data: [20, 25],
-                backgroundColor: [
-                    '#ff6384',
-                    '#36a2eb',
-                ],
-                hoverOffset: 4
-            }]
-        },
-        options: {
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            let label = context.label || '';
-                            if (label) {
-                                label += ': ';
+        const myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Selesai', 'Menunggu'],
+                datasets: [{
+                    data: [selesai, menunggu],
+                    backgroundColor: [
+                        '#ff6384', // Warna untuk Selesai
+                        '#36a2eb', // Warna untuk Menunggu
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += context.raw;
+                                label += ' (' + (context.raw / total * 100).toFixed(2) + '%)';
+                                return label;
                             }
-                            label += context.raw;
-                            label += ' (' + (context.raw / 208 * 100).toFixed(2) + '%)';
-                            return label;
                         }
                     }
                 }
             }
-        }
-    });
-</script>
+        });
+    
+        // Update persentase di legend
+        document.getElementById('selesai-percent').textContent = (selesai / total * 100);
+        document.getElementById('menunggu-percent').textContent = (menunggu / total * 100);
+    </script>
+    
+    
 <script>
     // Dapatkan elemen
+    
     const modal = document.getElementById('modal');
     const openModalBtn = document.getElementById('openModal');
     const closeModalBtn = document.getElementById('closeModal');

@@ -50,6 +50,7 @@
                         </a>
                     @endif
                 </li>
+                @if (auth()->user()->hasRole('admin'))
                 <li>
                     <a href="{{ route('dokter.index') }}"
                         class="{{ request()->routeIs('dokter.index') ? 'active' : '' }}">
@@ -57,12 +58,16 @@
                         <span>Dokter</span>
                     </a>
                 </li>
-                <li>
+                @endif
+                 @if (auth()->user()->hasRole('admin'))
+                 <li>
                     <a href="{{ route('obat.index') }}" class="{{ request()->routeIs('obat.index') ? 'active' : '' }}">
                         <i class="fa fa-pills"></i>
                         <span>Obat</span>
                     </a>
                 </li>
+                @endif
+                
                 <li>
                     <a href="{{ route('pasien.index') }}"
                         class="{{ request()->routeIs('pasien.index') ? 'active' : '' }}">
@@ -87,6 +92,7 @@
                         <span>Kunjungan</span>
                     </a>
                 </li>
+                
                 <li>
                     <a href="{{ route('jadwal_praktek.index') }}"
                         class="{{ request()->routeIs('jadwal_praktek.index') ? 'active' : '' }}">
@@ -101,6 +107,15 @@
                         <span>Rekam Medis</span>
                     </a>
                 </li>
+                @if (auth()->user()->hasRole('admin'))
+                <li>
+                    <a href="{{ route('peralatan.index') }}"
+                        class="{{ request()->routeIs('peralatan.index') ? 'active' : '' }}">
+                        <i class="bi bi-tools"></i>
+                        <span>peralatan</span>
+                    </a>
+                </li>
+               @endif
                 <li>
                     <a href="#" class="q-btn" style="color: inherit; cursor: pointer;"
                         onclick="confirmLogout(event)">

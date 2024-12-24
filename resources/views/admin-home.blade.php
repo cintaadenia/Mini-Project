@@ -338,7 +338,7 @@
                 <div class="card-info d-flex p-1 row">
                     <i class="fa-solid fa-bed-pulse i2 main-color"></i>
                     <div class="card-info ml-2">
-                        <h2>208</h2>
+                        <h2>{{DB::table('pasiens')->count()}}</h2>
                         <p>Jumlah Seluruh Pasien yang terdaftar di klinik</p>
                     </div>
                 </div>
@@ -348,8 +348,8 @@
                 <div class="card-info d-flex p-1 row">
                     <i class="fa-solid fa-user-doctor i2 main-color"></i>
                     <div class="card-info ml-2">
-                        <h2>208</h2>
-                        <p>Jumlah Seluruh Pasien yang terdaftar di klinik</p>
+                        <h2>{{DB::table('dokters')->count()}}</h2>
+                        <p>Jumlah Seluruh dokter yang terdaftar di klinik</p>
                     </div>
                 </div>
             </div>
@@ -358,7 +358,7 @@
                 <div class="card-info d-flex p-1 row">
                     <i class="fa-solid fa-list-check i2 main-color "></i>
                     <div class="card-info ml-2">
-                        <h2>208</h2>
+                        <h2>{{DB::table('kunjungans')->count()}}</h2>
                         <p>Janji Hari Ini</p>
                     </div>
                 </div>

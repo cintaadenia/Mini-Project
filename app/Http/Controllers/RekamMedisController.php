@@ -7,6 +7,7 @@ use App\Models\Kunjungan;
 use App\Models\Pasien;
 use App\Models\Resep;
 use App\Models\Obat;
+use App\Models\Peralatan;
 use App\Models\RekamMedisImage;
 use Illuminate\Container\Attributes\DB;
 use Illuminate\Http\Request;
@@ -42,8 +43,12 @@ class RekamMedisController extends Controller
     // Get all kunjungan data
     $kunjungans = Kunjungan::with('pasien')->get();
     $obats = Obat::all(); // Ambil semua data obat dari database
-    return view('rekam_medis.index', compact('rekamMedis', 'kunjungans', 'obats', 'layout', 'content'));
+    $peralatans = Peralatan::all(); // Fetch peralatan data
+
+    // Pass the data to the view
+    return view('rekam_medis.index', compact('rekamMedis', 'kunjungans', 'obats', 'peralatans', 'layout', 'content'));
 }
+
 
     public function create()
     {
@@ -58,24 +63,26 @@ class RekamMedisController extends Controller
         'diagnosa' => 'required',
         'tindakan' => 'required',
         'deskripsi' => 'required|string',
-        'obat_id.*' => 'required|exists:obats,id',
+        'obat_id.*' => 'exists:obats,id',
         'jumlah_obat.*' => 'required|integer|min:1',
+        'peralatan_id.*' => 'exists:peralatans,id', // Validasi peralatan
     ]);
 
     $rekamMedis = RekamMedis::create([
         'kunjungan_id' => $validated['kunjungan_id'],
         'diagnosa' => $validated['diagnosa'],
         'tindakan' => $validated['tindakan'],
-        'pasien_id' => Kunjungan::find($validated['kunjungan_id'])->pasien_id, 
+        'pasien_id' => Kunjungan::find($validated['kunjungan_id'])->pasien_id,
     ]);
 
+    // Simpan data resep
     Resep::create([
         'kunjungan_id' => $validated['kunjungan_id'],
         'rekam_medis_id' => $rekamMedis->id,
         'deskripsi' => $validated['deskripsi'],
     ]);
 
-    // Menambahkan gambar jika ada
+    // Simpan gambar jika ada
     if ($request->hasFile('images')) {
         foreach ($request->file('images') as $image) {
             $path = $image->store('rekam_medis', 'public');
@@ -93,6 +100,15 @@ class RekamMedisController extends Controller
         } else {
             return back()->with('error', 'Stok obat tidak mencukupi untuk ' . $obat->obat);
         }
+    }
+
+    $kunjungan = Kunjungan::findOrFail($request->kunjungan_id);
+    $kunjungan->status = 'DONE';
+    $kunjungan->save();
+
+    // Hubungkan peralatan
+    if (!empty($validated['peralatan_id'])) {
+        $rekamMedis->peralatans()->sync($validated['peralatan_id']);
     }
 
     return redirect()->route('rekam_medis.index')->with('success', 'Rekam medis berhasil ditambahkan.');
@@ -115,8 +131,10 @@ class RekamMedisController extends Controller
         'deskripsi' => 'required|string',
         'obat_id.*' => 'required|exists:obats,id',
         'jumlah_obat.*' => 'required|integer|min:1',
-        'new_images.*' => 'image|mimes:jpeg,png,jpg ,gif|max:2048',
+        'new_images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        'peralatan_id.*' => 'exists:peralatans,id', 
     ]);
+    
 
     $rekamMedis = RekamMedis::findOrFail($id);
 
@@ -145,6 +163,14 @@ class RekamMedisController extends Controller
 
     // Detach old medications
     $rekamMedis->obats()->detach();
+    
+    // Handle updating peralatan
+if ($request->has('peralatan_id') && is_array($request->peralatan_id)) {
+    $rekamMedis->peralatans()->sync($request->peralatan_id); // Sync peralatan yang dipilih
+} else {
+    $rekamMedis->peralatans()->detach(); // Hapus semua peralatan jika tidak ada yang dipilih
+}
+
 
     // Handle the new medications and quantities
     $jumlahObat = $request->input('jumlah_obat', []);
@@ -198,5 +224,21 @@ public function deleteImage($id)
         return response()->json(['success' => true]);
     }
     return response()->json(['success' => false, 'message' => 'Gambar tidak ditemukan'], 404);
+}
+
+public function showNota($id)
+{
+    $rekamMedis = RekamMedis::with(['obats', 'peralatans'])->findOrFail($id);
+
+    // Calculate total expenses
+    $totalObat = $rekamMedis->obats->sum(function($obat) {
+        return $obat->harga * $obat->pivot->jumlah; // Assuming 'harga' is the price field in the Obat model
+    });
+
+    $totalPeralatan = $rekamMedis->peralatans->sum('harga'); // Assuming 'harga' is the price field in the Peralatan model
+
+    $totalPayment = $totalObat + $totalPeralatan;
+
+    return view('rekam_medis.nota', compact('rekamMedis', 'totalPayment'));
 }
 }
