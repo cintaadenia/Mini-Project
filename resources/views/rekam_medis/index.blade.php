@@ -544,7 +544,7 @@
                                                 <div class="col-sm-10">
                                                     <select name="peralatan_id[]" id="peralatan_id" class="form-control" multiple>
                                                         @foreach ($peralatans as $peralatan)
-                                                            <option value="{{ $peralatan->id }}" 
+                                                            <option value="{{ $peralatan->id }}"
                                                                 {{ in_array($peralatan->id, $rm->peralatans->pluck('id')->toArray()) ? 'selected' : '' }}>
                                                                 {{ $peralatan->nama_peralatan }}
                                                             </option>
@@ -552,7 +552,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                        
+
 
 
                                             <!-- Images Section with Checkboxes -->
