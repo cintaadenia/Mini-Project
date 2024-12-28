@@ -417,6 +417,7 @@
                                                 <p><strong>Obat:</strong> {{ $obat->obat }} - Jumlah:
                                                     {{ $obat->pivot->jumlah }}
                                                 <p><strong>Resep</strong> {{ $resep->deskripsi }}</p>
+                                                @foreach ($peralatans as $peralatan)
                                                 <p><strong>Peralatan</strong> {{ $peralatan->nama_peralatan }}</p>
                                                 <p><strong>Gambar:</strong></p>
                                                 @foreach ($rm->images as $image)
