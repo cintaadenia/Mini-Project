@@ -502,7 +502,6 @@
                             {{ $selesai + $count > 0 ? number_format(($count / ($selesai + $count)) * 100, 2) : '0.00' }}
                         </span>%)
                     </div>
->>>>>>> b7d21090c8de5b3f9a6c8c321c2e0cc045711c54
                 </div>
             </div>
         </div>
