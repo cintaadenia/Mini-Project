@@ -167,13 +167,6 @@
                                     </div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="alamat" class="form-label">jumlah</label>
-                                    <input type="text" class="form-control" id="jumlah" name="jumlah" required>
-                                    @error('jumlah')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="mb-3">
                                     <label for="no_hp" class="form-label">harga</label>
                                     <input type="text" class="form-control" id="harga" name="harga" required>
                                     @error('harga')
@@ -196,7 +189,6 @@
                     <tr>
                         <th>Nama peralatan</th>
                         <th>gambar</th>
-                        <th>jumlah</th>
                         <th>harga</th>
                         <th>Aksi</th>
                     </tr>
@@ -213,7 +205,6 @@
                                 @endif
                             </td>
                             
-                            <td>{{ $per->jumlah }}</td>
                             <td>{{ $per->harga }}</td>
                             <td class="action-icons">
                                 
@@ -281,10 +272,6 @@
                                 <img src="{{ asset('storage/peralatan/' . $per->gambar) }}" class="mt-2" width="100">
                             </div>
                         @endif
-                    </div>
-                    <div class="mb-3">
-                        <label for="jumlah" class="form-label">Jumlah</label>
-                        <input type="number" class="form-control" id="jumlah" name="jumlah" value="{{ $per->jumlah }}" required>
                     </div>
                     <div class="mb-3">
                         <label for="harga" class="form-label">Harga</label>

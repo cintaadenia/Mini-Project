@@ -60,8 +60,11 @@
           </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
-
-        <a class="cta-btn" href="{{ route('login') }}">JOIN US</a>
+        
+        <a class="cta-btn" href="{{ Auth::check() ? route(Auth::user()->hasRole('admin') ? 'admin-home' : (Auth::user()->hasRole('dokter') ? 'home-dokter' : 'home')) : route('login') }}">
+          {{ Auth::check() ? 'Home' : 'JOIN US' }}
+      </a>
+      
 
       </div>
 

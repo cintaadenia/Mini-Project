@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('nama_peralatan');
             $table->string('gambar')->nullable();
-            $table->integer('jumlah');
             $table->integer('harga');
             $table->timestamps();
         });

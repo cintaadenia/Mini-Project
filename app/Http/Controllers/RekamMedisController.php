@@ -62,17 +62,22 @@ class RekamMedisController extends Controller
             $obat = Obat::findOrFail($obatId);
             $jumlah = $validated['jumlah_obat'][$index];
 
-            if ($obat->jumlah >= $jumlah) {
-                $obat->decrement('jumlah', $jumlah);
-                $rekamMedis->obats()->attach($obat->id, ['jumlah' => $jumlah]);
-            } else {
-                return back()->with('error', 'Stok obat tidak mencukupi untuk ' . $obat->obat);
-            }
+        if ($obat->jumlah >= $jumlah) {
+            $obat->decrement('jumlah', $jumlah); // Kurangi stok obat
+            $rekamMedis->obats()->attach($obat->id, ['jumlah' => $jumlah]); // Simpan ke pivot table
+        } else {
+            return back()->with('error', 'Stok obat tidak mencukupi untuk ' . $obat->obat);
         }
+    }
 
-        if (!empty($validated['peralatan_id'])) {
-            $rekamMedis->peralatans()->sync($validated['peralatan_id']);
-        }
+    $kunjungan = Kunjungan::findOrFail($request->kunjungan_id);
+    $kunjungan->status = 'DONE';
+    $kunjungan->save();
+
+    // Hubungkan peralatan
+    if (!empty($validated['peralatan_id'])) {
+        $rekamMedis->peralatans()->sync($validated['peralatan_id']);
+    }
 
         // Save payment information
         Payment::create([
@@ -140,4 +145,32 @@ public function deleteImage($id)
     }
     return response()->json(['success' => false, 'message' => 'Gambar tidak ditemukan'], 404);
 }
+
+public function showNota($id)
+{
+    $rekamMedis = RekamMedis::with(['obats', 'peralatans'])->findOrFail($id);
+
+    // Calculate total expenses
+    $totalObat = $rekamMedis->obats->sum(function($obat) {
+        return $obat->harga * $obat->pivot->jumlah; // Assuming 'harga' is the price field in the Obat model
+    });
+
+    $totalPeralatan = $rekamMedis->peralatans->sum('harga'); // Assuming 'harga' is the price field in the Peralatan model
+
+    $totalPayment = $totalObat + $totalPeralatan;
+
+    return view('rekam_medis.nota', compact('rekamMedis', 'totalPayment'));
+}
+
+public function nota($id)
+{
+    $rekamMedis = RekamMedis::with(['kunjungan.pasien', 'obats', 'peralatans'])->findOrFail($id);
+
+    $totalHarga = $rekamMedis->obats->sum(function ($obat) {
+        return $obat->pivot->jumlah * $obat->harga;
+    }) + $rekamMedis->peralatans->sum('harga');
+
+    return view('rekam_medis.nota', compact('rekamMedis', 'totalHarga'));
+}
+
 }

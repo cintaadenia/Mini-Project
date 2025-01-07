@@ -47,13 +47,13 @@ Route::get('/notifications/{id}', function() {
 
 Route::get('/home-dokter', [KunjunganController::class, 'dashboard'])->middleware(['auth', 'role:dokter'])->name('home-dokter');
 
-
 // Routes accessible by both admin and dokter
 Route::middleware('auth')->group(function () {
     Route::resource('dokter', DokterController::class);
     Route::resource('pasien', PasienController::class);
     Route::resource('rekam_medis', RekamMedisController::class);
     Route::resource('kunjungan', KunjunganController::class);
+    Route::get('/rekam-medis/{id}/nota', [RekamMedisController::class, 'nota'])->name('rekam_medis.nota');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -89,5 +89,3 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
-
-
