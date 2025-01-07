@@ -381,7 +381,7 @@
                                         onclick="confirmDelete({{ $rm->id }})">
                                         <i class="fas fa-trash delete"></i>
                                     </button>
-                                    <a href="{{ route('rekam_medis.nota', $rm->id) }}" class="btn btn-sm btn-info">Nota</a>
+                                    <a href="{{ route('rekam_medis.nota', $rm->id) }}"><i class="bi bi-card-text"></i></a>
                                     <script>
                                         function confirmDelete(id) {
                                             Swal.fire({
