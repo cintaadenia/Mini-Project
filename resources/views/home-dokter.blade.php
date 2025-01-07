@@ -14,17 +14,7 @@
         text-align: left;
     }
 
-    .welcome::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 30%;
-        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.576), rgba(255, 255, 255, 0));
-        z-index: 1;
-    }
+    
 
     .welcome-text {
         display: flex;
@@ -104,6 +94,13 @@
         border: 1px solid #ccc;
         object-fit: cover;
     }
+
+    .welcome.blur {
+    filter: blur(5px);
+    transition: filter 0.3s ease;
+}
+
+
 
     .content-bottom {
         display: flex;
@@ -375,16 +372,16 @@
                         class="fa-solid fa-pen"></i></button>
             </div>
             @if (Auth::check())
-                <div class="profile-info drop-shadow">
-                    <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('asset/img/dokter.png') }}"
-                        width="auto" alt="Foto Profil">
-                    <div class="profile-info-text">
-                        <h2 class="h2">{{ Auth::user()->name }}</h2>
-                        <p class="p4 f-bold mb-1">Spesialisasi: {{ Auth::user()->spesialisasi }}</p>
-                        <!-- Link untuk mengarahkan ke halaman edit profil -->
-                        <a href="{{ route('profile.update') }}" class="f-bold">Ubah Profil</a>
-                    </div>
+            <div class="profile-info drop-shadow">
+                <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('asset/img/dokter.png') }}"
+                    width="auto" alt="Foto Profil">
+                <div class="profile-info-text">
+                    <h2 class="h2">{{ Auth::user()->name }}</h2>
+                    <p class="p4 f-bold mb-1">Spesialisasi: {{ Auth::user()->spesialisasi }}</p>
+                    <!-- Change the link to a button -->
+                    <a href="#" class="f-bold" id="openProfileModal">Ubah Profil</a>
                 </div>
+            </div>
             @endif
 
         </div>
@@ -571,6 +568,76 @@
         document.getElementById('menunggu-percent').textContent = (menunggu / total * 100);
     </script>
     
+    <script>
+        // Dapatkan elemen
+        const modal = document.getElementById('modal');
+        const openModalBtn = document.getElementById('openModal');
+        const openProfileModalBtn = document.getElementById('openProfileModal'); // New button
+        const closeModalBtn = document.getElementById('closeModal');
+        const welcomeSection = document.querySelector('.welcome'); // Select the welcome section
+    
+        // Fungsi untuk membuka modal
+        const openModal = () => {
+            modal.style.display = 'block';
+            welcomeSection.classList.add('blur'); // Add blur class
+        };
+    
+        openModalBtn.addEventListener('click', openModal);
+        openProfileModalBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default anchor behavior
+            openModal(); // Call the open modal function
+        });
+    
+        // Fungsi untuk menutup modal
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            welcomeSection.classList.remove('blur'); // Remove blur class
+        });
+    
+        // Tutup modal jika pengguna klik di luar area modal
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+                welcomeSection.classList.remove('blur'); // Remove blur class
+            }
+        });
+    </script>
+
+<script>
+    // Dapatkan elemen
+    const modal = document.getElementById('modal');
+    const openModalBtn = document.getElementById('openModal'); // Button with pen icon
+    const openProfileModalBtn = document.getElementById('openProfileModal'); // New button
+    const closeModalBtn = document.getElementById('closeModal');
+    const welcomeSection = document.querySelector('.welcome'); // Select the welcome section
+
+    // Fungsi untuk membuka modal
+    const openModal = () => {
+        modal.style.display = 'block';
+        welcomeSection.classList.add('blur'); // Add blur class
+    };
+
+    // Attach event listeners
+    openModalBtn.addEventListener('click', openModal);
+    openProfileModalBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent default anchor behavior
+        openModal(); // Call the open modal function
+    });
+
+    // Fungsi untuk menutup modal
+    closeModalBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+        welcomeSection.classList.remove('blur'); // Remove blur class
+    });
+
+    // Tutup modal jika pengguna klik di luar area modal
+    window.addEventListener('click', (event) => {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+            welcomeSection.classList.remove('blur'); // Remove blur class
+        }
+    });
+</script>
     
 <script>
     // Dapatkan elemen

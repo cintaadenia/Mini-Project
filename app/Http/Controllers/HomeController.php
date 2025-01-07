@@ -41,12 +41,6 @@ class HomeController extends Controller
             ->groupBy('kunjungan_id')
             ->get();
 
-        // if (auth()->user()->hasRole('admin')) {
-        //     $pasien = Pasien::query(); // Admin dapat melihat semua pasien
-        // } else {
-        //     $pasien = Pasien::where('user_id', auth()->id()); // Non-admin hanya dapat melihat pasien mereka
-        // }
-
         $dokter = Dokter::all();
         $pasien = Pasien::where('user_id', auth()->id())->get();
         $kunjungan = Kunjungan::where('user_id', auth()->id())->get();
