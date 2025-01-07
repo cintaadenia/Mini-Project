@@ -480,6 +480,12 @@
             <div class="chart-container">
                 <canvas id="myChart"></canvas>
             </div>
+
+            @php
+            $total = $selesai + $count;
+            $selesaiPercent = $total > 0 ? number_format(($selesai / $total) * 100) : 0;
+            $menungguPercent = $total > 0 ? number_format(($count / $total) * 100) : 0;
+            @endphp
             <div class="legend">
                 <div class="legend-left">
                     <div class="selesai">

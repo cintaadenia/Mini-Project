@@ -362,6 +362,7 @@
                                 @endforeach
                             </td>
                             @if (auth()->user()->hasRole('admin'))
+                                
                                 <td class="action-icons">
                                     <a data-bs-toggle="modal" data-bs-target="#detailModal{{ $rm->id }}">
                                         <i class="fas fa-info-circle detail"></i>
@@ -380,6 +381,7 @@
                                         onclick="confirmDelete({{ $rm->id }})">
                                         <i class="fas fa-trash delete"></i>
                                     </button>
+                                    <a href="{{ route('rekam_medis.nota', $rm->id) }}" class="btn btn-sm btn-info">Nota</a>
                                     <script>
                                         function confirmDelete(id) {
                                             Swal.fire({
