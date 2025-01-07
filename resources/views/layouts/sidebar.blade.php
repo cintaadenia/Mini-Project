@@ -75,16 +75,14 @@
                         <span>Pasien</span>
                     </a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{ route('resep.index') }}"
                         class="{{ request()->routeIs('resep.index') ? 'active' : '' }}">
                         <i class="fa fa-notes-medical"></i>
                         <span>Diagnosis</span>
                     </a>
-                </li>
-                <li>
-                    <div class="gap-li"></div>
-                </li>
+                </li> --}}
+                
                 <li>
                     <a href="{{ route('kunjungan.index') }}"
                         class="{{ request()->routeIs('kunjungan.index') ? 'active' : '' }}">
