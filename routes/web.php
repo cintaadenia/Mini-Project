@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('pasien', PasienController::class);
     Route::resource('rekam_medis', RekamMedisController::class);
     Route::resource('kunjungan', KunjunganController::class);
+    Route::get('/rekam-medis/{id}/nota', [RekamMedisController::class, 'nota'])->name('rekam_medis.nota');
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {

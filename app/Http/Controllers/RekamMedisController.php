@@ -241,4 +241,16 @@ public function showNota($id)
 
     return view('rekam_medis.nota', compact('rekamMedis', 'totalPayment'));
 }
+
+public function nota($id)
+{
+    $rekamMedis = RekamMedis::with(['kunjungan.pasien', 'obats', 'peralatans'])->findOrFail($id);
+
+    $totalHarga = $rekamMedis->obats->sum(function ($obat) {
+        return $obat->pivot->jumlah * $obat->harga;
+    }) + $rekamMedis->peralatans->sum('harga');
+
+    return view('rekam_medis.nota', compact('rekamMedis', 'totalHarga'));
+}
+
 }
