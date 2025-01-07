@@ -18,7 +18,7 @@
                     </button>
                 @endif
             </div>
-            <h2>Dokter aktif: 9090</h2>
+            <h2>Dokter aktif: {{DB::table('dokters')->count()}}</h2>
         </div>
         <div class="content-table m-2 d-flex col">
             <form method="GET" action="{{ route('dokter.index') }}">

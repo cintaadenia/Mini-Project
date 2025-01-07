@@ -109,8 +109,10 @@
 
         <div class="modal animate__fadeIn" id="myModalAdd">
             <div class="modal-content animate__animated animate__zoomIn">
+                @if (auth()->user()->hasRole('admin',))
                 <h2 class="h2 f-bolder">Tambah Kunjungan</h2>
                 <button type="button" class="btn-close" onclick="closeAddKunjunganModal()"></button>
+                @endif
 
                 <form action="{{ route('kunjungan.store') }}" method="POST">
                     @csrf
@@ -170,7 +172,7 @@
                     </div>
 
                     <button type="button" class="px-2 py-1 btn-close red-hover"
-                        onclick="closeAddKunjunganModal()">Batal</button>
+                        onclick="btnCloseAddKunjunganModal()">Batal</button>
                     <button type="submit" class="px-2 py-1 btn-add main-color-hover">Simpan</button>
                 </form>
             </div>
@@ -268,9 +270,11 @@
                 addModal.style.display = "block";
             }
 
-            btnCloseAddModal.onclick = function() {
-                addModal.style.display = "none";
+            function btnCloseAddKunjunganModal() {
+                var modal = document.getElementById("myModalAdd");
+                modal.style.display = "none";
             }
+
 
             window.onclick = function(event) {
                 if (event.target == modal) {
