@@ -190,7 +190,7 @@
                                                                 <option value="{{ $rm->kunjungan_id }}" selected>
                                                                     {{ $rm->kunjungan->pasien->nama }}
                                                                 </option>
-                                                                @foreach ($kunjungans as $kn)
+                                                                @foreach ($knjgn as $kn)
                                                                     @if ($kn->id !== $rm->kunjungan_id)
                                                                         <option value="{{ $kn->id }}">
                                                                             {{ $kn->pasien->nama }}</option>
