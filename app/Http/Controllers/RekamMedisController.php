@@ -32,9 +32,13 @@ class RekamMedisController extends Controller
     }
 
     // Get kunjungan data for the logged-in doctor
-    $knjgn = Kunjungan::where('dokter_id', $user->dokter->id)
-                      ->where('status', 'UNDONE')
-                      ->get();
+    if($user->hasRole('admin')){
+        $knjgn = Kunjungan::all();
+    }elseif($user->hasRole('dokter')){
+        $knjgn = Kunjungan::where('dokter_id', optional($user->dokter)->id)
+                  ->where('status', 'UNDONE')
+                  ->get();
+    }
     $obats = Obat::all();
     $peralatans = Peralatan::all();
     
@@ -44,8 +48,15 @@ class RekamMedisController extends Controller
 public function create()
 {
     $user = auth()->user();
-    // Get only the kunjungans associated with the logged-in doctor
-    // $kunjungans = Kunjungan::where('dokter_id', $user->id)->with('pasien')->get();
+    
+    if ($user->hasRole('admin')) {
+        // Admin can see all patients
+        $kunjungans = Kunjungan::with('pasien')->get();
+    } else {
+        // Doctor can only see their associated p   atients
+        $kunjungans = Kunjungan::where('dokter_id', $user->id)->with('pasien')->get();
+    }
+
     return view('rekam_medis.create', compact('kunjungans'));
 }
 public function store(Request $request)
@@ -70,7 +81,6 @@ public function store(Request $request)
         'kunjungan_id' => $validated['kunjungan_id'],
         'diagnosa' => $validated['diagnosa'],
         'tindakan' => $validated['tindakan'],
-        'pasien_id' => $kunjungan->pasien_id,
     ]);
 
     // Simpan data resep
