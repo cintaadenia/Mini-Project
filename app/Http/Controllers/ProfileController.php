@@ -16,8 +16,7 @@ class ProfileController extends Controller
 
     public function edit()
     {
-        // Menampilkan halaman edit profil dengan data pengguna yang sedang login
-        return view('profile');
+        return view('profile.edit', ['user' => Auth::user()]);
     }
 
     // ProfileController.php
@@ -28,36 +27,46 @@ public function update(Request $request)
 
     $request->validate([
         'name' => 'required|string|max:255',
-        'spesialisasi' => 'required|string|max:255',
+        'spesialis' => 'nullable|string|max:255',
         'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ]);
 
-    // Update user table
+    // Update data di tabel users
     $user->name = $request->name;
-    $user->spesialisasi = $request->spesialisasi;
-
-    if ($request->hasFile('image')) {
-        if ($user->image && Storage::exists('public/' . $user->image)) {
-            Storage::delete('public/' . $user->image);
-        }
-
-        $path = $request->file('image')->store('dokters', 'public');
-        $user->image = $path;
-    }
-
+    $user->spesialis = $request->spesialis;
     $user->save();
 
-    // Update dokter table
-    $dokter = $user->dokter;
+    // Update data di tabel dokter
+    $dokter = $user->dokter; // Relasi dengan tabel dokter
     if ($dokter) {
-        $dokter->nama = $user->name;
-        $dokter->spesialis = $request->spesialisasi;
+        $dokter->spesialis = $request->spesialis;
+
         if ($request->hasFile('image')) {
+            // Hapus gambar lama jika ada
+            if ($dokter->image && Storage::exists('public/' . $dokter->image)) {
+                Storage::delete('public/' . $dokter->image);
+            }
+
+            // Simpan gambar baru
+            $dokter->image = $request->file('image')->store('dokters', 'public');
+        } elseif ($user->image) {
+            // Sinkronisasi gambar dari tabel users jika ada
             $dokter->image = $user->image;
         }
+
         $dokter->save();
+    } else {
+        // Jika belum ada entri di tabel dokter, buat baru
+        $user->dokter()->create([
+            'spesialis' => $request->spesialis,
+            'image' => $request->hasFile('image') 
+                ? $request->file('image')->store('dokters', 'public') 
+                : $user->image,
+        ]);
     }
 
     return redirect()->route('home-dokter')->with('success', 'Profil berhasil diperbarui!');
 }
+
+
 }

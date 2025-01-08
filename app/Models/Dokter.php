@@ -20,8 +20,8 @@ class Dokter extends Model
         return $this->hasMany(Kunjungan::class);
     }
 
-    // Di dalam model Dokter.php
-    public function user()
+    // Dokter.php
+public function user()
 {
     return $this->belongsTo(User::class);
 }

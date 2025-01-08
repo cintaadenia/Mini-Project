@@ -9,6 +9,7 @@ use App\Notifications\DokterAssignedNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class KunjunganController extends Controller
 {
@@ -134,7 +135,9 @@ class KunjunganController extends Controller
 
     public function dashboard(Request $request)
 {
-    $doctor = auth()->user(); // Get the logged-in doctor
+    $doctor = auth()->user();
+    $user = Auth::user();
+    $dokter = $user->dokter; // Get the logged-in doctor
 
     // Get the search terms
     $searchTerbaru = $request->get('search_terbaru');
@@ -171,7 +174,7 @@ class KunjunganController extends Controller
     ->where('status', 'DONE')
     ->count();
 
-    return view('home-dokter', compact('kunjungans', 'kunjungan', 'count', 'selesai'));
+    return view('home-dokter', compact('kunjungans', 'kunjungan', 'count', 'selesai', 'dokter'));
 }
 
 
@@ -193,5 +196,7 @@ public function updateDiagnosa(Request $request)
     // Redirect back with a success message
     return redirect()->route('home-dokter')->with('success', 'Diagnosa berhasil diperbarui');
 }
+
+
 
 }

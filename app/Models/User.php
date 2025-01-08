@@ -27,6 +27,11 @@ class User extends Authenticatable
         'role',
     ];
 
+    // User.php
+    public function dokter()
+    {
+        return $this->hasOne(Dokter::class); // Pastikan ini sesuai dengan struktur database Anda
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -50,10 +55,5 @@ class User extends Authenticatable
         ];
     }
 
-    // Di dalam model User.php
-    public function dokter()
-{
-    return $this->hasOne(Dokter::class);
-}
     
 }

@@ -14,7 +14,7 @@
         text-align: left;
     }
 
-    
+
 
     .welcome-text {
         display: flex;
@@ -96,9 +96,9 @@
     }
 
     .welcome.blur {
-    filter: blur(5px);
-    transition: filter 0.3s ease;
-}
+        filter: blur(5px);
+        transition: filter 0.3s ease;
+    }
 
 
 
@@ -359,7 +359,7 @@
     <div class="d-flex j-between">
         <div class="welcome drop-shadow ml-2 mt-2 mb-2">
             <div class="welcome-text ml-3 col d-flex j-center">
-                <h2 class="h1 f-bolder">Selamat Datang, Dr. {{Auth::user()->name}}</h2>
+                <h2 class="h1 f-bolder">Selamat Datang, Dr. {{ Auth::user()->name }}</h2>
                 <p class="p3 f-bolder">Semoga Harimu Menyenangkan</p>
             </div>
             <img src="{{ asset('asset/img/dokter.png') }}" alt="">
@@ -372,16 +372,20 @@
                         class="fa-solid fa-pen"></i></button>
             </div>
             @if (Auth::check())
-            <div class="profile-info drop-shadow">
-                <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('asset/img/dokter.png') }}"
-                    width="auto" alt="Foto Profil">
-                <div class="profile-info-text">
-                    <h2 class="h2">{{ Auth::user()->name }}</h2>
-                    <p class="p4 f-bold mb-1">Spesialisasi: {{ Auth::user()->spesialisasi }}</p>
-                    <!-- Change the link to a button -->
-                    <a href="#" class="f-bold" id="openProfileModal">Ubah Profil</a>
+                <div class="profile-info drop-shadow">
+                    @if ($dokter)
+                        <img src="{{ $dokter->image ? asset('storage/' . $dokter->image) : asset('storage/' . Auth::user()->image) }}"
+                            alt="Foto Profil">
+                    @else
+                        <img src="{{ asset('storage/' . Auth::user()->image) }}" alt="Foto Profil">
+                    @endif
+                    <div class="profile-info-text">
+                        <h2 class="h2">{{ Auth::user()->name }}</h2>
+                        <p class="p4 f-bold mb-1">spesialisasi: {{ Auth::user()->spesialis }}</p>
+                        <!-- Change the link to a button -->
+                        <a href="#" class="f-bold" id="openProfileModal">Ubah Profil</a>
+                    </div>
                 </div>
-            </div>
             @endif
 
         </div>
@@ -391,19 +395,147 @@
         <div class="modal-content">
             <span id="closeModal" class="close">&times;</span>
             <h2>Edit Profile</h2>
-            <form>
-                <label for="name">Nama:</label>
-                <input type="text" id="name" name="name" required>
-                <br><br>
-                <label for="image">Foto:</label>
-                <input type="file" id="image" name="image" required>
-                <br><br>
-                <label for="spesialis">Spesialis</label>
-                <input type="text" id="spesialis" name="spesialis">
-                <button type="submit">Submit</button>
+            <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+
+                <div class="form-group">
+                    <label for="name">Nama:</label>
+                    <input type="text" id="name" name="name" value="{{ Auth::user()->name }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="image">Foto:</label>
+                    <input type="file" id="image" name="image">
+                </div>
+
+                <div class="form-group">
+                    <label for="spesialis">Spesialis:</label>
+                    <input type="text" id="spesialis" name="spesialis"
+                        value="{{ Auth::user()->spesialis ?? Auth::user()->dokter->spesialis }}" required>
+
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" id="closeModalButton" class="btn btn-secondary">Cancel</button>
+                </div>
             </form>
         </div>
     </div>
+
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input[type="file"] {
+            padding: 5px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+    </style>
+
 
     <div class="content-card">
         <div class="content-bottom-top d-flex row">
@@ -412,8 +544,8 @@
                 <div class="card-info d-flex p-1 row">
                     <i class="fa-solid fa-bed-pulse i2 main-color"></i>
                     <div class="card-info ml-2">
-                        <h2>{{DB::table('pasiens')->count()}}</h2> 
-                    </h2>
+                        <h2>{{ DB::table('pasiens')->count() }}</h2>
+                        </h2>
                         <p class="f-normal">Jumlah Seluruh Pasien yang terdaftar di klinik</p>
                     </div>
                 </div>
@@ -423,7 +555,7 @@
                 <div class="card-info d-flex p-1 row">
                     <i class="fa-solid fa-list-check i2 main-color "></i>
                     <div class="card-info ml-2">
-                        <h2>{{$selesai}}</h2>
+                        <h2>{{ $selesai }}</h2>
                         <p class="f-normal">Jumlah Seluruh Pasien yang sudah di periksa</p>
                     </div>
                 </div>
@@ -434,7 +566,7 @@
                     <i class="fa-solid fa-user-clock i2 main-color"></i>
                     <div class="card-info ml-2">
                         <h2>{{ $count }}</h2>
-                    </h2>
+                        </h2>
                         <p class="f-normal">pasien menunggu diperiksa</p>
                     </div>
                 </div>
@@ -450,7 +582,8 @@
                 </div>
                 <div class="search-container m-1">
                     <form action="{{ route('home-dokter') }}" method="GET">
-                        <input type="text" name="search_terbaru" placeholder="Search here..." value="{{ request('search_terbaru') }}">
+                        <input type="text" name="search_terbaru" placeholder="Search here..."
+                            value="{{ request('search_terbaru') }}">
                         <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </form>
                 </div>
@@ -463,11 +596,11 @@
                         <th>Status</th>
                     </tr>
                     @foreach ($kunjungans as $kun)
-                    <tr>
-                        <td>{{$kun->pasien->nama}}</td>
-                        <td>{{$kun->keluhan}}</td>
-                        <td style="color: red;">{{$kun->status}}</td>
-                    </tr>
+                        <tr>
+                            <td>{{ $kun->pasien->nama }}</td>
+                            <td>{{ $kun->keluhan }}</td>
+                            <td style="color: red;">{{ $kun->status }}</td>
+                        </tr>
                     @endforeach
                 </table>
             </div>
@@ -479,14 +612,18 @@
             </div>
 
             @php
-            $total = $selesai + $count;
-            $selesaiPercent = $total > 0 ? number_format(($selesai / $total) * 100) : 0;
-            $menungguPercent = $total > 0 ? number_format(($count / $total) * 100) : 0;
+                $total = $selesai + $count;
+                $selesaiPercent = $total > 0 ? number_format(($selesai / $total) * 100) : 0;
+                $menungguPercent = $total > 0 ? number_format(($count / $total) * 100) : 0;
             @endphp
             <div class="legend">
                 <div class="legend-left">
-                    <div class="selesai"><span></span>Selesai: <span id="selesai-count" style="margin-top:-10px">{{ $selesai }}</span> (<span id="selesai-percent" style="margin-top: -10px">{{ $selesaiPercent }}</span>%)</div>
-                    <div class="menunggu"><span></span>Menunggu: <span id="menunggu-count" style="margin-top: -10px">{{ $count }}</span> (<span id="menunggu-percent" style="margin-top: -10px">{{ $menungguPercent }}</span>%)</div>
+                    <div class="selesai"><span></span>Selesai: <span id="selesai-count"
+                            style="margin-top:-10px">{{ $selesai }}</span> (<span id="selesai-percent"
+                            style="margin-top: -10px">{{ $selesaiPercent }}</span>%)</div>
+                    <div class="menunggu"><span></span>Menunggu: <span id="menunggu-count"
+                            style="margin-top: -10px">{{ $count }}</span> (<span id="menunggu-percent"
+                            style="margin-top: -10px">{{ $menungguPercent }}</span>%)</div>
                 </div>
             </div>
         </div>
@@ -499,7 +636,8 @@
                 </div>
                 <div class="search-container m-1">
                     <form action="{{ route('home-dokter') }}" method="GET">
-                        <input type="text" name="search_kunjungan" placeholder="Search here..." value="{{ request('search_kunjungan') }}">
+                        <input type="text" name="search_kunjungan" placeholder="Search here..."
+                            value="{{ request('search_kunjungan') }}">
                         <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                     </form>
                 </div>
@@ -512,11 +650,11 @@
                         <th>status</th>
                     </tr>
                     @foreach ($kunjungan as $k)
-                    <tr>
-                        <td>{{$k->pasien->nama}}</td>
-                        <td>{{$k->keluhan}}</td>
-                        <td style="color: green;">{{$k->status}}</td>
-                    </tr>
+                        <tr>
+                            <td>{{ $k->pasien->nama }}</td>
+                            <td>{{ $k->keluhan }}</td>
+                            <td style="color: green;">{{ $k->status }}</td>
+                        </tr>
                     @endforeach
                 </table>
             </div>
@@ -526,7 +664,7 @@
         const selesai = {{ $selesai }};
         const menunggu = {{ $count }};
         const total = selesai + menunggu; // Total kunjungan
-    
+
         const ctx = document.getElementById('myChart').getContext('2d');
         const myChart = new Chart(ctx, {
             type: 'doughnut',
@@ -562,12 +700,12 @@
                 }
             }
         });
-    
+
         // Update persentase di legend
         document.getElementById('selesai-percent').textContent = (selesai / total * 100);
         document.getElementById('menunggu-percent').textContent = (menunggu / total * 100);
     </script>
-    
+
     <script>
         // Dapatkan elemen
         const modal = document.getElementById('modal');
@@ -575,25 +713,25 @@
         const openProfileModalBtn = document.getElementById('openProfileModal'); // New button
         const closeModalBtn = document.getElementById('closeModal');
         const welcomeSection = document.querySelector('.welcome'); // Select the welcome section
-    
+
         // Fungsi untuk membuka modal
         const openModal = () => {
             modal.style.display = 'block';
             welcomeSection.classList.add('blur'); // Add blur class
         };
-    
+
         openModalBtn.addEventListener('click', openModal);
         openProfileModalBtn.addEventListener('click', (e) => {
             e.preventDefault(); // Prevent default anchor behavior
             openModal(); // Call the open modal function
         });
-    
+
         // Fungsi untuk menutup modal
         closeModalBtn.addEventListener('click', () => {
             modal.style.display = 'none';
             welcomeSection.classList.remove('blur'); // Remove blur class
         });
-    
+
         // Tutup modal jika pengguna klik di luar area modal
         window.addEventListener('click', (event) => {
             if (event.target === modal) {
@@ -603,67 +741,66 @@
         });
     </script>
 
-<script>
-    // Dapatkan elemen
-    const modal = document.getElementById('modal');
-    const openModalBtn = document.getElementById('openModal'); // Button with pen icon
-    const openProfileModalBtn = document.getElementById('openProfileModal'); // New button
-    const closeModalBtn = document.getElementById('closeModal');
-    const welcomeSection = document.querySelector('.welcome'); // Select the welcome section
+    <script>
+        // Dapatkan elemen
+        const modal = document.getElementById('modal');
+        const openModalBtn = document.getElementById('openModal'); // Button with pen icon
+        const openProfileModalBtn = document.getElementById('openProfileModal'); // New button
+        const closeModalBtn = document.getElementById('closeModal');
+        const welcomeSection = document.querySelector('.welcome'); // Select the welcome section
 
-    // Fungsi untuk membuka modal
-    const openModal = () => {
-        modal.style.display = 'block';
-        welcomeSection.classList.add('blur'); // Add blur class
-    };
+        // Fungsi untuk membuka modal
+        const openModal = () => {
+            modal.style.display = 'block';
+            welcomeSection.classList.add('blur'); // Add blur class
+        };
 
-    // Attach event listeners
-    openModalBtn.addEventListener('click', openModal);
-    openProfileModalBtn.addEventListener('click', (e) => {
-        e.preventDefault(); // Prevent default anchor behavior
-        openModal(); // Call the open modal function
-    });
+        // Attach event listeners
+        openModalBtn.addEventListener('click', openModal);
+        openProfileModalBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default anchor behavior
+            openModal(); // Call the open modal function
+        });
 
-    // Fungsi untuk menutup modal
-    closeModalBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-        welcomeSection.classList.remove('blur'); // Remove blur class
-    });
-
-    // Tutup modal jika pengguna klik di luar area modal
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
+        // Fungsi untuk menutup modal
+        closeModalBtn.addEventListener('click', () => {
             modal.style.display = 'none';
             welcomeSection.classList.remove('blur'); // Remove blur class
-        }
-    });
-</script>
-    
-<script>
-    // Dapatkan elemen
-    
-    const modal = document.getElementById('modal');
-    const openModalBtn = document.getElementById('openModal');
-    const closeModalBtn = document.getElementById('closeModal');
-    
-    // Fungsi untuk membuka modal
-    openModalBtn.addEventListener('click', () => {
-        modal.style.display = 'block';
-    });
-    
-    // Fungsi untuk menutup modal
-    closeModalBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
+        });
 
-    // Tutup modal jika pengguna klik di luar area modal
-    window.addEventListener('click', (event) => {
-        if (event.target === modal) {
+        // Tutup modal jika pengguna klik di luar area modal
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+                welcomeSection.classList.remove('blur'); // Remove blur class
+            }
+        });
+    </script>
+
+    <script>
+        // Dapatkan elemen
+
+        const modal = document.getElementById('modal');
+        const openModalBtn = document.getElementById('openModal');
+        const closeModalBtn = document.getElementById('closeModal');
+
+        // Fungsi untuk membuka modal
+        openModalBtn.addEventListener('click', () => {
+            modal.style.display = 'block';
+        });
+
+        // Fungsi untuk menutup modal
+        closeModalBtn.addEventListener('click', () => {
             modal.style.display = 'none';
-        }
-    });
-</script>
+        });
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        // Tutup modal jika pengguna klik di luar area modal
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @endsection
