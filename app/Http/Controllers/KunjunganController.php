@@ -9,6 +9,7 @@ use App\Notifications\DokterAssignedNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class KunjunganController extends Controller
 {
@@ -75,7 +76,7 @@ class KunjunganController extends Controller
         $data['user_id'] = auth()->id();
 
         Kunjungan::create($data);
-        
+
         if(auth()->user()->hasRole('admin')){
             return redirect()->route('kunjungan.index')->with('success', 'Data kunjungan berhasil ditambahkan.');
         }else{
@@ -192,6 +193,16 @@ public function updateDiagnosa(Request $request)
 
     // Redirect back with a success message
     return redirect()->route('home-dokter')->with('success', 'Diagnosa berhasil diperbarui');
+}
+public function adminDashboard()
+{
+    // Ambil data kunjungan per bulan
+    $kunjunganPerBulan = DB::table('kunjungan')
+        ->select(DB::raw('MONTH(tanggal) as bulan'), DB::raw('COUNT(*) as jumlah'))
+        ->groupBy('bulan')
+        ->get();
+
+    return view('admin-home', compact('kunjunganPerBulan'));
 }
 
 }
