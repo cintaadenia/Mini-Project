@@ -129,9 +129,7 @@
             <li><a href="#form-section-kunjungan">
                     Buat Kunjungan
                 </a></li>
-            <li><a href="#">
-                    Diagnosa
-                </a></li>
+            
             <li><a href="#info-kunjungan">
                     Data Kunjungan    
             </a></li>
@@ -172,9 +170,10 @@
                 <p>
                     Jangan ragu untuk membuat janji temu dengan dokter <br> melalui website ini.
                 </p>
+                
             </div>
             <div class="button">
-                <a href="{{route('kunjungan.index')}}">Janji Temu</a>
+                <a href="#" id="scrollToForm">Janji Temu</a>
             </div>
         </div>
         <div class="img">
@@ -310,6 +309,14 @@
             <h3>
                 Formulir <br> Kunjungan Pasien
             </h3>
+            <script>
+                document.getElementById('scrollToForm').addEventListener('click', function(e) {
+                    e.preventDefault(); // Prevent the default anchor behavior
+                    document.getElementById('form-section-kunjungan').scrollIntoView({
+                        behavior: 'smooth' // Smooth scroll
+                    });
+                });
+            </script>
             <p>
                 Isi detail kunjungan untuk membuat janji <br> temu dengan dokter
             </p>

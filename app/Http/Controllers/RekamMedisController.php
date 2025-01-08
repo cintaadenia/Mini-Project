@@ -225,21 +225,7 @@ public function deleteImage($id)
     return response()->json(['success' => false, 'message' => 'Gambar tidak ditemukan'], 404);
 }
 
-public function showNota($id)
-{
-    $rekamMedis = RekamMedis::with(['obats', 'peralatans'])->findOrFail($id);
 
-    // Calculate total expenses
-    $totalObat = $rekamMedis->obats->sum(function($obat) {
-        return $obat->harga * $obat->pivot->jumlah; // Assuming 'harga' is the price field in the Obat model
-    });
-
-    $totalPeralatan = $rekamMedis->peralatans->sum('harga'); // Assuming 'harga' is the price field in the Peralatan model
-
-    $totalPayment = $totalObat + $totalPeralatan;
-
-    return view('rekam_medis.nota', compact('rekamMedis', 'totalPayment'));
-}
 
 public function nota($id)
 {

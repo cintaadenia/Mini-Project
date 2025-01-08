@@ -530,7 +530,6 @@
             </script>
 
             <!-- Table -->
-            
             {{ $rekamMedis->links() }}
         </div>
 
