@@ -43,7 +43,7 @@ class RekamMedisController extends Controller
     $peralatans = Peralatan::all();
 
 
-    return view('rekam_medis.index', compact('rekamMedis', 'knjgn', 'obats', 'peralatans'));
+    return view('rekam_medis.index', compact('rekamMedis', 'knjgn', 'obats', 'peralatans',));
 }
 public function create()
 {
@@ -79,6 +79,7 @@ public function store(Request $request)
 
     $rekamMedis = RekamMedis::create([
         'kunjungan_id' => $validated['kunjungan_id'],
+        'pasien_id' => $kunjungan->pasien_id, // Menambahkan pasien_id
         'diagnosa' => $validated['diagnosa'],
         'tindakan' => $validated['tindakan'],
     ]);
