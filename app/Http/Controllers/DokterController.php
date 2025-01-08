@@ -6,6 +6,7 @@ use App\Models\Dokter;
 use App\Models\User;
 use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DokterController extends Controller
 {
@@ -38,31 +39,38 @@ class DokterController extends Controller
         return view('dokter.create');
     }
 
+    public function dashboard()
+{
+    $user = Auth::user();
+    $dokter = $user->dokter; // Asumsikan ada relasi `dokter` di model `User`
+
+    return view('home-dokter', compact('dokter'));
+}
+
+
     public function store(Request $request)
 {
-    // Validate input
+    // Validasi input
     $request->validate([
         'nama' => 'required|string|max:255',
         'spesialis' => 'required|string|max:255',
         'no_hp' => 'required|unique:dokters,no_hp|numeric',
         'email' => 'required|email|unique:users,email',
         'password' => 'required|string|min:6',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validate the image
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ]);
 
     // Handle user creation for the doctor
     $user = User::create([
         'name' => $request->nama,
-        'email' => $request->email,  // Menggunakan email dari input pengguna
-        'password' => bcrypt($request->password), // Menggunakan password dari input pengguna
+        'email' => $request->email,
+        'password' => bcrypt($request->password),
     ]);
 
     // Handle the image upload if provided
-    $data = $request->all();
+    $imagePath = null;
     if ($request->hasFile('image')) {
-        $imageName = time() . '.' . $request->image->extension();
-        $request->image->move(public_path('storage/dokters'), $imageName);
-        $data['image'] = $imageName;
+        $imagePath = $request->file('image')->store('dokters', 'public');
     }
 
     // Create the doctor entry and associate with the created user
@@ -70,21 +78,15 @@ class DokterController extends Controller
         'nama' => $request->nama,
         'spesialis' => $request->spesialis,
         'no_hp' => $request->no_hp,
-        'image' => $data['image'] ?? null,
-        'user_id' => $user->id,  // Associate with the newly created user
+        'image' => $imagePath,
+        'user_id' => $user->id,
     ]);
 
-    // Set the role for the doctor (assuming roles are managed via a package like Spatie)
-    $user->assignRole('dokter'); // Sesuaikan dengan sistem manajemen role Anda
+    // Set the role for the doctor
+    $user->assignRole('dokter');
 
-    // Redirect with success message
     return redirect()->route('dokter.index')->with('success', 'Data dokter berhasil ditambahkan.');
 }
-
-    public function show(Dokter $dokter)
-    {
-        return view('dokter.show', compact('dokter'));
-    }
 
     public function edit($id)
 {
@@ -113,14 +115,12 @@ class DokterController extends Controller
     // Jika ada file gambar yang diunggah, perbarui gambar
     if ($request->hasFile('image')) {
         // Hapus gambar lama jika ada
-        if ($dokter->image && file_exists(public_path('storage/dokters/' . $dokter->image))) {
-            unlink(public_path('storage/dokters/' . $dokter->image));
+        if ($dokter->image && Storage::exists('public/dokters/' . $dokter->image)) {
+            Storage::delete('public/dokters/' . $dokter->image);
         }
 
         // Simpan gambar baru
-        $imageName = time() . '.' . $request->image->extension();
-        $request->image->move(public_path('storage/dokters'), $imageName);
-        $dokter->image = $imageName;
+        $dokter->image = $request->file('image')->store('dokters', 'public');
     }
 
     // Simpan perubahan
@@ -128,6 +128,7 @@ class DokterController extends Controller
 
     return redirect()->route('dokter.index')->with('success', 'Data dokter berhasil diperbarui.');
 }
+
 
 public function destroy($id)
 {

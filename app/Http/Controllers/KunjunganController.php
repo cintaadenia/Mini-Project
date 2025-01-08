@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
+
 class KunjunganController extends Controller
 {
     public function index(Request $request)
@@ -55,33 +56,29 @@ class KunjunganController extends Controller
     }
 
     public function store(Request $request)
-    {
-        if(auth()->user()->hasRole('admin')){
-            $request->validate([
-                'pasien_id' => 'required|exists:pasiens,id',
-                'keluhan' => 'required',
-                'dokter_id' => 'required|exists:dokters,id',
-                'tanggal_kunjungan' => 'required|date',
-            ]);
-        }else{
-            $request->validate([
-                'pasien_id' => 'required|exists:pasiens,id',
-                'keluhan' => 'required',
-                'tanggal_kunjungan' => 'required|date',
-            ]);
-        }
+{
+    // Validasi input
+    $request->validate([
+        'pasien_id' => 'required|exists:pasiens,id',
+        'keluhan' => 'required',
+        'dokter_id' => auth()->user()->hasRole('admin') ? 'required|exists:dokters,id' : 'nullable|exists:dokters,id',
+        'tanggal_kunjungan' => 'required|date',
+    ]);
 
-        $data = $request->all();
-        $data['user_id'] = auth()->id();
+    // Ambil semua data dari request
+    $data = $request->all();
+    $data['user_id'] = auth()->id(); // Tambahkan user_id ke data
 
-        Kunjungan::create($data);
-        
-        if(auth()->user()->hasRole('admin')){
-            return redirect()->route('kunjungan.index')->with('success', 'Data kunjungan berhasil ditambahkan.');
-        }else{
-            return redirect()->route('home')->with('success', 'Data kunjungan berhasil ditambahkan, harap tunggu beberapa saat lagi');
-        }
+    // Simpan data kunjungan
+    Kunjungan::create($data);
+    
+    // Redirect berdasarkan peran pengguna
+    if(auth()->user()->hasRole('admin')){
+        return redirect()->route('kunjungan.index')->with('success', 'Data kunjungan berhasil ditambahkan.');
+    } else {
+        return redirect()->route('home')->with('success', 'Data kunjungan berhasil ditambahkan, harap tunggu beberapa saat lagi');
     }
+}
 
     public function show(Kunjungan $kunjungan)
     {
@@ -134,7 +131,9 @@ class KunjunganController extends Controller
 
     public function dashboard(Request $request)
 {
-    $doctor = auth()->user(); // Get the logged-in doctor
+    $doctor = auth()->user();
+    $user = Auth::user();
+    $dokter = $user->dokter; // Get the logged-in doctor
 
     // Get the search terms
     $searchTerbaru = $request->get('search_terbaru');
@@ -171,7 +170,7 @@ class KunjunganController extends Controller
     ->where('status', 'DONE')
     ->count();
 
-    return view('home-dokter', compact('kunjungans', 'kunjungan', 'count', 'selesai'));
+    return view('home-dokter', compact('kunjungans', 'kunjungan', 'count', 'selesai', 'dokter'));
 }
 
 
@@ -193,5 +192,7 @@ public function updateDiagnosa(Request $request)
     // Redirect back with a success message
     return redirect()->route('home-dokter')->with('success', 'Diagnosa berhasil diperbarui');
 }
+
+
 
 }

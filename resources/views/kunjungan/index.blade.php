@@ -130,13 +130,12 @@
                             <p style="color: red">{{ $message }}</p>
                         @enderror
                     </div>
-
+                
                     @if (auth()->user()->hasRole('admin'))
                         <div class="my-2">
                             <label for="dokter_id" class="h4 f-bolder">Dokter</label>
                             <div class="my-1">
-                                <select name="dokter_id" id="dokter_id"
-                                    class="form h4 f-normal px-2 w-100 h-3 border-radius-1">
+                                <select name="dokter_id" id="dokter_id" class="form h4 f-normal px-2 w-100 h-3 border-radius-1">
                                     <option>--- Pilih Dokter ---</option>
                                     @foreach ($dokters as $dok)
                                         <option value="{{ $dok->id }}">{{ $dok->nama }}</option>
@@ -148,23 +147,21 @@
                             @enderror
                         </div>
                     @endif
-
+                
                     <div class="my-2">
                         <label for="keluhan" class="h4 f-bolder">Keluhan</label>
                         <div class="my-1">
-                            <input type="text" class="form h4 f-normal px-2 w-100 h-3 border-radius-1" id="keluhan"
-                                name="keluhan" value="{{ old('keluhan') }}">
+                            <input type="text" class="form h4 f-normal px-2 w-100 h-3 border-radius-1" id="keluhan" name="keluhan" value="{{ old('keluhan') }}">
                         </div>
                         @error('keluhan')
                             <p style="color: red">{{ $message }}</p>
                         @enderror
                     </div>
-
+                
                     <div class="my-2">
                         <label for="tanggal_kunjungan" class="h4 f-bolder">Tanggal Kunjungan</label>
                         <div class="my-1">
-                            <input type="date" class="form h4 f-normal px-2 w-100 h-3 border-radius-1"
-                                id="tanggal_kunjungan" name="tanggal_kunjungan" value="{{ old('tanggal_kunjungan') }}">
+                            <input type="date" class="form h4 f-normal px-2 w-100 h-3 border-radius-1" id="tanggal_kunjungan" name="tanggal_kunjungan" value="{{ old('tanggal_kunjungan') }}">
                         </div>
                         @error('tanggal_kunjungan')
                             <p style="color: red">{{ $message }}</p>
