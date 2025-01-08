@@ -9,7 +9,7 @@ use App\Notifications\DokterAssignedNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Storage;
+
 
 class KunjunganController extends Controller
 {
@@ -56,33 +56,29 @@ class KunjunganController extends Controller
     }
 
     public function store(Request $request)
-    {
-        if(auth()->user()->hasRole('admin')){
-            $request->validate([
-                'pasien_id' => 'required|exists:pasiens,id',
-                'keluhan' => 'required',
-                'dokter_id' => 'required|exists:dokters,id',
-                'tanggal_kunjungan' => 'required|date',
-            ]);
-        }else{
-            $request->validate([
-                'pasien_id' => 'required|exists:pasiens,id',
-                'keluhan' => 'required',
-                'tanggal_kunjungan' => 'required|date',
-            ]);
-        }
+{
+    // Validasi input
+    $request->validate([
+        'pasien_id' => 'required|exists:pasiens,id',
+        'keluhan' => 'required',
+        'dokter_id' => auth()->user()->hasRole('admin') ? 'required|exists:dokters,id' : 'nullable|exists:dokters,id',
+        'tanggal_kunjungan' => 'required|date',
+    ]);
 
-        $data = $request->all();
-        $data['user_id'] = auth()->id();
+    // Ambil semua data dari request
+    $data = $request->all();
+    $data['user_id'] = auth()->id(); // Tambahkan user_id ke data
 
-        Kunjungan::create($data);
-        
-        if(auth()->user()->hasRole('admin')){
-            return redirect()->route('kunjungan.index')->with('success', 'Data kunjungan berhasil ditambahkan.');
-        }else{
-            return redirect()->route('home')->with('success', 'Data kunjungan berhasil ditambahkan, harap tunggu beberapa saat lagi');
-        }
+    // Simpan data kunjungan
+    Kunjungan::create($data);
+    
+    // Redirect berdasarkan peran pengguna
+    if(auth()->user()->hasRole('admin')){
+        return redirect()->route('kunjungan.index')->with('success', 'Data kunjungan berhasil ditambahkan.');
+    } else {
+        return redirect()->route('home')->with('success', 'Data kunjungan berhasil ditambahkan, harap tunggu beberapa saat lagi');
     }
+}
 
     public function show(Kunjungan $kunjungan)
     {
