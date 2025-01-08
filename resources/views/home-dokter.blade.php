@@ -618,12 +618,14 @@
             @endphp
             <div class="legend">
                 <div class="legend-left">
+
                     <div class="selesai"><span></span>Selesai: <span id="selesai-count"
                             style="margin-top:-10px">{{ $selesai }}</span> (<span id="selesai-percent"
                             style="margin-top: -10px">{{ $selesaiPercent }}</span>%)</div>
                     <div class="menunggu"><span></span>Menunggu: <span id="menunggu-count"
                             style="margin-top: -10px">{{ $count }}</span> (<span id="menunggu-percent"
                             style="margin-top: -10px">{{ $menungguPercent }}</span>%)</div>
+
                 </div>
             </div>
         </div>
