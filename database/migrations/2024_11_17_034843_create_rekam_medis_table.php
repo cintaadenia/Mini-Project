@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text('tindakan'); // Kolom untuk tindakan
             $table->string('image')->nullable(); // Membuat image nullable
 
-            $table->enum('payment_status', ['pending', 'paid', 'failed'])->default('pending'); // Status pembayaran
+            // $table->enum('payment_status', ['pending', 'paid', 'failed'])->default('pending'); // Status pembayaran
             $table->decimal('total_payment', 15, 2)->nullable(); // Jumlah pembayaran, dengan format desimal
 
             $table->softDeletes();

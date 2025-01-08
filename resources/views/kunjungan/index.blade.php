@@ -273,7 +273,7 @@
             function btnCloseAddKunjunganModal() {
                 var modal = document.getElementById("myModalAdd");
                 modal.style.display = "none";
-            }
+            }   
 
 
             window.onclick = function(event) {
