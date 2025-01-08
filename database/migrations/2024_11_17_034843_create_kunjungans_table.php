@@ -17,7 +17,7 @@ return new class extends Migration
         $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         $table->foreignId('pasien_id')->constrained('pasiens')->onDelete('cascade');
         $table->unsignedBigInteger('dokter_id')->nullable();
-        $table->foreign('dokter_id')->references('id')->on('pasiens')->onDelete('cascade');
+        $table->foreign('dokter_id')->references('id')->on('dokters')->onDelete('cascade');
         $table->string('keluhan');
         $table->date('tanggal_kunjungan');
         $table->string('status')->default('UNDONE');

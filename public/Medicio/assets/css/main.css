@@ -1150,6 +1150,11 @@ section,
   font-family: var(--heading-font);
   font-size: 16px;
 }
+.row.gy-4 {
+  display: flex;
+  justify-content: space-between; /* Menyebar elemen dengan jarak seimbang */
+  flex-wrap: wrap;
+}
 
 /*--------------------------------------------------------------
 # Features Section

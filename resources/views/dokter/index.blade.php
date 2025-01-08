@@ -18,7 +18,7 @@
                     </button>
                 @endif
             </div>
-            <h2>Dokter aktif: 9090</h2>
+            <h2>Dokter aktif: {{DB::table('dokters')->count()}}</h2>
         </div>
         <div class="content-table m-2 d-flex col">
             <form method="GET" action="{{ route('dokter.index') }}">
@@ -44,7 +44,7 @@
                                 <tr>
                                     <td>
                                         @if ($dokter->image)
-                                            <img class="table-img" src="{{ asset('storage/dokters/' . $dokter->image) }}"
+                                            <img class="table-img" src="{{ asset('storage/' . $dokter->image) }}"
                                                 height="100px" width="80px" alt="gambar">
                                         @else
                                             <img class="table-img" src="{{ asset('asset/img/dokter.png') }}" alt="">
@@ -116,10 +116,10 @@
                             </div>
                         </div>
                         <div class="my-2">
-                            <label for="inputSpesialis" class="h4 f-bolder">Spesialis</label>
+                            <label for="spesialis" class="h4 f-bolder">Spesialis</label>
                             <div class="my-1">
                                 <input type="text" class="form h4 f-normal px-2 w-100 h-3 border-radius-1"
-                                    id="spesialisEdit{{ $dokter->id }}" name="spesialis"
+                                    id="spesialis{{ $dokter->id }}" name="spesialis"
                                     value="{{ $dokter->spesialis }}">
                             </div>
                         </div>
@@ -166,7 +166,7 @@
                         @enderror
                     </div>
                     <div class="my-2">
-                        <label for="inputSpesialis" class="h4 f-bolder">Spesialis</label>
+                        <label for="spesialis" class="h4 f-bolder">Spesialis</label>
                         <div class="my-1">
                             <input type="text" class="form h4 f-normal px-2 w-100 h-3 border-radius-1" id="spesialis"
                                 name="spesialis" value="{{ old('spesialis') }}">

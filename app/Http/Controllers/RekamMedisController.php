@@ -19,60 +19,68 @@ class RekamMedisController extends Controller
 {
     public function index(Request $request)
 {
-    if(auth()->user()->hasRole('admin|dokter')){
-        $layout = 'layouts.sidebar';
-        $content = 'side';
-    } else {
-        $layout = 'layouts.app';
-        $content = 'content';
+    $user = auth()->user();
+    $rekamMedis = [];
+
+    if ($user->hasRole('dokter')) {
+        // Get only the medical records for the logged-in doctor
+        $rekamMedis = RekamMedis::whereHas('kunjungan', function($query) use ($user) {
+            $query->where('dokter_id', $user->id);
+        })->with(['resep', 'obats'])->paginate(10);
+    } elseif ($user->hasRole('admin')) {
+        $rekamMedis = RekamMedis::with(['resep', 'obats'])->paginate(10);
     }
 
-    $search = $request->input('search');
+    // Get kunjungan data for the logged-in doctor
+    if($user->hasRole('admin')){
+        $knjgn = Kunjungan::all();
+    }elseif($user->hasRole('dokter')){
+        $knjgn = Kunjungan::where('dokter_id', optional($user->dokter)->id)
+                  ->where('status', 'UNDONE')
+                  ->get();
+    }
+    $obats = Obat::all();
+    $peralatans = Peralatan::all();
 
-    // Query for searching by patient's name, diagnosis, and action
-    $rekamMedis = RekamMedis::with(['resep', 'obats'])
-    ->whereHas('kunjungan.pasien', function($query) use ($search) {
-        $query->where('nama', 'like', "%$search%");
-    })
-    ->where(function ($query) use ($search) {
-        $query->orWhere('diagnosa', 'like', "%$search%")
-              ->orWhere('tindakan', 'like', "%$search%");
-    })
-    ->paginate(10);
 
-    // Get all kunjungan data
-    $kunjungans = Kunjungan::with('pasien')->get();
-    $obats = Obat::all(); // Ambil semua data obat dari database
-    $peralatans = Peralatan::all(); // Fetch peralatan data
-
-    // Pass the data to the view
-    return view('rekam_medis.index', compact('rekamMedis', 'kunjungans', 'obats', 'peralatans', 'layout', 'content'));
+    return view('rekam_medis.index', compact('rekamMedis', 'knjgn', 'obats', 'peralatans'));
 }
+public function create()
+{
+    $user = auth()->user();
 
-
-    public function create()
-    {
-        $kunjungans = Kunjungan::all();
-        return view('rekam_medis.create', compact('kunjungans'));
+    if ($user->hasRole('admin')) {
+        // Admin can see all patients
+        $kunjungans = Kunjungan::with('pasien')->get();
+    } else {
+        // Doctor can only see their associated p   atients
+        $kunjungans = Kunjungan::where('dokter_id', $user->id)->with('pasien')->get();
     }
 
-    public function store(Request $request)
+    return view('rekam_medis.create', compact('kunjungans'));
+}
+public function store(Request $request)
 {
     $validated = $request->validate([
-        'kunjungan_id' => 'required',
+        'kunjungan_id' => 'required|exists:kunjungans,id',
         'diagnosa' => 'required',
         'tindakan' => 'required',
         'deskripsi' => 'required|string',
         'obat_id.*' => 'exists:obats,id',
         'jumlah_obat.*' => 'required|integer|min:1',
-        'peralatan_id.*' => 'exists:peralatans,id', // Validasi peralatan
+        'peralatan_id.*' => 'exists:peralatans,id',
     ]);
+
+    // Cek apakah kunjungan yang dipilih adalah milik dokter yang sedang login
+    $kunjungan = Kunjungan::findOrFail($validated['kunjungan_id']);
+    if ($kunjungan->dokter_id !== auth()->id()) {
+        return back()->with('error', 'Anda tidak memiliki izin untuk menginput rekam medis untuk pasien ini.');
+    }
 
     $rekamMedis = RekamMedis::create([
         'kunjungan_id' => $validated['kunjungan_id'],
         'diagnosa' => $validated['diagnosa'],
         'tindakan' => $validated['tindakan'],
-        'pasien_id' => Kunjungan::find($validated['kunjungan_id'])->pasien_id,
     ]);
 
     // Simpan data resep
@@ -102,7 +110,6 @@ class RekamMedisController extends Controller
         }
     }
 
-    $kunjungan = Kunjungan::findOrFail($request->kunjungan_id);
     $kunjungan->status = 'DONE';
     $kunjungan->save();
 
@@ -116,11 +123,13 @@ class RekamMedisController extends Controller
 
 
 
-    public function edit(RekamMedis $rekamMedis)
-    {
-        $kunjungans = Kunjungan::all();
-        return view('rekam_medis.edit', compact('rekamMedis', 'kunjungans'));
-    }
+public function edit(RekamMedis $rekamMedis)
+{
+    $user = auth()->user();
+    // Get only the kunjungans associated with the logged-in doctor
+    $kunjungans = Kunjungan::where('dokter_id', $user->id)->with('pasien')->get();
+    return view('rekam_medis.edit', compact('rekamMedis', 'kunjungans'));
+}
 
     public function update(Request $request, $id)
 {
@@ -226,21 +235,7 @@ public function deleteImage($id)
     return response()->json(['success' => false, 'message' => 'Gambar tidak ditemukan'], 404);
 }
 
-public function showNota($id)
-{
-    $rekamMedis = RekamMedis::with(['obats', 'peralatans'])->findOrFail($id);
 
-    // Calculate total expenses
-    $totalObat = $rekamMedis->obats->sum(function($obat) {
-        return $obat->harga * $obat->pivot->jumlah; // Assuming 'harga' is the price field in the Obat model
-    });
-
-    $totalPeralatan = $rekamMedis->peralatans->sum('harga'); // Assuming 'harga' is the price field in the Peralatan model
-
-    $totalPayment = $totalObat + $totalPeralatan;
-
-    return view('rekam_medis.nota', compact('rekamMedis', 'totalPayment'));
-}
 
 public function nota($id)
 {

@@ -56,24 +56,18 @@ class KunjunganController extends Controller
     }
 
     public function store(Request $request)
-    {
-        if(auth()->user()->hasRole('admin')){
-            $request->validate([
-                'pasien_id' => 'required|exists:pasiens,id',
-                'keluhan' => 'required',
-                'dokter_id' => 'required|exists:dokters,id',
-                'tanggal_kunjungan' => 'required|date',
-            ]);
-        }else{
-            $request->validate([
-                'pasien_id' => 'required|exists:pasiens,id',
-                'keluhan' => 'required',
-                'tanggal_kunjungan' => 'required|date',
-            ]);
-        }
+{
+    // Validasi input
+    $request->validate([
+        'pasien_id' => 'required|exists:pasiens,id',
+        'keluhan' => 'required',
+        'dokter_id' => auth()->user()->hasRole('admin') ? 'required|exists:dokters,id' : 'nullable|exists:dokters,id',
+        'tanggal_kunjungan' => 'required|date',
+    ]);
 
-        $data = $request->all();
-        $data['user_id'] = auth()->id();
+    // Ambil semua data dari request
+    $data = $request->all();
+    $data['user_id'] = auth()->id(); // Tambahkan user_id ke data
 
         Kunjungan::create($data);
 
@@ -135,7 +129,9 @@ class KunjunganController extends Controller
 
     public function dashboard(Request $request)
 {
-    $doctor = auth()->user(); // Get the logged-in doctor
+    $doctor = auth()->user();
+    $user = Auth::user();
+    $dokter = $user->dokter; // Get the logged-in doctor
 
     // Get the search terms
     $searchTerbaru = $request->get('search_terbaru');
@@ -172,7 +168,7 @@ class KunjunganController extends Controller
     ->where('status', 'DONE')
     ->count();
 
-    return view('home-dokter', compact('kunjungans', 'kunjungan', 'count', 'selesai'));
+    return view('home-dokter', compact('kunjungans', 'kunjungan', 'count', 'selesai', 'dokter'));
 }
 
 
