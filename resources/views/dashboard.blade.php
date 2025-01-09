@@ -78,12 +78,27 @@
 
         <div class="branding d-flex align-items-center">
 
+
             <div class="container position-relative d-flex align-items-center justify-content-end">
                 <a href="/dashboard" class="logo d-flex align-items-center me-auto">
                     <h1>AllCare</h1>
                     <!-- Uncomment the line below if you also wish to use a text logo -->
                     <!-- <h1 class="sitename">AllCore</h1>  -->
                 </a>
+
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li><a href="#hero" class="active">Home</a></li>
+            <li><a href="#about">tentang</a></li>
+            <li><a href="#services">layanan</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+        <a class="cta-btn" href="{{ Auth::check() ? route(Auth::user()->hasRole('admin') ? 'admin-home' : (Auth::user()->hasRole('dokter') ? 'home-dokter' : 'home')) : route('login') }}">
+          {{ Auth::check() ? 'Home' : 'JOIN US' }}
+      </a>
 
                 <nav id="navmenu" class="navmenu">
                     <ul>
@@ -99,6 +114,7 @@
                     href="{{ Auth::check() ? route(Auth::user()->hasRole('admin') ? 'admin-home' : (Auth::user()->hasRole('dokter') ? 'home-dokter' : 'home')) : route('login') }}">
                     {{ Auth::check() ? 'Home' : 'JOIN US' }}
                 </a>
+
 
 
             </div>
