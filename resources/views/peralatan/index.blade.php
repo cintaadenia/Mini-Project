@@ -1,5 +1,4 @@
 @extends('layouts.sidebar')
-
 <style></style>
 @section('side')
     <!DOCTYPE html>
