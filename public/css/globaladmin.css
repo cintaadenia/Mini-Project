@@ -1,5 +1,5 @@
 :root {
-    --main-color: #0F8CA9;
+    --main-color: #103F91;
     --animate-duration: 400ms;
     --animate-delay: 0.2s;
 }
@@ -736,7 +736,7 @@ body {
     text-align: center;
     width: 300px;
     height: 100vh;
-    background-color: #0F8CA9;
+    background-color: var(--main-color);
     color: white;
     position: fixed;
     left: 0;
@@ -878,9 +878,10 @@ body {
 
 .table-img {
     width: 50px;
-    height: auto;
+    height: 50px;
     border: 1px solid #aaa;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .header-collumn {

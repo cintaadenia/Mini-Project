@@ -78,6 +78,7 @@
 
         <div class="branding d-flex align-items-center">
 
+
             <div class="container position-relative d-flex align-items-center justify-content-end">
                 <a href="/dashboard" class="logo d-flex align-items-center me-auto">
                     <h1>AllCare</h1>
@@ -99,6 +100,7 @@
                     href="{{ Auth::check() ? route(Auth::user()->hasRole('admin') ? 'admin-home' : (Auth::user()->hasRole('dokter') ? 'home-dokter' : 'home')) : route('login') }}">
                     {{ Auth::check() ? 'Home' : 'JOIN US' }}
                 </a>
+
 
 
             </div>
